@@ -89,13 +89,13 @@ int Ai::movePiece() {
 			}
 
 			if (pawns[pawnNr].hasMoved()) {
-				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 1, m_isWhite);
+				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 1, m_isWhite);
 				if (test == 0)
 					return 0;
 			}
 
 			else {
-				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 2, m_isWhite);
+				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 2, m_isWhite);
 				if (test == 0)
 					return 0;
 			}
