@@ -12,7 +12,7 @@ Board::Board() {
 	}
 }
 
-// Checks if enemy pawn is in given space, returns that pawn or NULL if space is empty or out of bounds
+// Checks if pawn is in given space, returns that pawn or NULL if space is empty or out of bounds
 Pawn* Board::checkPiece(int x, int y, bool isWhite) {
 	if (!isWhite) { // Check for white->black
 		for (int i = 0; i < 8; ++i)

@@ -1,3 +1,4 @@
+//Bernd Uijtdebroeks
 #ifndef BOARD_H
 #define BOARD_H
 

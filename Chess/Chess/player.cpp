@@ -1,4 +1,4 @@
-//Bernd
+//Bernd Uijtdebroeks
 #include "player.h"
 #include "board.h"
 
