@@ -1,6 +1,10 @@
 // written by Bernd Uijtdebroeks except for take pawn
 #include "board.h"
 #include <iostream>
+
+#define min(a,b) ((a)<(b)?(a):(b))
+#define max(a,b) ((a)>(b)?(a):(b))
+
 //returns all white pawns(Denzell Mgbokwere)
 Pawn* Board::getPawnW() {
 	return m_pawnW;
@@ -48,6 +52,18 @@ int Board::movePiece(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 	if (!selected) {
 		std::cout << "selected piece does not exist! \n";
 		return 3;
+	}
+
+	if (x_1 == x_2) {
+		for (int i = min(y_1, y_2) + 1; i < max(y_1, y_2); ++i) {
+			Pawn* test = checkPiece(x_1, i, true);
+			if(!test)
+				test = checkPiece(x_1, i, false);
+			if (test) {
+				std::cout << "inserted move is illegal!\n";
+				return 1;
+			}
+		}
 	}
 
 	if (selected && !target) {

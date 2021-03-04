@@ -2,6 +2,15 @@
 #include "pawn.h"
 #include <iostream>
 
+// makes a pawn on given position and can be black or white 
+Pawn::Pawn(int x, int y, bool isWhite) {
+	m_isWhite = isWhite;
+	m_hasMoved = false;
+	m_isTaken = false;
+	m_x = x;
+	m_y = y;
+}
+
 bool Pawn::checkBounds(int x, int y) {
 	if (x > 8 || y > 8) {
 		std::cout << "inserted value(s) are too large!\n";
@@ -12,28 +21,6 @@ bool Pawn::checkBounds(int x, int y) {
 		return false;
 	}
 	return true;
-}
-
-
-// makes a pawn on given position and can be black or white 
-Pawn::Pawn(int x, int y, bool isWhite){
-	m_isWhite = isWhite;
-	m_hasMoved = false;
-	m_isTaken = false;
-	m_x = x;
-	m_y = y;
-}
-
-bool Pawn::getStatus() {
-	return m_isTaken;
-}
-
-bool Pawn::hasMoved() {
-	return m_hasMoved;
-}
-
-void Pawn::setTaken() {
-	m_isTaken = true;
 }
 
 //moves the pawn to the given destination if it is a valid move
@@ -100,6 +87,10 @@ int Pawn::validTake(int x, int y){
 	return 1;
 }
 
+void Pawn::setTaken() {
+	m_isTaken = true;
+}
+
 //moves a pawn to -1 -1 where it wont be found
 void Pawn::toTheShadowRealm(){
 	m_x = -1;
@@ -116,4 +107,12 @@ int Pawn::getX() {
 
 int Pawn::getY() {
 	return m_y;
+}
+
+bool Pawn::getStatus() {
+	return m_isTaken;
+}
+
+bool Pawn::hasMoved() {
+	return m_hasMoved;
 }
