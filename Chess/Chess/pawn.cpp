@@ -1,8 +1,7 @@
-//
 #include "pawn.h"
 #include <iostream>
 
-// makes a pawn on given position and can be black or white 
+// makes a pawn on given position and can be black or white (Denzell Mgbokwere)
 Pawn::Pawn(int x, int y, bool isWhite) {
 	m_isWhite = isWhite;
 	m_hasMoved = false;
@@ -23,7 +22,7 @@ bool Pawn::checkBounds(int x, int y) {
 	return true;
 }
 
-//moves the pawn to the given destination if it is a valid move
+//moves the pawn to the given destination if it is a valid move (Denzell Mgbokwere)
 int Pawn::move(int x, int y) {
 	if (!checkBounds(x, y))
 		return 2;
@@ -62,7 +61,7 @@ int Pawn::move(int x, int y) {
 	return 1;
 }
 
-
+// checks if the take move is valid and executes it (Denzell Mgbokwere)
 int Pawn::validTake(int x, int y){
 	if (!checkBounds(x, y)) {
 		return 2;
@@ -97,22 +96,22 @@ void Pawn::toTheShadowRealm(){
 	m_y = -1;
 }
 
-bool Pawn::getColour() {
+bool Pawn::getColour(){
 	return m_isWhite;
 }
 
-int Pawn::getX() {
+int Pawn::getX(){
 	return m_x;
 }
 
-int Pawn::getY() {
+int Pawn::getY(){
 	return m_y;
 }
 
-bool Pawn::getStatus() {
+bool Pawn::getStatus(){
 	return m_isTaken;
 }
 
-bool Pawn::hasMoved() {
+bool Pawn::hasMoved(){
 	return m_hasMoved;
 }

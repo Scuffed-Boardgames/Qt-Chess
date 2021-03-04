@@ -20,7 +20,6 @@ public:
 	bool getColour();
 	bool getStatus();
 	bool hasMoved();
-
 private:
 	bool checkBounds(int x, int y);
 

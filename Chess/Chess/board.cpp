@@ -1,19 +1,9 @@
-// written by Bernd Uijtdebroeks except for take pawn
 #include "board.h"
 #include <iostream>
 
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
 
-//returns all white pawns(Denzell Mgbokwere)
-Pawn* Board::getPawnW() {
-	return m_pawnW;
-}
-
-//returns all black pawns(Denzell Mgbokwere)
-Pawn* Board::getPawnB() {
-	return m_pawnB;
-}
 // Default constructor for the Board class (Bernd Uijtdebroeks)
 Board::Board() {
 	for (int i = 0; i < 8; ++i) {
@@ -100,4 +90,14 @@ void Board::print() {
 		std::cout << "\n\t";
 	}
 	std::cout << " -----------------\n\t" << "  1 2 3 4 5 6 7 8 \n";
+}
+
+//returns all white pawns(Denzell Mgbokwere)
+Pawn* Board::getPawnW() {
+	return m_pawnW;
+}
+
+//returns all black pawns(Denzell Mgbokwere)
+Pawn* Board::getPawnB() {
+	return m_pawnB;
 }
