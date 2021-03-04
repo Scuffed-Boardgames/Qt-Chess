@@ -2,7 +2,7 @@
 #include "game.h"
 #include <iostream>
 
-Game::Game(int white) { // Creates a game based on which player has to be 
+Game::Game(const int& white) { // Creates a game based on which player has to be 
 	if (white == 0) {
 		Player player1{ true };
 		Player player2{ false };
@@ -34,7 +34,7 @@ void Game::checkEnd() { // Checks if end conditions have been met
 	}
 }
 
-int Game::movePiece(int x1, int y1, int x2, int y2) { // Moves a piece from x1y1 to x2y2
+int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) { // Moves a piece from x1y1 to x2y2
 	if (m_turn % 2 == 0) {
 		return m_board.movePiece(x1, y1, x2, y2, true);
 	}

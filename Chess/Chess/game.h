@@ -7,9 +7,9 @@
 class Game {
 public:
 	Game() = default;
-	Game(int white);
+	Game(const int &white);
 	void checkEnd();
-	int movePiece(int x1, int y1, int x2, int y2);
+	int movePiece(const int &x1, const int &y1, const int &x2, const int &y2);
 	void whiteVictory();
 	void blackVictory();
 private:
