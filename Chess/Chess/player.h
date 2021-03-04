@@ -8,6 +8,7 @@ public:
 	Player(bool isWhite);
 	bool getWon();
 	void giveWon();
+	bool isWhite();
 private:
 	bool m_isWhite;
 	bool m_hasWon;
