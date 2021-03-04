@@ -9,7 +9,10 @@ public:
 	bool getWon();
 	void giveWon();
 	bool isWhite();
+	void setAi();
+	bool isAi();
 private:
+	bool m_isAi;
 	bool m_isWhite;
 	bool m_hasWon;
 };

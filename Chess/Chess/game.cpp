@@ -52,3 +52,42 @@ void Game::blackVictory() { // Puts win message if black wins
 		std::cout << "Player 1 won the game as Black!!!\n";
 	}
 }
+
+bool Game::hasEnded() {
+	return m_hasEnded;
+}
+
+void Game::setAi(int aiCount) {
+	if (aiCount == 1)
+		m_player1.setAi();
+	else if (aiCount == 2)
+		m_player2.setAi();
+	else if (aiCount == 3) {
+		m_player1.setAi();
+		m_player2.setAi();
+	}
+}
+
+void Game::addTurn() {
+	m_turn += 1;
+}
+
+Board* Game::giveBoard() {
+	return &m_board;
+}
+
+bool Game::isAi(int player) {
+	if (player == 0)
+		return m_player1.isAi();
+	else
+		return m_player2.isAi();
+}
+
+int Game::getTurn() {
+	return m_turn;
+}
+
+void Game::print() {
+	m_board.print();
+}
+
