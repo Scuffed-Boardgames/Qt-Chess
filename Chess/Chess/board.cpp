@@ -86,7 +86,7 @@ int Board::movePiece(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 
 void Board::print() {
 	std::cout << "\t";
-	for (int i = 1; i <= 8; ++i) {
+	for (int i = 8; i >= 1; --i) {
 		std::cout << " -----------------\n\t";
 		std::cout << i << "|";
 		for (int j = 1; j <= 8; ++j) {

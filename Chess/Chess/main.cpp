@@ -10,6 +10,7 @@ int main() {
 	mainGame.setAi(aiCount);
 	Ai aiW{ true, mainGame.giveBoard() };
 	Ai aiB{ false, mainGame.giveBoard() };
+	mainGame.print();
 	while (mainGame.hasEnded() == false) {
 		if (mainGame.isAi(mainGame.getTurn() % 2)) {
 			if (mainGame.getTurn() % 2 == 0)
@@ -22,9 +23,9 @@ int main() {
 			while (test != 0){
 			int x1, x2, y1, y2;
 			std::cout << "Player " << (mainGame.getTurn() % 2) + 1 << "\n";
-			std::cout << "Enter the position of the piece you want to move: ";
+			std::cout << "Enter the position of the piece you want to move: \n";
 			std::cin >> x1 >> y1;
-			std::cout << "Enter the position of the place you want to move to: ";
+			std::cout << "Enter the position of the place you want to move to: \n";
 			std::cin >> x2 >> y2;
 			test = mainGame.movePiece(x1, y1, x2, y2);
 			}
