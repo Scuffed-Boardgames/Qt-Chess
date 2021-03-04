@@ -4,11 +4,11 @@
 
 bool Pawn::checkBounds(int x, int y) {
 	if (x > 8 || y > 8) {
-		std::cout << "inserted value(s) are too large!";
+		std::cout << "inserted value(s) are too large!\n";
 		return false;
 	}
 	else if (x < 1 || y < 1) {
-		std::cout << "inserted value(s) are too small!";
+		std::cout << "inserted value(s) are too small!\n";
 		return false;
 	}
 	return true;
@@ -71,7 +71,7 @@ int Pawn::move(int x, int y) {
 		}
 	}
 
-	std::cout << "inserted move is illegal!";
+	std::cout << "inserted move is illegal!\n";
 	return 1;
 }
 
@@ -96,7 +96,7 @@ int Pawn::validTake(int x, int y){
 		}
 	}
 
-	std::cout << "inserted move is illegal!";
+	std::cout << "inserted move is illegal!\n";
 	return 1;
 }
 
