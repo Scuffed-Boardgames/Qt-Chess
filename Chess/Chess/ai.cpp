@@ -83,7 +83,7 @@ int Ai::movePiece() {
 		{
 			int pawnNr = -1;
 			while (pawnNr == -1) {
-				int pawnNr = rand() % 8;
+				pawnNr = rand() % 8;
 				if (pawns[pawnNr].getStatus())
 					pawnNr = -1;
 			}
