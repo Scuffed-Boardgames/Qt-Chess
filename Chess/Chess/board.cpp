@@ -67,3 +67,21 @@ int Board::movePiece(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 	std::cout << "target space is occupied! \n";
 	return 1;
 }
+
+void Board::print() {
+	std::cout << "\t";
+	for (int i = 1; i <= 8; ++i) {
+		std::cout << " -----------------\n\t";
+		std::cout << i << "|";
+		for (int j = 1; j <= 8; ++j) {
+			if (checkPiece(j, i, true) != NULL)
+				std::cout << "W|";
+			else if (checkPiece(j, i, false) != NULL)
+				std::cout << "B|";
+			else
+				std::cout << " |";
+		}
+		std::cout << "\n\t";
+	}
+	std::cout << " -----------------\n\t" << "  1 2 3 4 5 6 7 8 \n";
+}
