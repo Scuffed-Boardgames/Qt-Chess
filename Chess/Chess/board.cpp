@@ -1,7 +1,15 @@
 // written by Bernd Uijtdebroeks except for take pawn
 #include "board.h"
 #include <iostream>
+//returns all white pawns(Denzell Mgbokwere)
+Pawn* Board::getPawnW() {
+	return m_pawnW;
+}
 
+//returns all black pawns(Denzell Mgbokwere)
+Pawn* Board::getPawnB() {
+	return m_pawnB;
+}
 // Default constructor for the Board class (Bernd Uijtdebroeks)
 Board::Board() {
 	for (int i = 0; i < 8; ++i) {
