@@ -27,7 +27,12 @@
     <ClInclude Include="player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ai.h">
+	 <ClInclude Include="game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+	<ClInclude Include="ai.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -48,7 +53,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ai.cpp">
-      <Filter>Source Files</Filter>
+	<Filter>Source Files</Filter>
+	 </ClCompile>
+     <ClCompile Include="game.cpp">
+	<Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
