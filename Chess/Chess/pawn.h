@@ -2,11 +2,10 @@
 #ifndef PAWN_H
 #define PAWN_H
 
-#include "position.h"
 
 class Pawn{
 public:
-	Pawn(int x, int y, bool isWhite);;
+	Pawn(int x, int y, bool isWhite);
 	int move(int x, int y);
 	int take(int x, int y);
 
