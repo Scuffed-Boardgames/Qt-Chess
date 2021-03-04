@@ -5,8 +5,11 @@ class Position {
 public:
 	void move(const Position &dest);
 	Position(int x, int y);
-private:
+
 	int m_x;
 	int m_y;
+
+private:
+
 };
 #endif
