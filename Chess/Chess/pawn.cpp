@@ -24,6 +24,14 @@ Pawn::Pawn(int x, int y, bool isWhite){
 	m_y = y;
 }
 
+bool Pawn::getStatus() {
+	return m_isTaken;
+}
+
+bool Pawn::hasMoved() {
+	return m_hasMoved;
+}
+
 void Pawn::setTaken() {
 	m_isTaken = true;
 }
@@ -91,13 +99,14 @@ int Pawn::validTake(int x, int y){
 	std::cout << "inserted move is illegal!";
 	return 1;
 }
+
 //moves a pawn to -1 -1 where it wont be found
-int Pawn::toTheShadowRealm(){
+void Pawn::toTheShadowRealm(){
 	m_x = -1;
 	m_y = -1;
 }
 
-bool Pawn::getClour() {
+bool Pawn::getColour() {
 	return m_isWhite;
 }
 

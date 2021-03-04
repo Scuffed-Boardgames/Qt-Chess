@@ -12,9 +12,11 @@ public:
 	int validTake(int x, int y);
 	int getX();
 	int getY();
-	bool getClour();
+	bool getColour();
+	bool getStatus();
+	bool hasMoved();
 	void setTaken();
-	int toTheShadowRealm();
+	void toTheShadowRealm();
 
 private:
 	bool checkBounds(int x, int y);
