@@ -44,35 +44,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< Updated upstream
     <Filter Include="Source files">
       <UniqueIdentifier>{a3049070-0c6e-4495-8b77-8c0ff4da000c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header files">
       <UniqueIdentifier>{35ad8d1b-7c93-4875-9348-bbab2b167cc5}</UniqueIdentifier>
     </Filter>
-=======
-    <ClCompile Include="position.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pawn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="board.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Main2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
->>>>>>> Stashed changes
   </ItemGroup>
 </Project>
