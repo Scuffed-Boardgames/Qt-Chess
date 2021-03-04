@@ -1,4 +1,4 @@
-//Denzell Mgbokwere
+//
 #include "pawn.h"
 #include <iostream>
 
@@ -68,8 +68,7 @@ int Pawn::move(int x, int y) {
 }
 
 
-//TODO
-int Pawn::validTake(int x, int y) {
+int Pawn::validTake(int x, int y){
 	if (!checkBounds(x, y)) {
 		return 2;
 	}

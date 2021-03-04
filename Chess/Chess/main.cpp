@@ -6,6 +6,6 @@ int main() {
 	pawn->move(1, 5);
 	pawn->move(1, 4);
 	pawn->move(1, 3);
-	board.takePawn(1, 3, 2, 2, false);
+	board.takePiece(1, 3, 2, 2, false);
 	return 0;
 }
