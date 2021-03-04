@@ -1,4 +1,5 @@
 #include <stdlib.h>  
+#include <time.h>
 #include <iostream>  
 #include"ai.h"
 
@@ -42,15 +43,17 @@ bool Ai::checkTake() {
 }
 
 int Ai::movePice() {
+	srand((unsigned)time(NULL));
 	if (m_isWhite) {
 		Pawn* pawns = m_board->getPawnW();
 		int c = 0;
 		while (true){
 			int pawnNr = -1;
 			while (pawnNr == -1) {
-				int pawnNr = rand() % 8;
-				if (pawns[pawnNr].getStatus())
+				pawnNr = rand() % 8;
+				if (pawns[pawnNr].getStatus()) {
 					pawnNr = -1;
+				}
 			}
 
 			if (pawns[pawnNr].hasMoved()) {
@@ -107,4 +110,14 @@ int Ai::movePice() {
 	}
 
 	return 99;
+}
+
+int Ai::playMove() {
+	bool test = checkTake();
+	if (test)
+		return 0;
+	int check = movePice();
+	if (check == 0)
+		return 0;
+	return 1;
 }
