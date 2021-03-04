@@ -9,6 +9,8 @@ public:
 	Pawn() = default;
 	int move(int x, int y);
 	int take(int x, int y);
+	int getX();
+	int getY();
 
 
 private:
