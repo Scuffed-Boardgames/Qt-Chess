@@ -14,6 +14,7 @@ public:
 	int getY();
 	bool getClour();
 	void setTaken();
+	int toTheShadowRealm();
 
 private:
 	bool checkBounds(int x, int y);

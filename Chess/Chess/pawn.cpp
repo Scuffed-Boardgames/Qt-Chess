@@ -72,7 +72,6 @@ int Pawn::validTake(int x, int y){
 	if (!checkBounds(x, y)) {
 		return 2;
 	}
-
 	if (m_isWhite) {
 		if ((m_x == x + 1 || m_x == x - 1) && m_y + 1 == y){
 			m_x = x;
@@ -91,6 +90,11 @@ int Pawn::validTake(int x, int y){
 
 	std::cout << "inserted move is illegal!";
 	return 1;
+}
+//moves a pawn to -1 -1 where it wont be found
+int Pawn::toTheShadowRealm(){
+	m_x = -1;
+	m_y = -1;
 }
 
 bool Pawn::getClour() {

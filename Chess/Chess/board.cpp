@@ -61,6 +61,7 @@ int Board::movePiece(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 			return test;
 		}
 		target->setTaken();
+		target->toTheShadowRealm();
 		return test;
 	}
 	std::cout << "target space is occupied! \n";
