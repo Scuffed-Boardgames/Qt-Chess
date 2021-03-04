@@ -6,6 +6,7 @@
 class Pawn{
 public:
 	Pawn(int x, int y, bool isWhite);
+	Pawn() = default;
 	int move(int x, int y);
 	int take(int x, int y);
 
