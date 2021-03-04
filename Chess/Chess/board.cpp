@@ -26,41 +26,35 @@ Pawn* Board::checkPiece(int x, int y, bool isWhite) {
 	}
 	return NULL;
 }
-// checks if pawns are on the given spaces, if the move is legal it will take (Denzell Mgbokwere)
-int Board::takePiece(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
-	Pawn* attacker = checkPiece(x_1, y_1, isWhite);
+
+
+int Board::movePiece(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
+	Pawn* selected = checkPiece(x_1, y_1, isWhite);
 	Pawn* target = checkPiece(x_2, y_2, !isWhite);
-	if (attacker && target) {
-		int test = attacker->validTake(x_2, y_2);
+	bool sameColour = false;
+	if (!target) {
+		Pawn* target = checkPiece(x_2, y_2, isWhite);
+		sameColour = true;
+	}
+
+	if (!selected) {
+		std::cout << "selected piece does not exist! \n";
+		return 3;
+	}
+
+	if (selected && !target) {
+		int test = selected->move(x_2, y_2);
+		return test;
+	}
+
+	if (selected && target && !sameColour) {
+		int test = selected->validTake(x_2, y_2);
 		if (test > 0) {
 			return test;
 		}
 		target->setTaken();
-		return test;	
-	}
-	if (attacker){
-		std::cout << "target does not exist! \n";
-		return 4;
-	}
-	std::cout << "selected piece does not exist! \n";
-	return 3;
-}
-// checks if the space the player wants to move to is empty (Denzell Mgbokwere)
-int Board::movePiece(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
-	Pawn* mover = checkPiece(x_1, y_1, isWhite);
-	Pawn* target = checkPiece(x_2, y_2, !isWhite);
-	if(!target)
-		Pawn* target = checkPiece(x_2, y_2, isWhite);
-
-	if (mover && !target) {
-		int test = mover->move(x_2, y_2);
 		return test;
-	}
-	if (!mover) {
-		std::cout << "selected piece does not exist! \n";
-		return 3;
 	}
 	std::cout << "target space is occupied! \n";
 	return 1;
-
 }

@@ -2,10 +2,9 @@
 #include "board.h"
 int main() {
 	Board board{};
-	Pawn* pawn = board.checkPiece(1, 7, false);
-	pawn->move(1, 5);
-	pawn->move(1, 4);
-	pawn->move(1, 3);
-	board.takePiece(1, 3, 2, 2, false);
+	board.movePiece(1, 7, 1, 5, false);
+	board.movePiece(1, 5, 1, 4, false);
+	board.movePiece(1, 4, 1, 3, false);
+	board.movePiece(1, 3, 2, 2, false);
 	return 0;
 }
