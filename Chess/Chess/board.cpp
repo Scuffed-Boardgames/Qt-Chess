@@ -27,7 +27,7 @@ Pawn* Board::checkPiece(int x, int y, bool isWhite) {
 	return NULL;
 }
 
-
+// checks if a move is legal and plays it (Denzell Mgbokwere)
 int Board::movePiece(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 	Pawn* selected = checkPiece(x_1, y_1, isWhite);
 	Pawn* target = checkPiece(x_2, y_2, !isWhite);
