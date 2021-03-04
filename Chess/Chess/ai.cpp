@@ -12,7 +12,7 @@ int Ai::playMove() {
 	bool test = checkTake();
 	if (test)
 		return 0;
-	int check = movePiece();
+	int check = movePiece(rand() % 10);
 	if (check == 0)
 		return 0;
 	return 1;
@@ -52,7 +52,7 @@ bool Ai::checkTake() {
 	return false;
 }
 
-int Ai::movePiece() {
+int Ai::movePiece(int chance) {
 	if (m_isWhite) {
 		Pawn* pawns = m_board->getPawnW();
 		int c = 0;
@@ -64,18 +64,18 @@ int Ai::movePiece() {
 					pawnNr = -1;
 				}
 			}
-
-			if (pawns[pawnNr].hasMoved()) {
+			if (!(pawns[pawnNr].hasMoved()) && (chance > 3)){
+				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 2, m_isWhite);
+				if (test == 0)
+					return 0;
+			}
+			else{
 				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 1, m_isWhite);
 				if (test == 0)
 					return 0;
 			}
 
-			else{
-				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 2, m_isWhite);
-				if (test == 0)
-					return 0;
-			}
+			
 			++c;
 			if (c > 100) {
 				std::cout << "coulnd't find a valid move\n";
@@ -97,14 +97,13 @@ int Ai::movePiece() {
 					pawnNr = -1;
 			}
 
-			if (pawns[pawnNr].hasMoved()) {
-				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 1, m_isWhite);
+			if (!(pawns[pawnNr].hasMoved()) && (chance > 3)) {
+				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 2, m_isWhite);
 				if (test == 0)
 					return 0;
 			}
-
 			else {
-				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 2, m_isWhite);
+				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 1, m_isWhite);
 				if (test == 0)
 					return 0;
 			}

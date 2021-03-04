@@ -11,7 +11,7 @@ private:
 	bool checkTake();
 	bool m_isWhite;
 	Board* m_board;
-	int movePiece();
+	int movePiece(int chance);
 };
 
 
