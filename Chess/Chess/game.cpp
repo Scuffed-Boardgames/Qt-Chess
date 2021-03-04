@@ -45,18 +45,18 @@ int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) 
 
 void Game::whiteVictory() { // Puts win message if white wins
 	if (m_player1.isWhite()) {
-		std::cout << "Player 1 won the game as White!!!";
+		std::cout << "Player 1 won the game as White!!!\n";
 	}
 	else {
-		std::cout << "Player 2 won the game as White!!!";
+		std::cout << "Player 2 won the game as White!!!\n";
 	}
 }
 
 void Game::blackVictory() { // Puts win message if black wins
 	if (m_player1.isWhite()) {
-		std::cout << "Player 2 won the game as Black!!!";
+		std::cout << "Player 2 won the game as Black!!!\n";
 	}
 	else {
-		std::cout << "Player 1 won the game as Black!!!";
+		std::cout << "Player 1 won the game as Black!!!\n";
 	}
 }
