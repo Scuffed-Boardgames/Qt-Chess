@@ -42,7 +42,7 @@ bool Ai::checkTake() {
 	return false;
 }
 
-int Ai::movePice() {
+int Ai::movePiece() {
 	srand((unsigned)time(NULL));
 	if (m_isWhite) {
 		Pawn* pawns = m_board->getPawnW();
@@ -116,7 +116,7 @@ int Ai::playMove() {
 	bool test = checkTake();
 	if (test)
 		return 0;
-	int check = movePice();
+	int check = movePiece();
 	if (check == 0)
 		return 0;
 	return 1;
