@@ -53,7 +53,6 @@ bool Ai::checkTake() {
 }
 
 int Ai::movePiece() {
-	srand((unsigned)time(NULL));
 	if (m_isWhite) {
 		Pawn* pawns = m_board->getPawnW();
 		int c = 0;

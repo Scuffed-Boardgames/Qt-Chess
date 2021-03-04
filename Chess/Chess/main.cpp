@@ -3,6 +3,7 @@
 #include <iostream>
 
 int main() {
+	srand((unsigned)time(NULL));
 	Game mainGame{};
 	std::cout << "Do you want to add an AI?\n(no = 0, white = 1, black = 2)\n";
 	int aiCount;
