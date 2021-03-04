@@ -9,13 +9,41 @@ Ai::Ai(bool isWhite, Board* board) {
 }
 
 int Ai::playMove() {
-	bool test = checkTake();
+	bool test = checkLastRow();
+	if (test)
+		return 0;
+	test = checkTake();
 	if (test)
 		return 0;
 	int check = movePiece(rand() % 10);
 	if (check == 0)
 		return 0;
 	return 1;
+}
+
+bool Ai::checkLastRow() {
+	if (m_isWhite) {
+		Pawn* pawns = m_board->getPawnW();
+		for (int i = 1; i < 9; ++i) {
+			Pawn* test = m_board->checkPiece(i, 7, true);
+			if (test) {
+				m_board->movePiece(test->getX(), test->getY(), test->getX(), test->getY() + 1, m_isWhite);
+				return true;
+			}
+		}
+	}
+
+	else {
+		Pawn* pawns = m_board->getPawnB();
+		for (int i = 1; i < 9; ++i) {
+			Pawn* test = m_board->checkPiece(i, 2, false);
+			if (test) {
+				m_board->movePiece(test->getX(), test->getY(), test->getX(), test->getY() + 1, m_isWhite);
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 bool Ai::checkTake() {

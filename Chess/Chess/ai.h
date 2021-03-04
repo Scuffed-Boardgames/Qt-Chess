@@ -10,6 +10,7 @@ public:
 private:
 	bool checkTake();
 	bool m_isWhite;
+	bool checkLastRow();
 	Board* m_board;
 	int movePiece(int chance);
 };
