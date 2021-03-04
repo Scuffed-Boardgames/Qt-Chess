@@ -2,19 +2,11 @@
 #include "game.h"
 #include <iostream>
 
-Game::Game(const int& white) { // Creates a game based on which player has to be 
-	if (white == 0) {
-		Player player1{ true };
-		Player player2{ false };
-		m_player1 = player1;
-		m_player2 = player2;
-	}
-	else {
-		Player player1{ false };
-		Player player2{ true };
-		m_player1 = player1;
-		m_player2 = player2;
-	}
+Game::Game() { // Creates a game based on which player has to be 
+	Player player1{ true };
+	Player player2{ false };
+	m_player1 = player1;
+	m_player2 = player2;
 	Board board{};
 	m_board = board;
 	m_turn = 0;

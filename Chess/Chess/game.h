@@ -6,8 +6,7 @@
 
 class Game {
 public:
-	Game() = default;
-	Game(const int &white);
+	Game();
 	void checkEnd();
 	int movePiece(const int &x1, const int &y1, const int &x2, const int &y2);
 	void whiteVictory();
