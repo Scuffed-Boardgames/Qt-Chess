@@ -8,6 +8,16 @@ Ai::Ai(bool isWhite, Board* board) {
 	m_board = board;
 }
 
+int Ai::playMove() {
+	bool test = checkTake();
+	if (test)
+		return 0;
+	int check = movePiece();
+	if (check == 0)
+		return 0;
+	return 1;
+}
+
 bool Ai::checkTake() {
 	if (m_isWhite) {
 		Pawn* pawns = m_board->getPawnW();
@@ -30,9 +40,9 @@ bool Ai::checkTake() {
 		for (int i = 0; i < 8; ++i) {
 			int x = pawns[i].getX();
 			int y = pawns[i].getY();
-			Pawn* target = m_board->checkPiece(x + 1, y + 1, !m_isWhite);
+			Pawn* target = m_board->checkPiece(x + 1, y - 1, !m_isWhite);
 			if (!target)
-				target = m_board->checkPiece(x - 1, y + 1, !m_isWhite);
+				target = m_board->checkPiece(x - 1, y - 1, !m_isWhite);
 			if (target) {
 				m_board->movePiece(pawns[i].getX(), pawns[i].getY(), target->getX(), target->getY(), m_isWhite);
 				return true;
@@ -112,12 +122,3 @@ int Ai::movePiece() {
 	return 99;
 }
 
-int Ai::playMove() {
-	bool test = checkTake();
-	if (test)
-		return 0;
-	int check = movePiece();
-	if (check == 0)
-		return 0;
-	return 1;
-}
