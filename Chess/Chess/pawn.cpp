@@ -3,19 +3,24 @@
 #include <iostream>
 
 // makes a pawn on given position and can be black or white 
-Pawn::Pawn(Position position, bool isWhite){
+Pawn::Pawn(int x, int y, bool isWhite){
 	m_isWhite = isWhite;
 	m_hasMoved = false;
 	m_isTaken = false;
-	m_position = position;
+	m_x = x;
+	m_y = y;
 }
 
 //moves the pawn to the given destination if it is a valid move
-int Pawn::move(Position destination) {
-	if (m_position.m_x == destination.m_x && m_position.m_y + 1 == destination.m_y)
-		m_position = destination;
-	else if (m_position.m_x == destination.m_x && m_position.m_y + 2 == destination.m_y && m_hasMoved == false)
-		m_position = destination;
+int Pawn::move(int x, int y) {
+	if (m_x == x && m_y + 1 == y) {
+		m_y = y;
+		m_x = x;
+	}
+	else if (m_x == x && m_y + 2 == y && m_hasMoved == false) {
+		m_y = y;
+		m_x = x;
+	}
 	else {
 		std::cout << "inserted move is illegal!";
 		return 1;
@@ -25,6 +30,6 @@ int Pawn::move(Position destination) {
 }
 
 //TODO
-int Pawn::take(Position target) {
+int Pawn::take(int x, int y) {
 	return 0;
 }
