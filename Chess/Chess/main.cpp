@@ -41,14 +41,6 @@ int game() {
 			}
 		}
 		mainGame.print();
-		if (!(mainGame.canMove(mainGame.getTurn() % 2 + 1 == 0))) {
-			if (mainGame.getTurn() % 2 + 1 == 0) {
-				mainGame.declareWinner(false);
-			}
-			else {
-				mainGame.declareWinner(true);
-			}
-		}
 		mainGame.checkEnd();
 		mainGame.addTurn();
 	}

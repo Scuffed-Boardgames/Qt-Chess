@@ -19,8 +19,7 @@ public:
 	bool canMove(bool isWhite);
 	void declareWinner(bool isWhite);
 private:
-	void whiteVictory();
-	void blackVictory();
+	void declareVictory();
 	Player m_player1;
 	Player m_player2;
 	Board m_board;

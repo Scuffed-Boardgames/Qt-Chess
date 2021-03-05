@@ -15,13 +15,15 @@ Game::Game() { // Creates a game based on which player has to be
 
 void Game::checkEnd() { // Checks if end conditions have been met
 	for (int i = 1; i <= 8; ++i) {
-		if (m_board.checkPiece(i, 8, true) != NULL || m_player1.getWon()) {
-			whiteVictory();
+		if (m_board.checkPiece(i, 8, true) != NULL || !(canMove(false))) {
+			declareWinner(true);
+			declareVictory();
 			m_hasEnded = true;
 			return;
 		}
-		if (m_board.checkPiece(i, 1, false) != NULL || m_player2.getWon()) {
-			blackVictory();
+		else if (m_board.checkPiece(i, 1, false) != NULL || !(canMove(true))) {
+			declareWinner(false);
+			declareVictory();
 			m_hasEnded = true;
 			return;
 		}
@@ -37,28 +39,15 @@ int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) 
 	}
 }
 
-void Game::whiteVictory() { // Puts win message if white wins
-	if (m_player1.isWhite()) {
+void Game::declareVictory() { // Puts win message if white wins
+	if (m_player1.getWon()) {
 		std::cout << "#################################\n";
 		std::cout << "Player 1 won the game as White!!!\n";
 		std::cout << "#################################\n";
 	}
-	else {
-		std::cout << "#################################\n";
-		std::cout << "Player 2 won the game as White!!!\n";
-		std::cout << "#################################\n";
-	}
-}
-
-void Game::blackVictory() { // Puts win message if black wins
-	if (m_player1.isWhite()) {
+	else if (m_player2.getWon()) {
 		std::cout << "#################################\n";
 		std::cout << "Player 2 won the game as Black!!!\n";
-		std::cout << "#################################\n";
-	}
-	else {
-		std::cout << "#################################\n";
-		std::cout << "Player 1 won the game as Black!!!\n";
 		std::cout << "#################################\n";
 	}
 }
