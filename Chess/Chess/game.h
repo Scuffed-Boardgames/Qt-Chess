@@ -17,6 +17,7 @@ public:
 	int getTurn();
 	void print();
 	bool canMove(bool isWhite);
+	void declareWinner(bool isWhite);
 private:
 	void whiteVictory();
 	void blackVictory();

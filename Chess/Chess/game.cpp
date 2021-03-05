@@ -15,13 +15,15 @@ Game::Game() { // Creates a game based on which player has to be
 
 void Game::checkEnd() { // Checks if end conditions have been met
 	for (int i = 1; i <= 8; ++i) {
-		if (m_board.checkPiece(i, 8, true) != NULL) {
+		if (m_board.checkPiece(i, 8, true) != NULL || m_player1.getWon()) {
 			whiteVictory();
 			m_hasEnded = true;
+			return;
 		}
-		if (m_board.checkPiece(i, 1, false) != NULL) {
+		if (m_board.checkPiece(i, 1, false) != NULL || m_player2.getWon()) {
 			blackVictory();
 			m_hasEnded = true;
+			return;
 		}
 	}
 }
@@ -37,19 +39,27 @@ int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) 
 
 void Game::whiteVictory() { // Puts win message if white wins
 	if (m_player1.isWhite()) {
+		std::cout << "#################################\n";
 		std::cout << "Player 1 won the game as White!!!\n";
+		std::cout << "#################################\n";
 	}
 	else {
+		std::cout << "#################################\n";
 		std::cout << "Player 2 won the game as White!!!\n";
+		std::cout << "#################################\n";
 	}
 }
 
 void Game::blackVictory() { // Puts win message if black wins
 	if (m_player1.isWhite()) {
+		std::cout << "#################################\n";
 		std::cout << "Player 2 won the game as Black!!!\n";
+		std::cout << "#################################\n";
 	}
 	else {
+		std::cout << "#################################\n";
 		std::cout << "Player 1 won the game as Black!!!\n";
+		std::cout << "#################################\n";
 	}
 }
 
@@ -91,14 +101,24 @@ void Game::print() {
 	m_board.print();
 }
 
+void Game::declareWinner(bool isWhite) {
+	if (isWhite)
+		m_player1.giveWon();
+	else
+		m_player2.giveWon();
+}
+
 bool Game::canMove(bool isWhite) {
 	if (isWhite) {
-		Pawn* pawns = m_board.getPawnB();
+		Pawn* pawns = m_board.getPawnW();
 		for (int i = 0; i < 8; ++i) {
-			for (int j = 1; j <= 8; ++j) {
-				for (int k = 1; k <= 8; ++k) {
-					if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, true) == 0)
-						return true;
+			if (!pawns[i].isTaken()) {
+				for (int j = 1; j <= 8; ++j) {
+					for (int k = 1; k <= 8; ++k) {
+						if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, true) == 0)
+							return true;
+
+					}
 				}
 			}
 		}
@@ -106,10 +126,14 @@ bool Game::canMove(bool isWhite) {
 	else{
 		Pawn* pawns = m_board.getPawnB();
 		for (int i = 0; i < 8; ++i) {
-			for (int j = 1; j <= 8; ++j) {
-				for (int k = 1; k <= 8; ++k) {
-					if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, false) == 0)
-						return true;
+			if (!pawns[i].isTaken()) {
+				for (int j = 1; j <= 8; ++j) {
+					for (int k = 1; k <= 8; ++k) {
+						if (!pawns[i].isTaken()) {
+							if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, false) == 0)
+								return true;
+						}
+					}
 				}
 			}
 		}

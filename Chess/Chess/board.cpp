@@ -36,7 +36,7 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 	Pawn* target = checkPiece(x_2, y_2, !isWhite);
 	bool sameColour = false;
 	if (!target) {
-		Pawn* target = checkPiece(x_2, y_2, isWhite);
+		target = checkPiece(x_2, y_2, isWhite);
 		sameColour = true;
 	}
 
@@ -119,6 +119,7 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, bool isWhite){
 		return 99;
 	}
 }
+
 //removes the hopped status on the beginning of a move
 void Board::removeHopped(bool isWhite) {
 	if (isWhite) {
@@ -175,12 +176,12 @@ int Board::countBlackPawns() {
 	return count;
 }
 
-//returns all white pawns(Denzell Mgbokwere)
+
 Pawn* Board::getPawnW() {
 	return m_pawnW;
 }
 
-//returns all black pawns(Denzell Mgbokwere)
+
 Pawn* Board::getPawnB() {
 	return m_pawnB;
 }

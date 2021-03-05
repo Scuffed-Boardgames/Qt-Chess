@@ -133,8 +133,7 @@ int Ai::movePiece(int chance) {
 	if (!m_isWhite) {
 		Pawn* pawns = m_board->getPawnB();
 		int c = 0;
-		while (true)
-		{
+		while (true){
 			int pawnNr = -1;
 			while (pawnNr == -1) {
 				pawnNr = rand() % 8;
