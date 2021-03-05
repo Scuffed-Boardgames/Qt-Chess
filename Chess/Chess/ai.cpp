@@ -31,7 +31,7 @@ bool Ai::checkLastRow() {
 				int test = m_board->checkMove(pawns[i].getX(), pawns[i].getY(), pawns[i].getX(), pawns[i].getY() + 1, m_isWhite);
 				if (test == 0) {
 					m_board->makeMove(pawns[i].getX(), pawns[i].getY(), pawns[i].getX(), pawns[i].getY() + 1, m_isWhite);
-					return 0;
+					return true;
 				}
 			}
 		}
@@ -44,7 +44,7 @@ bool Ai::checkLastRow() {
 				int test = m_board->checkMove(pawns[i].getX(), pawns[i].getY(), pawns[i].getX(), pawns[i].getY() - 1, m_isWhite);
 				if (test == 0) {
 					m_board->makeMove(pawns[i].getX(), pawns[i].getY(), pawns[i].getX(), pawns[i].getY() - 1, m_isWhite);
-					return 0;
+					return true;
 				}
 			}
 		}
