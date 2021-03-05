@@ -6,11 +6,12 @@ class Player {
 public:
 	Player() = default;
 	Player(bool isWhite);
-	bool getWon();
-	void giveWon();
 	bool isWhite();
-	void setAi();
+	bool getWon();
 	bool isAi();
+	void giveWon();
+	void setAi();
+
 private:
 	bool m_isAi;
 	bool m_isWhite;

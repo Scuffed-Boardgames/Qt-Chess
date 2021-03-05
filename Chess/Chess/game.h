@@ -7,17 +7,18 @@
 class Game {
 public:
 	Game();
+	int movePiece(const int& x1, const int& y1, const int& x2, const int& y2);
 	void checkEnd();
-	int movePiece(const int &x1, const int &y1, const int &x2, const int &y2);
+	bool canMove(bool isWhite);
+	void addTurn();
+	void print();
 	bool hasEnded();
 	void setAi(int aiCount);
-	void addTurn();
 	Board* giveBoard();
 	bool isAi(int player);
 	int getTurn();
-	void print();
-	bool canMove(bool isWhite);
 	void declareWinner(bool isWhite);
+
 private:
 	void declareVictory();
 	Player m_player1;

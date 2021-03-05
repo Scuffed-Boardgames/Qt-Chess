@@ -39,11 +39,9 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 		target = checkPiece(x_2, y_2, isWhite);
 		sameColour = true;
 	}
-
 	if (!selected) {//no piece was selected
 		return 3;
 	}
-
 	if (x_1 == x_2) {//checks if there are any pieces between the start and destination
 		for (int i = min(y_1, y_2) + 1; i < max(y_1, y_2); ++i) {
 			Pawn* test = checkPiece(x_1, i, true);
@@ -54,7 +52,6 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 			}
 		}
 	}
-
 	if (!target) {//a piece was selected and no piece on target(move)
 		if (isWhite){
 			target = checkPiece(x_2, y_2 - 1, !isWhite);
@@ -70,7 +67,6 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 			test = 0;
 		return test;
 	}
-
 	if (target && !sameColour) {//a piece was selected and a piece of the opposite colour is on the target(take)
 		int test = selected->checkTake(x_2, y_2);
 		if (test > 0) {
@@ -78,7 +74,6 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 		}
 		return test;
 	}
-
 	//a friendly piece was on the destination square
 	return 1;
 }
@@ -120,26 +115,6 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, bool isWhite){
 	}
 }
 
-//removes the hopped status on the beginning of a move
-void Board::removeHopped(bool isWhite) {
-	if (isWhite) {
-		for (int i = 0; i < 8; ++i) {
-			if (m_pawnW[i].m_hasHopped) {
-				m_pawnW[i].m_hasHopped = false;
-				return;
-			}
-		}
-	}
-	else{
-		for (int i = 0; i < 8; ++i) {
-			if (m_pawnB[i].m_hasHopped) {
-				m_pawnB[i].m_hasHopped = false;
-				return;
-			}
-		}
-	}
-}
-
 void Board::print() {
 	std::cout << "\t";
 	for (int i = 8; i >= 1; --i) {
@@ -170,17 +145,35 @@ int Board::countWhitePawns() {
 int Board::countBlackPawns() {
 	int count = 0;
 	for (int i = 0; i < 8; ++i)
-		if (!m_pawnB[i].isTaken()){
+		if (!m_pawnB[i].isTaken()) {
 			count += 1;
 		}
 	return count;
 }
 
+//removes the hopped status on the beginning of a move
+void Board::removeHopped(bool isWhite) {
+	if (isWhite) {
+		for (int i = 0; i < 8; ++i) {
+			if (m_pawnW[i].m_hasHopped) {
+				m_pawnW[i].m_hasHopped = false;
+				return;
+			}
+		}
+	}
+	else{
+		for (int i = 0; i < 8; ++i) {
+			if (m_pawnB[i].m_hasHopped) {
+				m_pawnB[i].m_hasHopped = false;
+				return;
+			}
+		}
+	}
+}
 
 Pawn* Board::getPawnW() {
 	return m_pawnW;
 }
-
 
 Pawn* Board::getPawnB() {
 	return m_pawnB;

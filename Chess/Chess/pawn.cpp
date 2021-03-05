@@ -34,7 +34,6 @@ int Pawn::checkMove(int x, int y) {
 			return -2;
 		}
 	}
-
 	else{
 		if (m_x == x && m_y - 1 == y) {
 			return 0;
@@ -46,24 +45,22 @@ int Pawn::checkMove(int x, int y) {
 
 	return 1;
 }
+
 // checks a take move and returns if it is valid(-1) or invalid(>0) (Denzell Mgbokwere)
 int Pawn::checkTake(int x, int y) {
 	if (!checkBounds(x, y)) {
 		return 2;
 	}
-
 	if (m_isWhite) {
 		if ((m_x == x + 1 || m_x == x - 1) && m_y + 1 == y) {
 			return -1;
 		}
 	}
-
 	else{
 		if ((m_x == x + 1 || m_x == x - 1) && m_y - 1 == y) {
 			return -1;
 		}
 	}
-
 	return 1;
 }
 

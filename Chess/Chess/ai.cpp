@@ -96,7 +96,7 @@ bool Ai::checkTake() {
 
 // if the ai cant do anything usefull it will move a random pawn (Denzell Mgbokwere)
 int Ai::movePiece(int chance) {
-	if (m_isWhite) {
+	if(m_isWhite){
 		Pawn* pawns = m_board->getPawnW();
 		int c = 0;
 		while (true) {
@@ -121,7 +121,6 @@ int Ai::movePiece(int chance) {
 					return 0;
 				}
 			}
-
 			++c;
 			if (c > 100) {
 				std::cout << "coulnd't find a valid move\n";
@@ -130,7 +129,7 @@ int Ai::movePiece(int chance) {
 		}
 	}
 
-	if (!m_isWhite) {
+	else{
 		Pawn* pawns = m_board->getPawnB();
 		int c = 0;
 		while (true){
@@ -140,7 +139,6 @@ int Ai::movePiece(int chance) {
 				if (pawns[pawnNr].isTaken())
 					pawnNr = -1;
 			}
-
 			if (!(pawns[pawnNr].hasMoved()) && (chance > 3)) {
 				int test = m_board->checkMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 2, m_isWhite);
 				if (test <= 0) {
@@ -148,7 +146,6 @@ int Ai::movePiece(int chance) {
 					return 0;
 				}
 			}
-
 			else {
 				int test = m_board->checkMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 1, m_isWhite);
 				if (test <= 0) {
@@ -161,10 +158,7 @@ int Ai::movePiece(int chance) {
 				std::cout << "coulnd't find a valid move\n";
 				return 1;
 			}
-
 		}
-
 	}
-	return 99;
 }
 
