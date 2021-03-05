@@ -1,13 +1,14 @@
 #include <stdlib.h>  
 #include <time.h>
 #include <iostream>  
-#include"ai.h"
+#include "ai.h"
 
 Ai::Ai(bool isWhite, Board* board) {
 	m_isWhite = isWhite;
 	m_board = board;
 }
 
+//the order in which the ai checks moves (Denzell Mgbokwere)
 int Ai::playMove() {
 	bool test = checkLastRow();
 	if (test)
@@ -21,31 +22,37 @@ int Ai::playMove() {
 	return 1;
 }
 
+//the ai checks if it can win this move (Denzell Mgbokwere)
 bool Ai::checkLastRow() {
 	if (m_isWhite) {
 		Pawn* pawns = m_board->getPawnW();
-		for (int i = 1; i < 9; ++i) {
-			Pawn* test = m_board->checkPiece(i, 7, true);
-			if (test) {
-				m_board->movePiece(test->getX(), test->getY(), test->getX(), test->getY() + 1, m_isWhite);
-				return true;
+		for (int i = 0; i < 8; ++i) {
+			if (pawns[i].getY() == 7) {
+				int test = m_board->canMove(pawns[i].getX(), pawns[i].getY(), pawns[i].getX(), pawns[i].getY() + 1, m_isWhite);
+				if (test == 0) {
+					pawns[i].setPosition(pawns[i].getX(), pawns[i].getY() + 1);
+					return 0;
+				}
 			}
 		}
 	}
 
 	else {
 		Pawn* pawns = m_board->getPawnB();
-		for (int i = 1; i < 9; ++i) {
-			Pawn* test = m_board->checkPiece(i, 2, false);
-			if (test) {
-				m_board->movePiece(test->getX(), test->getY(), test->getX(), test->getY() + 1, m_isWhite);
-				return true;
+		for (int i = 0; i < 8; ++i) {
+			if(pawns[i].getY() == 2){
+				int test = m_board->canMove(pawns[i].getX(), pawns[i].getY(), pawns[i].getX(), pawns[i].getY() - 1, m_isWhite);
+				if (test == 0) {
+					pawns[i].setPosition(pawns[i].getX(), pawns[i].getY()-1);
+					return 0;
+				}
 			}
 		}
 	}
 	return false;
 }
 
+// the ai checks if it can take another pawn (Denzell Mgbokwere)
 bool Ai::checkTake() {
 	if (m_isWhite) {
 		Pawn* pawns = m_board->getPawnW();
@@ -80,37 +87,40 @@ bool Ai::checkTake() {
 	return false;
 }
 
+// if the ai cant do anything usefull it will move a random pawn (Denzell Mgbokwere)
 int Ai::movePiece(int chance) {
 	if (m_isWhite) {
 		Pawn* pawns = m_board->getPawnW();
 		int c = 0;
-		while (true){
+		while (true) {
 			int pawnNr = -1;
 			while (pawnNr == -1) {
 				pawnNr = rand() % 8;
-				if (pawns[pawnNr].getStatus()) {
+				if (pawns[pawnNr].isTaken()) {
 					pawnNr = -1;
 				}
 			}
-			if (!(pawns[pawnNr].hasMoved()) && (chance > 3)){
-				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 2, m_isWhite);
-				if (test == 0)
+			if (!(pawns[pawnNr].hasMoved()) && (chance > 3)) {
+				int test = m_board->canMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 2, m_isWhite);
+				if (test == 0) {
+					m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 2, m_isWhite);
 					return 0;
+				}
 			}
-			else{
-				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 1, m_isWhite);
-				if (test == 0)
+			else {
+				int test = m_board->canMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 1, m_isWhite);
+				if (test == 0) {
+					m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 1, m_isWhite);
 					return 0;
+				}
 			}
 
-			
 			++c;
 			if (c > 100) {
 				std::cout << "coulnd't find a valid move\n";
 				return 1;
 			}
 		}
-
 	}
 
 	if (!m_isWhite) {
@@ -121,19 +131,24 @@ int Ai::movePiece(int chance) {
 			int pawnNr = -1;
 			while (pawnNr == -1) {
 				pawnNr = rand() % 8;
-				if (pawns[pawnNr].getStatus())
+				if (pawns[pawnNr].isTaken())
 					pawnNr = -1;
 			}
 
 			if (!(pawns[pawnNr].hasMoved()) && (chance > 3)) {
-				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 2, m_isWhite);
-				if (test == 0)
+				int test = m_board->canMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 2, m_isWhite);
+				if (test == 0) {
+					m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 2, m_isWhite);
 					return 0;
+				}
 			}
+
 			else {
-				int test = m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 1, m_isWhite);
-				if (test == 0)
+				int test = m_board->canMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 1, m_isWhite);
+				if (test == 0) {
+					m_board->movePiece(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() - 1, m_isWhite);
 					return 0;
+				}
 			}
 			++c;
 			if (c > 100) {
@@ -144,7 +159,6 @@ int Ai::movePiece(int chance) {
 		}
 
 	}
-
 	return 99;
 }
 

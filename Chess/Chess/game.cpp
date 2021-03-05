@@ -91,3 +91,28 @@ void Game::print() {
 	m_board.print();
 }
 
+bool Game::canMove(bool isWhite) {
+	if (isWhite) {
+		Pawn* pawns = m_board.getPawnB();
+		for (int i = 0; i < 8; ++i) {
+			for (int j = 1; j <= 8; ++j) {
+				for (int k = 1; k <= 8; ++k) {
+					if (m_board.canMove(pawns[i].getX(), pawns[i].getY(), j, k, true) == 0)
+						return true;
+				}
+			}
+		}
+	}
+	else{
+		Pawn* pawns = m_board.getPawnB();
+		for (int i = 0; i < 8; ++i) {
+			for (int j = 1; j <= 8; ++j) {
+				for (int k = 1; k <= 8; ++k) {
+					if (m_board.canMove(pawns[i].getX(), pawns[i].getY(), j, k, false) == 0)
+						return true;
+				}
+			}
+		}
+	}
+	return false;
+}

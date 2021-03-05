@@ -12,78 +12,49 @@ Pawn::Pawn(int x, int y, bool isWhite) {
 
 bool Pawn::checkBounds(int x, int y) {
 	if (x > 8 || y > 8) {
-		std::cout << "inserted value(s) are too large!\n";
 		return false;
 	}
 	else if (x < 1 || y < 1) {
-		std::cout << "inserted value(s) are too small!\n";
 		return false;
 	}
 	return true;
 }
 
 //moves the pawn to the given destination if it is a valid move (Denzell Mgbokwere)
-int Pawn::move(int x, int y) {
-	if (!checkBounds(x, y))
+int Pawn::makeMove(int x, int y) {
+	switch (checkMove(x, y)){
+	case(0):
+		m_x = x;
+		m_y = y;
+		m_hasMoved = true;
+		return 0;
+	case(1):
+		std::cout << "inserted move is illegal!\n";
+		return 1;
+	case(2):
+		std::cout << "inserted value(s) are too small/large!\n";
 		return 2;
-
-	if (m_isWhite) {
-		if (m_x == x && m_y + 1 == y) {
-			m_y = y;
-			m_x = x;
-			m_hasMoved = true;
-			return 0;
-		}
-		else if (m_x == x && m_y + 2 == y && m_hasMoved == false) {
-			m_y = y;
-			m_x = x;
-			m_hasMoved = true;
-			return 0;
-		}
+	default:
+		return 99;
 	}
-
-	else if (!m_isWhite) {
-		if (m_x == x && m_y - 1 == y) {
-			m_y = y;
-			m_x = x;
-			m_hasMoved = true;
-			return 0;
-		}
-		else if (m_x == x && m_y - 2 == y && m_hasMoved == false) {
-			m_y = y;
-			m_x = x;
-			m_hasMoved = true;
-			return 0;
-		}
-	}
-
-	std::cout << "inserted move is illegal!\n";
-	return 1;
 }
 
 // checks if the take move is valid and executes it (Denzell Mgbokwere)
-int Pawn::validTake(int x, int y){
-	if (!checkBounds(x, y)) {
+int Pawn::makeTake(int x, int y){
+	switch (checkTake(x, y)) {
+	case(-1):
+		m_x = x;
+		m_y = y;
+		return -1;
+	case(1):
+		std::cout << "inserted move is illegal!\n";
+		return 1;
+	case(2):
+		std::cout << "inserted value(s) are too small/large!\n";
 		return 2;
+	default:
+		return 99;
 	}
-	if (m_isWhite) {
-		if ((m_x == x + 1 || m_x == x - 1) && m_y + 1 == y){
-			m_x = x;
-			m_y = y;
-			return 0;
-		}
-	}
-
-	else if (!m_isWhite) {
-		if ((m_x == x + 1 || m_x == x - 1) && m_y - 1 == y){
-			m_x = x;
-			m_y = y;
-			return 0;
-		}
-	}
-
-	std::cout << "inserted move is illegal!\n";
-	return 1;
 }
 
 void Pawn::setTaken() {
@@ -96,7 +67,7 @@ void Pawn::toTheShadowRealm(){
 	m_y = -1;
 }
 
-bool Pawn::getColour(){
+bool Pawn::isWhite(){
 	return m_isWhite;
 }
 
@@ -108,10 +79,60 @@ int Pawn::getY(){
 	return m_y;
 }
 
-bool Pawn::getStatus(){
+bool Pawn::isTaken(){
 	return m_isTaken;
 }
 
 bool Pawn::hasMoved(){
 	return m_hasMoved;
+}
+
+int Pawn::checkMove(int x, int y) {
+	if (!checkBounds(x, y))
+		return 2;
+
+	if (m_isWhite) {
+		if (m_x == x && m_y + 1 == y) {
+			return 0;
+		}
+		else if (m_x == x && m_y + 2 == y && m_hasMoved == false) {
+			return 0;
+		}
+	}
+
+	else if (!m_isWhite) {
+		if (m_x == x && m_y - 1 == y) {
+			return 0;
+		}
+		else if (m_x == x && m_y - 2 == y && m_hasMoved == false) {
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
+int Pawn::checkTake(int x, int y) {
+	if (!checkBounds(x, y)) {
+		return 2;
+	}
+
+	if (m_isWhite) {
+		if ((m_x == x + 1 || m_x == x - 1) && m_y + 1 == y) {
+			return -1;
+		}
+	}
+
+	else if (!m_isWhite) {
+		if ((m_x == x + 1 || m_x == x - 1) && m_y - 1 == y) {
+			return -1;
+		}
+	}
+
+	return 1;
+}
+
+void Pawn::setPosition(int x, int y) {
+	m_x = x;
+	m_y = y;
 }

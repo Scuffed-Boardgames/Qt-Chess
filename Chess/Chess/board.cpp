@@ -40,48 +40,30 @@ Pawn* Board::checkPiece(int x, int y, bool isWhite) {
 }
 
 // checks if a move is legal and plays it (Denzell Mgbokwere)
-int Board::movePiece(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
+int Board::movePiece(int x_1, int y_1, int x_2, int y_2, bool isWhite){
 	Pawn* selected = checkPiece(x_1, y_1, isWhite);
 	Pawn* target = checkPiece(x_2, y_2, !isWhite);
-	bool sameColour = false;
-	if (!target) {
-		Pawn* target = checkPiece(x_2, y_2, isWhite);
-		sameColour = true;
-	}
-
-	if (!selected) {
-		std::cout << "selected piece does not exist! \n";
-		return 3;
-	}
-
-	if (x_1 == x_2) {
-		for (int i = min(y_1, y_2) + 1; i < max(y_1, y_2); ++i) {
-			Pawn* test = checkPiece(x_1, i, true);
-			if(!test)
-				test = checkPiece(x_1, i, false);
-			if (test) {
-				std::cout << "inserted move is illegal!\n";
-				return 1;
-			}
-		}
-	}
-
-	if (selected && !target) {
-		int test = selected->move(x_2, y_2);
-		return test;
-	}
-
-	if (selected && target && !sameColour) {
-		int test = selected->validTake(x_2, y_2);
-		if (test > 0) {
-			return test;
-		}
-		target->setTaken();
+	switch (canMove(x_1, y_1, x_2, y_2, isWhite)) {
+	case(-1):
+		selected->makeTake(x_2, y_2);
 		target->toTheShadowRealm();
-		return test;
+		target->setTaken();
+		return 0;
+	case(0):
+		selected->makeMove(x_2, y_2);
+		return 0;
+	case(1):
+		std::cout << "inserted move is illegal!\n";
+		return 1;
+	case(2):
+		std::cout << "inserted value(s) are too small/large!\n";
+		return 2;
+	case(3):
+		std::cout << "selected piece doesn't exist\n";
+		return 3;
+	default:
+		return 99;
 	}
-	std::cout << "target space is occupied! \n";
-	return 1;
 }
 
 void Board::print() {
@@ -100,5 +82,64 @@ void Board::print() {
 		std::cout << "\n\t";
 	}
 	std::cout << " -----------------\n\t" << "  1 2 3 4 5 6 7 8 \n\n";
+}
+
+
+int Board::countWhitePawns() {
+	int count = 0;
+	for (int i = 0; i < 8; ++i)
+		if (!m_pawnW[i].isTaken()) {
+			count += 1;
+		}
+	return count;
+}
+
+int Board::countBlackPawns() {
+	int count = 0;
+	for (int i = 0; i < 8; ++i)
+		if (!m_pawnB[i].isTaken()){
+			count += 1;
+		}
+	return count;
+}
+
+// checks if a move is legal and plays it (Denzell Mgbokwere)
+int Board::canMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
+	Pawn* selected = checkPiece(x_1, y_1, isWhite);
+	Pawn* target = checkPiece(x_2, y_2, !isWhite);
+	bool sameColour = false;
+	if (!target) {
+		Pawn* target = checkPiece(x_2, y_2, isWhite);
+		sameColour = true;
+	}
+
+	if (!selected) {
+		return 3;
+	}
+
+	if (x_1 == x_2) {
+		for (int i = min(y_1, y_2) + 1; i < max(y_1, y_2); ++i) {
+			Pawn* test = checkPiece(x_1, i, true);
+			if (!test)
+				test = checkPiece(x_1, i, false);
+			if (test) {
+				return 1;
+			}
+		}
+	}
+
+	if (selected && !target) {
+		int test = selected->checkMove(x_2, y_2);
+		return test;
+	}
+
+	if (selected && target && !sameColour) {
+		int test = selected->checkTake(x_2, y_2);
+		if (test > 0) {
+			return test;
+		}
+		return test;
+	}
+	return 1;
 }
 

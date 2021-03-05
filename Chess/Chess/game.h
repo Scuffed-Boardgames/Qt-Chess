@@ -16,6 +16,7 @@ public:
 	bool isAi(int player);
 	int getTurn();
 	void print();
+	bool canMove(bool isWhite);
 private:
 	void whiteVictory();
 	void blackVictory();

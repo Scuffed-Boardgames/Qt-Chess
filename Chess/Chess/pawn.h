@@ -9,17 +9,20 @@ public:
 	Pawn() = default;
 	Pawn(int x, int y, bool isWhite);
 
-	int move(int x, int y);
-	int validTake(int x, int y);
+	int makeMove(int x, int y);
+	int makeTake(int x, int y);
+	void setPosition(int x, int y);
 
 	void setTaken();
 	void toTheShadowRealm();
 
 	int getX();
 	int getY();
-	bool getColour();
-	bool getStatus();
+	bool isTaken();
 	bool hasMoved();
+	bool isWhite();
+	int checkMove(int x, int y);
+	int checkTake(int x, int y);
 private:
 	bool checkBounds(int x, int y);
 
