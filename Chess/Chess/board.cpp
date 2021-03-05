@@ -5,15 +5,6 @@
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
 
-//returns all white pawns(Denzell Mgbokwere)
-Pawn* Board::getPawnW() {
-	return m_pawnW;
-}
-
-//returns all black pawns(Denzell Mgbokwere)
-Pawn* Board::getPawnB() {
-	return m_pawnB;
-}
 // Default constructor for the Board class (Bernd Uijtdebroeks)
 Board::Board() {
 	for (int i = 0; i < 8; ++i) {
@@ -39,17 +30,80 @@ Pawn* Board::checkPiece(int x, int y, bool isWhite) {
 	return NULL;
 }
 
-// checks if a move is legal and plays it (Denzell Mgbokwere)
-int Board::movePiece(int x_1, int y_1, int x_2, int y_2, bool isWhite){
+// checks if a move is valid(<=0) or invalid(>0) (Denzell Mgbokwere)
+int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 	Pawn* selected = checkPiece(x_1, y_1, isWhite);
 	Pawn* target = checkPiece(x_2, y_2, !isWhite);
-	switch (canMove(x_1, y_1, x_2, y_2, isWhite)) {
+	bool sameColour = false;
+	if (!target) {
+		Pawn* target = checkPiece(x_2, y_2, isWhite);
+		sameColour = true;
+	}
+
+	if (!selected) {//no piece was selected
+		return 3;
+	}
+
+	if (x_1 == x_2) {//checks if there are any pieces between the start and destination
+		for (int i = min(y_1, y_2) + 1; i < max(y_1, y_2); ++i) {
+			Pawn* test = checkPiece(x_1, i, true);
+			if (!test)
+				test = checkPiece(x_1, i, false);
+			if (test) {
+				return 1;
+			}
+		}
+	}
+
+	if (!target) {//a piece was selected and no piece on target(move)
+		if (isWhite){
+			target = checkPiece(x_2, y_2 - 1, !isWhite);
+		}
+		else{
+			target = checkPiece(x_2, y_2 + 1, !isWhite);
+		}
+		if (target && target->m_hasHopped){
+			return -1;
+		}
+		int test = selected->checkMove(x_2, y_2);
+		if (test == -2)
+			test = 0;
+		return test;
+	}
+
+	if (target && !sameColour) {//a piece was selected and a piece of the opposite colour is on the target(take)
+		int test = selected->checkTake(x_2, y_2);
+		if (test > 0) {
+			return test;
+		}
+		return test;
+	}
+
+	//a friendly piece was on the destination square
+	return 1;
+}
+
+// plays a move after checking if it is valid (Denzell Mgbokwere)
+int Board::makeMove(int x_1, int y_1, int x_2, int y_2, bool isWhite){
+	Pawn* selected = checkPiece(x_1, y_1, isWhite);
+	Pawn* target = checkPiece(x_2, y_2, !isWhite);
+	switch (checkMove(x_1, y_1, x_2, y_2, isWhite)) {
 	case(-1):
+		removeHopped(isWhite);
 		selected->makeTake(x_2, y_2);
+		if (!target){
+			if (isWhite) {
+				target = checkPiece(x_2, y_2 - 1, !isWhite);
+			}
+			else {
+				target = checkPiece(x_2, y_2 + 1, !isWhite);
+			}
+		}
 		target->toTheShadowRealm();
 		target->setTaken();
 		return 0;
 	case(0):
+		removeHopped(isWhite);
 		selected->makeMove(x_2, y_2);
 		return 0;
 	case(1):
@@ -63,6 +117,25 @@ int Board::movePiece(int x_1, int y_1, int x_2, int y_2, bool isWhite){
 		return 3;
 	default:
 		return 99;
+	}
+}
+//removes the hopped status on the beginning of a move
+void Board::removeHopped(bool isWhite) {
+	if (isWhite) {
+		for (int i = 0; i < 8; ++i) {
+			if (m_pawnW[i].m_hasHopped) {
+				m_pawnW[i].m_hasHopped = false;
+				return;
+			}
+		}
+	}
+	else{
+		for (int i = 0; i < 8; ++i) {
+			if (m_pawnB[i].m_hasHopped) {
+				m_pawnB[i].m_hasHopped = false;
+				return;
+			}
+		}
 	}
 }
 
@@ -84,7 +157,6 @@ void Board::print() {
 	std::cout << " -----------------\n\t" << "  1 2 3 4 5 6 7 8 \n\n";
 }
 
-
 int Board::countWhitePawns() {
 	int count = 0;
 	for (int i = 0; i < 8; ++i)
@@ -103,43 +175,12 @@ int Board::countBlackPawns() {
 	return count;
 }
 
-// checks if a move is legal and plays it (Denzell Mgbokwere)
-int Board::canMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
-	Pawn* selected = checkPiece(x_1, y_1, isWhite);
-	Pawn* target = checkPiece(x_2, y_2, !isWhite);
-	bool sameColour = false;
-	if (!target) {
-		Pawn* target = checkPiece(x_2, y_2, isWhite);
-		sameColour = true;
-	}
-
-	if (!selected) {
-		return 3;
-	}
-
-	if (x_1 == x_2) {
-		for (int i = min(y_1, y_2) + 1; i < max(y_1, y_2); ++i) {
-			Pawn* test = checkPiece(x_1, i, true);
-			if (!test)
-				test = checkPiece(x_1, i, false);
-			if (test) {
-				return 1;
-			}
-		}
-	}
-
-	if (selected && !target) {
-		int test = selected->checkMove(x_2, y_2);
-		return test;
-	}
-
-	if (selected && target && !sameColour) {
-		int test = selected->checkTake(x_2, y_2);
-		if (test > 0) {
-			return test;
-		}
-		return test;
-	}
-	return 1;
+//returns all white pawns(Denzell Mgbokwere)
+Pawn* Board::getPawnW() {
+	return m_pawnW;
 }
 
+//returns all black pawns(Denzell Mgbokwere)
+Pawn* Board::getPawnB() {
+	return m_pawnB;
+}

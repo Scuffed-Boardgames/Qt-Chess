@@ -28,10 +28,10 @@ void Game::checkEnd() { // Checks if end conditions have been met
 
 int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) { // Moves a piece from x1y1 to x2y2
 	if (m_turn % 2 == 0) {
-		return m_board.movePiece(x1, y1, x2, y2, true);
+		return m_board.makeMove(x1, y1, x2, y2, true);
 	}
 	else {
-		return m_board.movePiece(x1, y1, x2, y2, false);
+		return m_board.makeMove(x1, y1, x2, y2, false);
 	}
 }
 
@@ -97,7 +97,7 @@ bool Game::canMove(bool isWhite) {
 		for (int i = 0; i < 8; ++i) {
 			for (int j = 1; j <= 8; ++j) {
 				for (int k = 1; k <= 8; ++k) {
-					if (m_board.canMove(pawns[i].getX(), pawns[i].getY(), j, k, true) == 0)
+					if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, true) == 0)
 						return true;
 				}
 			}
@@ -108,7 +108,7 @@ bool Game::canMove(bool isWhite) {
 		for (int i = 0; i < 8; ++i) {
 			for (int j = 1; j <= 8; ++j) {
 				for (int k = 1; k <= 8; ++k) {
-					if (m_board.canMove(pawns[i].getX(), pawns[i].getY(), j, k, false) == 0)
+					if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, false) == 0)
 						return true;
 				}
 			}
