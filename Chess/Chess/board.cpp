@@ -1,6 +1,8 @@
-// written by Bernd Uijtdebroeks except for take pawn
 #include "board.h"
 #include <iostream>
+
+#define WHITE true
+#define BLACK false
 
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
@@ -8,9 +10,9 @@
 // Default constructor for the Board class (Bernd Uijtdebroeks)
 Board::Board() {
 	for (int i = 0; i < 8; ++i) {
-		Pawn wPawn((i + 1), 2, true); //Fills array with pawns on line 2 for white
+		Pawn wPawn((i + 1), 2, WHITE); //Fills array with pawns on line 2 for white
 		m_pawnW[i] = wPawn;
-		Pawn bPawn((i + 1), 7, false); //Fills array with pawns on line 7 for black
+		Pawn bPawn((i + 1), 7, BLACK); //Fills array with pawns on line 7 for black
 		m_pawnB[i] = bPawn;
 	}
 }
@@ -44,9 +46,9 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 	}
 	if (x_1 == x_2) {//checks if there are any pieces between the start and destination
 		for (int i = min(y_1, y_2) + 1; i < max(y_1, y_2); ++i) {
-			Pawn* test = checkPiece(x_1, i, true);
+			Pawn* test = checkPiece(x_1, i, WHITE);
 			if (!test)
-				test = checkPiece(x_1, i, false);
+				test = checkPiece(x_1, i, BLACK);
 			if (test) {
 				return 1;
 			}
@@ -121,9 +123,9 @@ void Board::print() {
 		std::cout << " -----------------\n\t";
 		std::cout << i << "|";
 		for (int j = 1; j <= 8; ++j) {
-			if (checkPiece(j, i, true) != NULL)
+			if (checkPiece(j, i, WHITE) != NULL)
 				std::cout << "W|";
-			else if (checkPiece(j, i, false) != NULL)
+			else if (checkPiece(j, i, BLACK) != NULL)
 				std::cout << "B|";
 			else
 				std::cout << " |";
@@ -171,10 +173,11 @@ void Board::removeHopped(bool isWhite) {
 	}
 }
 
-Pawn* Board::getPawnW() {
-	return m_pawnW;
-}
-
-Pawn* Board::getPawnB() {
-	return m_pawnB;
+Pawn* Board::getPawn(bool isWhite){
+	if (isWhite) {
+		return m_pawnW;
+	}
+	else{
+		return m_pawnB;
+	}
 }

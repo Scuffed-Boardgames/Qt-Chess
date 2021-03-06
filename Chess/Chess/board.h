@@ -14,8 +14,7 @@ public:
 	int countWhitePawns();
 	int countBlackPawns();
 	void removeHopped(bool isWhite);
-	Pawn* getPawnW();
-	Pawn* getPawnB();
+	Pawn* getPawn(bool isWhite);
 
 private:
 	Pawn m_pawnW[8];

@@ -2,6 +2,9 @@
 #include "game.h"
 #include <iostream>
 
+#define WHITE true
+#define BLACK false
+
 Game::Game() { // Creates a game based on which player has to be 
 	Player player1{ true };
 	Player player2{ false };
@@ -15,57 +18,53 @@ Game::Game() { // Creates a game based on which player has to be
 
 int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) { // Moves a piece from x1y1 to x2y2
 	if (m_turn % 2 == 0) {
-		return m_board.makeMove(x1, y1, x2, y2, true);
+		return m_board.makeMove(x1, y1, x2, y2, WHITE);
 	}
 	else {
-		return m_board.makeMove(x1, y1, x2, y2, false);
+		return m_board.makeMove(x1, y1, x2, y2, BLACK);
 	}
 }
 
 void Game::checkEnd() { // Checks if end conditions have been met
 	for (int i = 1; i <= 8; ++i) {
-		if (m_board.checkPiece(i, 8, true) != NULL || !(canMove(false))) {
-			declareWinner(true);
+		if (m_board.checkPiece(i, 8, true) != NULL) {
+			declareWinner(WHITE);
 			declareVictory();
 			m_hasEnded = true;
 			return;
 		}
-		else if (m_board.checkPiece(i, 1, false) != NULL || !(canMove(true))) {
-			declareWinner(false);
+		else if (m_board.checkPiece(i, 1, false) != NULL) {
+			declareWinner(BLACK);
 			declareVictory();
 			m_hasEnded = true;
 			return;
 		}
+	}
+	if(!canMove(BLACK)){
+		declareWinner(WHITE);
+		declareVictory();
+		m_hasEnded = true;
+		return;
+	}
+	else if(!canMove(WHITE)) {
+		declareWinner(BLACK);
+		declareVictory();
+		m_hasEnded = true;
+		return;
 	}
 }
 
 
 bool Game::canMove(bool isWhite) {
-	if (isWhite) {
-		Pawn* pawns = m_board.getPawnW();
-		for (int i = 0; i < 8; ++i) {
-			if (!pawns[i].isTaken()) {
-				for (int j = 1; j <= 8; ++j) {
-					for (int k = 1; k <= 8; ++k) {
-						if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, true) == 0)
-							return true;
+	Pawn* pawns = m_board.getPawn(isWhite);
+	for (int i = 0; i < 8; ++i) {
+		if (!pawns[i].isTaken()) {
+			for (int j = 1; j <= 8; ++j) {
+				for (int k = 1; k <= 8; ++k) {
+					if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, isWhite) == 0)
+						return true;
 
-					}
-				}
-			}
-		}
-	}
-	else {
-		Pawn* pawns = m_board.getPawnB();
-		for (int i = 0; i < 8; ++i) {
-			if (!pawns[i].isTaken()) {
-				for (int j = 1; j <= 8; ++j) {
-					for (int k = 1; k <= 8; ++k) {
-						if (!pawns[i].isTaken()) {
-							if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, false) == 0)
-								return true;
-						}
-					}
+
 				}
 			}
 		}
