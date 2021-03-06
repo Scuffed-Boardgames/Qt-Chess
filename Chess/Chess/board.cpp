@@ -146,19 +146,19 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, bool isWhite){
 void Board::print() {
 	std::cout << "\t";
 	for (int i = 8; i >= 1; --i) {
-		std::cout << " -----------------\n\t";
+		std::cout << " ---------------------------------\n\t";
 		std::cout << i << "|";
 		for (int j = 1; j <= 8; ++j) {
 			if (m_tiles[j][i].hasPieceSame(WHITE))
-				std::cout << "W|";
+				std::cout << " W |";
 			else if (m_tiles[j][i].hasPieceSame(BLACK))
-				std::cout << "B|";
+				std::cout << " B |";
 			else
-				std::cout << " |";
+				std::cout << "   |";
 		}
 		std::cout << "\n\t";
 	}
-	std::cout << " -----------------\n\t" << "  1 2 3 4 5 6 7 8 \n\n";
+	std::cout << " ---------------------------------\n\t" << "   1   2   3   4   5   6   7   8 \n\n";
 }
 
 int Board::countWhitePawns() {
