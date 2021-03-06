@@ -30,7 +30,7 @@ int Pawn::checkMove(int x, int y) {
 		if (m_x == x && m_y + 1 == y) {
 			return 0;
 		}
-		else if (m_x == x && m_y + 2 == y && m_hasMoved == false) {
+		else if (m_x == x && m_y + 2 == y && !m_hasMoved) {
 			return -2;
 		}
 	}
@@ -38,7 +38,7 @@ int Pawn::checkMove(int x, int y) {
 		if (m_x == x && m_y - 1 == y) {
 			return 0;
 		}
-		else if (m_x == x && m_y - 2 == y && m_hasMoved == false) {
+		else if (m_x == x && m_y - 2 == y && !m_hasMoved) {
 			return -2;
 		}
 	}

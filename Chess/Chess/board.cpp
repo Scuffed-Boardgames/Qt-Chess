@@ -45,15 +45,8 @@ Pawn* Board::checkPiece(int x, int y, bool isWhite) {
 
 // checks if a move is valid(<=0) or invalid(>0) (Denzell Mgbokwere)
 int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
+
 	Pawn* target = NULL;
-
-//	Pawn* target = checkPiece(x_2, y_2, !isWhite);
-//	bool sameColour = false;
-//	if (!target) {
-//		target = checkPiece(x_2, y_2, isWhite);
-//		sameColour = true;
-//	}
-
 	if (!m_tiles[x_1][y_1].m_hasPiece) {//no piece was selected
 		return 3;
 	}
@@ -73,12 +66,12 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 
 	if (!m_tiles[x_2][y_2].m_hasPiece){//a piece was selected and no piece on target(move)
 		if (isWhite){
-			if (m_tiles[x_2][y_2 - 1].m_hasPiece) {
+			if (m_tiles[x_2][y_2 - 1].hasPieceOpp(isWhite)){
 				target = checkPiece(x_2, y_2 - 1, !isWhite);
 			}
 		}
 		else{
-			if (m_tiles[x_2][y_2 + 1].m_hasPiece) {
+			if (m_tiles[x_2][y_2 + 1].hasPieceOpp(isWhite)) {
 				target = checkPiece(x_2, y_2 + 1, !isWhite);
 			}
 		}
@@ -93,9 +86,6 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 
 	if (m_tiles[x_2][y_2].hasPieceOpp(isWhite)) {//a piece was selected and a piece of the opposite colour is on the target(take)
 		int test = selected->checkTake(x_2, y_2);
-		if (test > 0) {
-			return test;
-		}
 		return test;
 	}
 	//a friendly piece was on the destination square
@@ -104,7 +94,9 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 
 // plays a move after checking if it is valid (Denzell Mgbokwere)
 int Board::makeMove(int x_1, int y_1, int x_2, int y_2, bool isWhite){
-	Pawn* selected = checkPiece(x_1, y_1, isWhite);
+	Pawn* selected = NULL;
+	if (m_tiles[x_1][y_1].hasPieceSame(isWhite))
+		selected = checkPiece(x_1, y_1, isWhite);
 	Pawn* target = NULL;
 	if(m_tiles[x_2][y_2].hasPieceOpp(isWhite))
 		target = checkPiece(x_2, y_2, !isWhite);
@@ -116,9 +108,11 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, bool isWhite){
 		if (!target){
 			if(isWhite){
 				target = checkPiece(x_2, y_2 - 1, !isWhite);
+				m_tiles[x_2][y_2 - 1].movedOf();
 			}
 			else{
 				target = checkPiece(x_2, y_2 + 1, !isWhite);
+				m_tiles[x_2][y_2 + 1].movedOf();
 			}
 		}
 		target->toTheShadowRealm();
@@ -155,9 +149,9 @@ void Board::print() {
 		std::cout << " -----------------\n\t";
 		std::cout << i << "|";
 		for (int j = 1; j <= 8; ++j) {
-			if (checkPiece(j, i, WHITE) != NULL)
+			if (m_tiles[j][i].hasPieceSame(WHITE))
 				std::cout << "W|";
-			else if (checkPiece(j, i, BLACK) != NULL)
+			else if (m_tiles[j][i].hasPieceSame(BLACK))
 				std::cout << "B|";
 			else
 				std::cout << " |";
