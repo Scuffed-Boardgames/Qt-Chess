@@ -2,7 +2,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 #include "pawn.h"
-#include <array>
+#include "tile.h"
 
 class Board {
 public:
@@ -17,6 +17,8 @@ public:
 	Pawn* getPawn(bool isWhite);
 
 private:
+	// we only need an 8x8 matrix but now the coordinates overlap
+	Tile m_tiles[9][9];
 	Pawn m_pawnW[8];
 	Pawn m_pawnB[8];
 };

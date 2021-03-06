@@ -14,6 +14,17 @@ Board::Board() {
 		m_pawnW[i] = wPawn;
 		Pawn bPawn((i + 1), 7, BLACK); //Fills array with pawns on line 7 for black
 		m_pawnB[i] = bPawn;
+		Tile tileW(WHITE);
+		m_tiles[i+1][2] = tileW;
+		Tile tileB(BLACK);
+		m_tiles[i+1][7] = tileB;
+		Tile tile;
+		m_tiles[i+1][1] = tile;
+		m_tiles[i+1][3] = tile;
+		m_tiles[i+1][4] = tile;
+		m_tiles[i+1][5] = tile;
+		m_tiles[i+1][6] = tile;
+		m_tiles[i+1][8] = tile;
 	}
 }
 
@@ -34,32 +45,42 @@ Pawn* Board::checkPiece(int x, int y, bool isWhite) {
 
 // checks if a move is valid(<=0) or invalid(>0) (Denzell Mgbokwere)
 int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
-	Pawn* selected = checkPiece(x_1, y_1, isWhite);
-	Pawn* target = checkPiece(x_2, y_2, !isWhite);
-	bool sameColour = false;
-	if (!target) {
-		target = checkPiece(x_2, y_2, isWhite);
-		sameColour = true;
-	}
-	if (!selected) {//no piece was selected
+	Pawn* target = NULL;
+
+//	Pawn* target = checkPiece(x_2, y_2, !isWhite);
+//	bool sameColour = false;
+//	if (!target) {
+//		target = checkPiece(x_2, y_2, isWhite);
+//		sameColour = true;
+//	}
+
+	if (!m_tiles[x_1][y_1].m_hasPiece) {//no piece was selected
 		return 3;
 	}
+	else if(m_tiles[x_1][y_1].hasPieceOpp(isWhite)){//a piece of the wrong colour was selected
+		return 4;
+	}
+
+	Pawn* selected = checkPiece(x_1, y_1, isWhite);
+
 	if (x_1 == x_2) {//checks if there are any pieces between the start and destination
 		for (int i = min(y_1, y_2) + 1; i < max(y_1, y_2); ++i) {
-			Pawn* test = checkPiece(x_1, i, WHITE);
-			if (!test)
-				test = checkPiece(x_1, i, BLACK);
-			if (test) {
+			if (m_tiles[x_1][i].m_hasPiece) {
 				return 1;
 			}
 		}
 	}
-	if (!target) {//a piece was selected and no piece on target(move)
+
+	if (!m_tiles[x_2][y_2].m_hasPiece){//a piece was selected and no piece on target(move)
 		if (isWhite){
-			target = checkPiece(x_2, y_2 - 1, !isWhite);
+			if (m_tiles[x_2][y_2 - 1].m_hasPiece) {
+				target = checkPiece(x_2, y_2 - 1, !isWhite);
+			}
 		}
 		else{
-			target = checkPiece(x_2, y_2 + 1, !isWhite);
+			if (m_tiles[x_2][y_2 + 1].m_hasPiece) {
+				target = checkPiece(x_2, y_2 + 1, !isWhite);
+			}
 		}
 		if (target && target->m_hasHopped){
 			return -1;
@@ -69,7 +90,8 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 			test = 0;
 		return test;
 	}
-	if (target && !sameColour) {//a piece was selected and a piece of the opposite colour is on the target(take)
+
+	if (m_tiles[x_2][y_2].hasPieceOpp(isWhite)) {//a piece was selected and a piece of the opposite colour is on the target(take)
 		int test = selected->checkTake(x_2, y_2);
 		if (test > 0) {
 			return test;
@@ -83,25 +105,32 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite) {
 // plays a move after checking if it is valid (Denzell Mgbokwere)
 int Board::makeMove(int x_1, int y_1, int x_2, int y_2, bool isWhite){
 	Pawn* selected = checkPiece(x_1, y_1, isWhite);
-	Pawn* target = checkPiece(x_2, y_2, !isWhite);
+	Pawn* target = NULL;
+	if(m_tiles[x_2][y_2].hasPieceOpp(isWhite))
+		target = checkPiece(x_2, y_2, !isWhite);
+
 	switch (checkMove(x_1, y_1, x_2, y_2, isWhite)) {
 	case(-1):
 		removeHopped(isWhite);
 		selected->makeTake(x_2, y_2);
 		if (!target){
-			if (isWhite) {
+			if(isWhite){
 				target = checkPiece(x_2, y_2 - 1, !isWhite);
 			}
-			else {
+			else{
 				target = checkPiece(x_2, y_2 + 1, !isWhite);
 			}
 		}
 		target->toTheShadowRealm();
 		target->setTaken();
+		m_tiles[x_1][y_1].movedOf();
+		m_tiles[x_2][y_2].movedOn(isWhite);
 		return 0;
 	case(0):
 		removeHopped(isWhite);
 		selected->makeMove(x_2, y_2);
+		m_tiles[x_1][y_1].movedOf();
+		m_tiles[x_2][y_2].movedOn(isWhite);
 		return 0;
 	case(1):
 		std::cout << "inserted move is illegal!\n";
@@ -112,6 +141,9 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, bool isWhite){
 	case(3):
 		std::cout << "selected piece doesn't exist\n";
 		return 3;
+	case(4):
+		std::cout << "selected doesn't belong to you\n";
+		return 4;
 	default:
 		return 99;
 	}

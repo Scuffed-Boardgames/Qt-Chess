@@ -145,6 +145,7 @@
     <ClInclude Include="pawn.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="position.h" />
+    <ClInclude Include="tile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ai.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="pawn.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="position.cpp" />
+    <ClCompile Include="tile.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
