@@ -142,7 +142,7 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, bool isWhite){
 		return 99;
 	}
 }
-
+// Prints the board (Bernd Uijtdebroeks)
 void Board::print() {
 	std::cout << "\t";
 	for (int i = 8; i >= 1; --i) {
@@ -161,25 +161,7 @@ void Board::print() {
 	std::cout << " ---------------------------------\n\t" << "   1   2   3   4   5   6   7   8 \n\n";
 }
 
-int Board::countWhitePawns() {
-	int count = 0;
-	for (int i = 0; i < 8; ++i)
-		if (!m_pawnW[i].isTaken()) {
-			count += 1;
-		}
-	return count;
-}
-
-int Board::countBlackPawns() {
-	int count = 0;
-	for (int i = 0; i < 8; ++i)
-		if (!m_pawnB[i].isTaken()) {
-			count += 1;
-		}
-	return count;
-}
-
-//removes the hopped status on the beginning of a move
+//removes the hopped status on the beginning of a move(Denzell Mgbokwere)
 void Board::removeHopped(bool isWhite) {
 	if (isWhite) {
 		for (int i = 0; i < 8; ++i) {
@@ -189,7 +171,7 @@ void Board::removeHopped(bool isWhite) {
 			}
 		}
 	}
-	else{
+	else {
 		for (int i = 0; i < 8; ++i) {
 			if (m_pawnB[i].m_hasHopped) {
 				m_pawnB[i].m_hasHopped = false;

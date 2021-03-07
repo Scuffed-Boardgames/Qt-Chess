@@ -1,3 +1,4 @@
+// Denzell Mgbokwere
 #ifndef AI_H
 #define AI_H
 #include "board.h"
@@ -13,9 +14,5 @@ private:
 	int movePiece(int chance);
 	bool m_isWhite;
 	Board* m_board;
-	
 };
-
-
 #endif 
-

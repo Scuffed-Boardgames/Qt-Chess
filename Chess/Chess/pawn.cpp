@@ -1,7 +1,8 @@
+// Denzell Mgbokwere
 #include "pawn.h"
 #include <iostream>
 
-// makes a pawn on given position and can be black or white (Denzell Mgbokwere)
+// makes a pawn on given position and can be black or white
 Pawn::Pawn(int x, int y, bool isWhite) {
 	m_x = x;
 	m_y = y;
@@ -10,7 +11,7 @@ Pawn::Pawn(int x, int y, bool isWhite) {
 	m_isTaken = false;
 	m_hasHopped = false;
 }
-// looks if the given coordinate is a value on the board (Denzell Mgbokwere)
+// looks if the given coordinate is a value on the board
 bool Pawn::checkBounds(int x, int y) {
 	if (x > 8 || y > 8) {
 		return false;
@@ -21,7 +22,7 @@ bool Pawn::checkBounds(int x, int y) {
 	return true;
 }
 
-// checks a move and returns if it is valid(0,-2) or invalid(>0) (Denzell Mgbokwere)
+// checks a move and returns if it is valid(0,-2) or invalid(>0)
 int Pawn::checkMove(int x, int y) {
 	if (!checkBounds(x, y))
 		return 2;
@@ -46,7 +47,7 @@ int Pawn::checkMove(int x, int y) {
 	return 1;
 }
 
-// checks a take move and returns if it is valid(-1) or invalid(>0) (Denzell Mgbokwere)
+// checks a take move and returns if it is valid(-1) or invalid(>0)
 int Pawn::checkTake(int x, int y) {
 	if (!checkBounds(x, y)) {
 		return 2;
@@ -64,7 +65,7 @@ int Pawn::checkTake(int x, int y) {
 	return 1;
 }
 
-//moves the pawn to the given destination if it is a valid move (Denzell Mgbokwere)
+//moves the pawn to the given destination if it is a valid move
 int Pawn::makeMove(int x, int y) {
 	switch (checkMove(x, y)){
 	case(-2):
@@ -89,7 +90,7 @@ int Pawn::makeMove(int x, int y) {
 	}
 }
 
-// checks if the take move is valid and executes it (Denzell Mgbokwere)
+// checks if the take move is valid and executes it 
 int Pawn::makeTake(int x, int y){
 	switch (checkTake(x, y)) {
 	case(-1):

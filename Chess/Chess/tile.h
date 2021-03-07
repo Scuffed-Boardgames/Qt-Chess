@@ -1,6 +1,6 @@
+// Denzell Mgbokwere
 #ifndef TILE_H
 #define TILE_H
-
 
 class Tile{
 public:
@@ -13,7 +13,5 @@ public:
 	bool m_hasPiece;
 	bool m_pieceIsWhite;
 private:
-	
 };
-
 #endif 

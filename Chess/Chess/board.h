@@ -11,8 +11,6 @@ public:
 	int checkMove(int x_1, int y_1, int x_2, int y_2, bool isWhite);
 	int makeMove(int x_1, int y_1, int x_2, int y_2, bool isWhite);
 	void print();
-	int countWhitePawns();
-	int countBlackPawns();
 	void removeHopped(bool isWhite);
 	Pawn* getPawn(bool isWhite);
 

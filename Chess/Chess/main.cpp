@@ -1,3 +1,4 @@
+// Bernd Uijtdebroeks
 #include "game.h"
 #include "ai.h"
 #include <iostream>

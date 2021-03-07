@@ -16,7 +16,7 @@ Game::Game() { // Creates a game based on which player has to be
 	m_hasEnded = false;
 }
 
-int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) { // Moves a piece from x1y1 to x2y2
+int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) { // Moves a piece from x1y1 to x2y2 (Bernd Uijtdebroeks)
 	if (m_turn % 2 == 0) {
 		return m_board.makeMove(x1, y1, x2, y2, WHITE);
 	}
@@ -25,7 +25,7 @@ int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) 
 	}
 }
 
-void Game::checkEnd() { // Checks if end conditions have been met
+void Game::checkEnd() { // Checks if end conditions have been met (Bernd Uijtdebroeks)
 	for (int i = 1; i <= 8; ++i) {
 		if (m_board.checkPiece(i, 8, true) != NULL) {
 			declareWinner(WHITE);
@@ -54,7 +54,7 @@ void Game::checkEnd() { // Checks if end conditions have been met
 	}
 }
 
-
+// Checks if the given player has a valid move (Denzell Mgbokwere)
 bool Game::canMove(bool isWhite) {
 	Pawn* pawns = m_board.getPawn(isWhite);
 	for (int i = 0; i < 8; ++i) {
@@ -63,8 +63,6 @@ bool Game::canMove(bool isWhite) {
 				for (int k = 1; k <= 8; ++k) {
 					if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, isWhite) == 0)
 						return true;
-
-
 				}
 			}
 		}
@@ -80,7 +78,7 @@ void Game::print() {
 	m_board.print();
 }
 
-void Game::declareVictory() { // Puts win message if white wins
+void Game::declareVictory() { // Puts win message if white wins (Bernd Uijtdebroeks)
 	if (m_player1.getWon()) {
 		std::cout << "#################################\n";
 		std::cout << "Player 1 won the game as White!!!\n";
