@@ -2,12 +2,10 @@
 #include "game.h"
 #include <iostream>
 
-#define WHITE true
-#define BLACK false
 
 Game::Game() { // Creates a game based on which player has to be 
-	Player player1{ true };
-	Player player2{ false };
+	Player player1{ Colour::white };
+	Player player2{ Colour::black };
 	m_player1 = player1;
 	m_player2 = player2;
 	Board board{};
@@ -18,36 +16,36 @@ Game::Game() { // Creates a game based on which player has to be
 
 int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) { // Moves a piece from x1y1 to x2y2 (Bernd Uijtdebroeks)
 	if (m_turn % 2 == 0) {
-		return m_board.makeMove(x1, y1, x2, y2, WHITE);
+		return m_board.makeMove(x1, y1, x2, y2, Colour::white);
 	}
 	else {
-		return m_board.makeMove(x1, y1, x2, y2, BLACK);
+		return m_board.makeMove(x1, y1, x2, y2, Colour::black);
 	}
 }
 
 void Game::checkEnd() { // Checks if end conditions have been met (Bernd Uijtdebroeks)
 	for (int i = 1; i <= 8; ++i) {
-		if (m_board.checkPiece(i, 8, true) != NULL) {
-			declareWinner(WHITE);
+		if (m_board.checkPiece(i, 8, Colour::white) != NULL) {
+			declareWinner(Colour::white);
 			declareVictory();
 			m_hasEnded = true;
 			return;
 		}
-		else if (m_board.checkPiece(i, 1, false) != NULL) {
-			declareWinner(BLACK);
+		else if (m_board.checkPiece(i, 1, Colour::black) != NULL) {
+			declareWinner(Colour::black);
 			declareVictory();
 			m_hasEnded = true;
 			return;
 		}
 	}
-	if(!canMove(BLACK)){
-		declareWinner(WHITE);
+	if(!canMove(Colour::black)){
+		declareWinner(Colour::white);
 		declareVictory();
 		m_hasEnded = true;
 		return;
 	}
-	else if(!canMove(WHITE)) {
-		declareWinner(BLACK);
+	else if(!canMove(Colour::white)) {
+		declareWinner(Colour::black);
 		declareVictory();
 		m_hasEnded = true;
 		return;
@@ -55,13 +53,13 @@ void Game::checkEnd() { // Checks if end conditions have been met (Bernd Uijtdeb
 }
 
 // Checks if the given player has a valid move (Denzell Mgbokwere)
-bool Game::canMove(bool isWhite) {
-	Pawn* pawns = m_board.getPawn(isWhite);
+bool Game::canMove(Colour colour) {
+	Pawn* pawns = m_board.getPawn(colour);
 	for (int i = 0; i < 8; ++i) {
 		if (!pawns[i].isTaken()) {
 			for (int j = 1; j <= 8; ++j) {
 				for (int k = 1; k <= 8; ++k) {
-					if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, isWhite) == 0)
+					if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, colour) == 0)
 						return true;
 				}
 			}
@@ -122,8 +120,8 @@ int Game::getTurn() {
 	return m_turn;
 }
 
-void Game::declareWinner(bool isWhite) {
-	if (isWhite)
+void Game::declareWinner(Colour colour) {
+	if (colour == Colour::white)
 		m_player1.giveWon();
 	else
 		m_player2.giveWon();

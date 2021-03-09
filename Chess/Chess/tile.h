@@ -2,16 +2,16 @@
 #ifndef TILE_H
 #define TILE_H
 
+#include "colour.h"
+
 class Tile{
 public:
 	Tile();
-	Tile(bool isWhite);
+	Tile(Colour colour);
 	void movedOf();
-	void movedOn(bool isWhite);
-	bool hasPieceSame(bool isWhite);
-	bool hasPieceOpp(bool isWhite);
-	bool m_hasPiece;
-	bool m_pieceIsWhite;
+	void movedOn(Colour colour);
+	bool hasPieceColour(Colour colour);
+	Colour m_colour;
 private:
 };
 #endif 

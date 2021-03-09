@@ -9,7 +9,7 @@ public:
 	Game();
 	int movePiece(const int& x1, const int& y1, const int& x2, const int& y2);
 	void checkEnd();
-	bool canMove(bool isWhite);
+	bool canMove(Colour colour);
 	void addTurn();
 	void print();
 	bool hasEnded();
@@ -17,7 +17,7 @@ public:
 	Board* giveBoard();
 	bool isAi(int player);
 	int getTurn();
-	void declareWinner(bool isWhite);
+	void declareWinner(Colour colour);
 
 private:
 	void declareVictory();

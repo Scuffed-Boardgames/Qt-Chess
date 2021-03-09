@@ -18,8 +18,8 @@ int game(){
 	int aiCount = 3;
 	std::cin >> aiCount;
 	mainGame.setAi(aiCount);
-	Ai aiW(true, mainGame.giveBoard());
-	Ai aiB(false, mainGame.giveBoard());
+	Ai aiW(Colour::white, mainGame.giveBoard());
+	Ai aiB(Colour::black, mainGame.giveBoard());
 	mainGame.print();
 	while (mainGame.hasEnded() == false) {
 		if (mainGame.isAi(mainGame.getTurn() % 2)) {

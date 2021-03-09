@@ -2,14 +2,14 @@
 #include "player.h"
 #include "board.h"
 
-Player::Player(bool isWhite) { //Player constructor per colour
-	m_isWhite = isWhite;
+Player::Player(Colour colour) { //Player constructor per colour
+	m_colour = colour;
 	m_hasWon = false;
 	m_isAi = false;
 }
 
 bool Player::isWhite() {
-	return m_isWhite;
+	return m_colour == Colour::white;
 }
 
 bool Player::getWon() { //Returns if the players has won or not

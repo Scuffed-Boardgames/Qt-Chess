@@ -141,10 +141,10 @@
   <ItemGroup>
     <ClInclude Include="ai.h" />
     <ClInclude Include="board.h" />
+    <ClInclude Include="colour.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="pawn.h" />
     <ClInclude Include="player.h" />
-    <ClInclude Include="position.h" />
     <ClInclude Include="tile.h" />
   </ItemGroup>
   <ItemGroup>
@@ -152,10 +152,8 @@
     <ClCompile Include="board.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Main2.cpp" />
     <ClCompile Include="pawn.cpp" />
     <ClCompile Include="player.cpp" />
-    <ClCompile Include="position.cpp" />
     <ClCompile Include="tile.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

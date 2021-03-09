@@ -3,10 +3,10 @@
 #include <iostream>
 
 // makes a pawn on given position and can be black or white
-Pawn::Pawn(int x, int y, bool isWhite) {
+Pawn::Pawn(int x, int y, Colour colour) {
 	m_x = x;
 	m_y = y;
-	m_isWhite = isWhite;
+	m_colour = colour;
 	m_hasMoved = false;
 	m_isTaken = false;
 	m_hasHopped = false;
@@ -27,7 +27,7 @@ int Pawn::checkMove(int x, int y) {
 	if (!checkBounds(x, y))
 		return 2;
 
-	if (m_isWhite) {
+	if (m_colour == Colour::white) {
 		if (m_x == x && m_y + 1 == y) {
 			return 0;
 		}
@@ -52,7 +52,7 @@ int Pawn::checkTake(int x, int y) {
 	if (!checkBounds(x, y)) {
 		return 2;
 	}
-	if (m_isWhite) {
+	if (m_colour == Colour::white) {
 		if ((m_x == x + 1 || m_x == x - 1) && m_y + 1 == y) {
 			return -1;
 		}
@@ -119,8 +119,8 @@ void Pawn::toTheShadowRealm(){
 	m_y = -1;
 }
 
-bool Pawn::isWhite(){
-	return m_isWhite;
+Colour Pawn::getColour(){
+	return m_colour;
 }
 
 int Pawn::getX(){

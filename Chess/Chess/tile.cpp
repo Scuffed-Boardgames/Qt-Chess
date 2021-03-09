@@ -2,34 +2,21 @@
 #include"tile.h"
 
 Tile::Tile() {
-	m_hasPiece = false;
-	m_pieceIsWhite = false;
+	m_colour = Colour::none;
 }
 
-Tile::Tile(bool isWhite) {
-	m_hasPiece = true;
-	m_pieceIsWhite = isWhite;
+Tile::Tile(Colour colour) {
+	m_colour = colour;
 }
 
 void Tile::movedOf(){
-	m_hasPiece = false;
+	m_colour = Colour::none;
 }
 
-void Tile::movedOn(bool isWhite) {
-	m_hasPiece = true;
-	m_pieceIsWhite = isWhite;
+void Tile::movedOn(Colour colour) {
+	m_colour = colour;
 }
 
-bool Tile::hasPieceSame(bool isWhite) {
-	if (!m_hasPiece) {
-		return false;
-	}
-	return m_pieceIsWhite == isWhite;
-}
-
-bool Tile::hasPieceOpp(bool isWhite) {
-	if (!m_hasPiece) {
-		return false;
-	}
-	return m_pieceIsWhite != isWhite;
+bool Tile::hasPieceColour(Colour colour) {
+	return m_colour == colour;
 }

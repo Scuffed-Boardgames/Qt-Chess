@@ -3,14 +3,11 @@
 #include <iostream>  
 #include "ai.h"
 
-//this causes black pieces to move down an white ones to go up
-#define COLOURMOVE(tf) ((tf)?(1):(-1))
-
 //returns the back row for black or white
 #define BACKROW(tf) ((tf)?(7):(2))
 
-Ai::Ai(bool isWhite, Board* board) {
-	m_isWhite = isWhite;
+Ai::Ai(Colour colour, Board* board) {
+	m_colour = colour;
 	m_board = board;
 }
 
@@ -30,12 +27,12 @@ int Ai::playMove() {
 
 //the ai checks if it can win this move (Denzell Mgbokwere)
 bool Ai::checkLastRow() {
-	Pawn* pawns = m_board->getPawn(m_isWhite);
+	Pawn* pawns = m_board->getPawn(m_colour);
 	for (int i = 0; i < 8; ++i) {
-		if (pawns[i].getY() == BACKROW(m_isWhite)){
-			int test = m_board->checkMove(pawns[i].getX(), pawns[i].getY(), pawns[i].getX(), pawns[i].getY() + 1 * COLOURMOVE(m_isWhite), m_isWhite);
+		if (pawns[i].getY() == (int)(4.5 + 2.5 * (int)m_colour)){
+			int test = m_board->checkMove(pawns[i].getX(), pawns[i].getY(), pawns[i].getX(), pawns[i].getY() + 1 * (int)m_colour, m_colour);
 			if (test == 0) {
-				m_board->makeMove(pawns[i].getX(), pawns[i].getY(), pawns[i].getX(), pawns[i].getY() + 1 * COLOURMOVE(m_isWhite), m_isWhite);
+				m_board->makeMove(pawns[i].getX(), pawns[i].getY(), pawns[i].getX(), pawns[i].getY() + 1 * (int)m_colour, m_colour);
 				return true;
 			}
 		}
@@ -46,28 +43,27 @@ bool Ai::checkLastRow() {
 
 // the ai checks if it can take another pawn (Denzell Mgbokwere)
 bool Ai::checkTake() {
-	Pawn* pawns = m_board->getPawn(m_isWhite);
+	Pawn* pawns = m_board->getPawn(m_colour);
 	for (int i = 0; i < 8; ++i) {
 		int x = pawns[i].getX();
 		int y = pawns[i].getY();
-		int test = m_board->checkMove(x, y, x + 1, y + 1 * COLOURMOVE(m_isWhite), m_isWhite);
+		int test = m_board->checkMove(x, y, x + 1, y + 1 * (int)m_colour, m_colour);
 		if (test <= 0) {
-			m_board->makeMove(x, y, x + 1, y + 1 * COLOURMOVE(m_isWhite), m_isWhite);
+			m_board->makeMove(x, y, x + 1, y + 1 * (int)m_colour, m_colour);
 			return true;
 		}
-		test = m_board->checkMove(x, y, x - 1, y + 1 * COLOURMOVE(m_isWhite), m_isWhite);
+		test = m_board->checkMove(x, y, x - 1, y + 1 * (int)m_colour, m_colour);
 		if (test <= 0) {
-			m_board->makeMove(x, y, x - 1, y + 1 * COLOURMOVE(m_isWhite), m_isWhite);
+			m_board->makeMove(x, y, x - 1, y + 1 * (int)m_colour, m_colour);
 			return true;
 		}
-
 	}
 	return false;
 }
 
 // if the ai cant do anything usefull it will move a random pawn (Denzell Mgbokwere)
 int Ai::movePiece(int chance) {
-	Pawn* pawns = m_board->getPawn(m_isWhite);
+	Pawn* pawns = m_board->getPawn(m_colour);
 	int c = 0;
 	while (true) {
 		int pawnNr = -1;
@@ -78,16 +74,16 @@ int Ai::movePiece(int chance) {
 			}
 		}
 		if (!(pawns[pawnNr].hasMoved()) && (chance > 3)) {
-			int test = m_board->checkMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 2 * COLOURMOVE(m_isWhite), m_isWhite);
+			int test = m_board->checkMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 2 * (int)m_colour, m_colour);
 			if (test <= 0) {
-				m_board->makeMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 2 * COLOURMOVE(m_isWhite), m_isWhite);
+				m_board->makeMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 2 * (int)m_colour, m_colour);
 				return 0;
 			}
 		}
 		else {
-			int test = m_board->checkMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 1 * COLOURMOVE(m_isWhite), m_isWhite);
+			int test = m_board->checkMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 1 * (int)m_colour, m_colour);
 			if (test <= 0) {
-				m_board->makeMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 1 * COLOURMOVE(m_isWhite), m_isWhite);
+				m_board->makeMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 1 * (int)m_colour, m_colour);
 				return 0;
 			}
 		}

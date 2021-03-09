@@ -2,10 +2,13 @@
 #ifndef PAWN_H
 #define PAWN_H
 
+#include "colour.h"
+
 class Pawn{
 public:
+
 	Pawn() = default;
-	Pawn(int x, int y, bool isWhite);
+	Pawn(int x, int y, Colour color);
 	int checkMove(int x, int y);
 	int checkTake(int x, int y);
 	int makeMove(int x, int y);
@@ -16,14 +19,15 @@ public:
 	int getY();
 	bool isTaken();
 	bool hasMoved();
-	bool isWhite();
+	Colour getColour();
+
 	bool m_hasHopped;
 
 private:
 	bool checkBounds(int x, int y);
 	int m_x;
 	int m_y;
-	bool m_isWhite;
+	Colour m_colour;
 	bool m_hasMoved;
 	bool m_isTaken;
 };

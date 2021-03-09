@@ -1,11 +1,11 @@
 //Bernd Uijtdebroeks
 #ifndef PLAYER_H
 #define PLAYER_H
-
+#include "colour.h"
 class Player {
 public:
 	Player() = default;
-	Player(bool isWhite);
+	Player(Colour colour);
 	bool isWhite();
 	bool getWon();
 	bool isAi();
@@ -14,7 +14,7 @@ public:
 
 private:
 	bool m_isAi;
-	bool m_isWhite;
+	Colour m_colour;
 	bool m_hasWon;
 };
 

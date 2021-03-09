@@ -19,12 +19,6 @@
     <ClCompile Include="player.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="position.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
-    <ClCompile Include="Main2.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
     <ClCompile Include="tile.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
@@ -45,10 +39,10 @@
     <ClInclude Include="player.h">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="position.h">
+    <ClInclude Include="tile.h">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="tile.h">
+    <ClInclude Include="colour.h">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>

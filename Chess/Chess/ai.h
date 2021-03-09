@@ -5,14 +5,14 @@
 
 class Ai{
 public:
-	Ai(bool isWhite, Board* board);
+	Ai(Colour colour, Board* board);
 	int playMove();
 
 private:
 	bool checkLastRow();
 	bool checkTake();
 	int movePiece(int chance);
-	bool m_isWhite;
+	Colour m_colour;
 	Board* m_board;
 };
 #endif 
