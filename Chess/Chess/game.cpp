@@ -3,13 +3,8 @@
 #include <iostream>
 
 
-Game::Game() { // Creates a game based on which player has to be 
-	Player m_player1{ Colour::white };
-	Player m_player2{ Colour::black };
-	Board m_board{};
-	m_turn = 0;
-	m_hasEnded = false;
-}
+Game::Game() : m_player1(Colour::white), m_player2(Colour::black), m_board(), m_turn(0), m_hasEnded(false) // Creates a game based on which player has to be 
+{}
 
 int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) { // Moves a piece from x1y1 to x2y2 (Bernd Uijtdebroeks)
 	if (m_turn % 2 == 0) {

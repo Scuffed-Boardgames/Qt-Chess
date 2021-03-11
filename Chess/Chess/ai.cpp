@@ -25,10 +25,15 @@ int Ai::playMove() {
 bool Ai::checkLastRow() {
 	Pawn* pawns = m_board->getPawn(m_colour);
 	for (int i = 0; i < 8; ++i) {
-		if (pawns[i].getY() == (int)(4.5 + 2.5 * (int)m_colour)){
-			int test = m_board->checkMove(pawns[i].getX(), pawns[i].getY(), pawns[i].getX(), pawns[i].getY() + 1 * (int)m_colour, m_colour);
+		int backRow = 2;
+		if (m_colour == Colour::white)
+			backRow = 7;
+		if (pawns[i].getY() == backRow){
+			int pawnX = pawns[i].getX();
+			int pawnY = pawns[i].getY();
+			int test = m_board->checkMove(pawnX, pawnY, pawnX, pawnY + (int)m_colour, m_colour);
 			if (test == 0) {
-				m_board->makeMove(pawns[i].getX(), pawns[i].getY(), pawns[i].getX(), pawns[i].getY() + 1 * (int)m_colour, m_colour);
+				m_board->makeMove(pawnX, pawnY, pawnX, pawnY + (int)m_colour, m_colour);
 				return true;
 			}
 		}
@@ -43,14 +48,14 @@ bool Ai::checkTake() {
 	for (int i = 0; i < 8; ++i) {
 		int x = pawns[i].getX();
 		int y = pawns[i].getY();
-		int test = m_board->checkMove(x, y, x + 1, y + 1 * (int)m_colour, m_colour);
+		int test = m_board->checkMove(x, y, x + 1, y + (int)m_colour, m_colour);
 		if (test <= 0) {
-			m_board->makeMove(x, y, x + 1, y + 1 * (int)m_colour, m_colour);
+			m_board->makeMove(x, y, x + 1, y + (int)m_colour, m_colour);
 			return true;
 		}
-		test = m_board->checkMove(x, y, x - 1, y + 1 * (int)m_colour, m_colour);
+		test = m_board->checkMove(x, y, x - 1, y + (int)m_colour, m_colour);
 		if (test <= 0) {
-			m_board->makeMove(x, y, x - 1, y + 1 * (int)m_colour, m_colour);
+			m_board->makeMove(x, y, x - 1, y + (int)m_colour, m_colour);
 			return true;
 		}
 	}
@@ -69,17 +74,19 @@ int Ai::movePiece(int chance) {
 				pawnNr = -1;
 			}
 		}
-		if (!(pawns[pawnNr].hasMoved()) && (chance > 3)) {
-			int test = m_board->checkMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 2 * (int)m_colour, m_colour);
+		int pawnX = pawns[pawnNr].getX();
+		int pawnY = pawns[pawnNr].getY();
+		if ((chance > 3) && !(pawns[pawnNr].hasMoved())) {
+			int test = m_board->checkMove(pawnX, pawnY, pawnX, pawnY + 2 * (int)m_colour, m_colour);
 			if (test <= 0) {
-				m_board->makeMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 2 * (int)m_colour, m_colour);
+				m_board->makeMove(pawnX, pawnY, pawnX, pawnY + 2 * (int)m_colour, m_colour);
 				return 0;
 			}
 		}
 		else {
-			int test = m_board->checkMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 1 * (int)m_colour, m_colour);
+			int test = m_board->checkMove(pawnX, pawnY, pawnX, pawnY + (int)m_colour, m_colour);
 			if (test <= 0) {
-				m_board->makeMove(pawns[pawnNr].getX(), pawns[pawnNr].getY(), pawns[pawnNr].getX(), pawns[pawnNr].getY() + 1 * (int)m_colour, m_colour);
+				m_board->makeMove(pawnX, pawnY, pawnX, pawnY + (int)m_colour, m_colour);
 				return 0;
 			}
 		}
