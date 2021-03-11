@@ -3,13 +3,12 @@
 #include <algorithm> 
 
 
-// Default constructor for the Board class (Bernd Uijtdebroeks)
 Board::Board() {
 	for (int i = 0; i < 8; ++i) {
 		Pawn wPawn((i + 1), 2, Colour::white); //Fills array with pawns on line 2 for white
-		m_pawnW[i] = wPawn;
+		m_pawnW.at(i) = wPawn;
 		Pawn bPawn((i + 1), 7, Colour::black); //Fills array with pawns on line 7 for black
-		m_pawnB[i] = bPawn;
+		m_pawnB.at(i) = bPawn;
 		Tile tileW(Colour::white);
 		m_tiles[i+1][2] = tileW;
 		Tile tileB(Colour::black);
@@ -24,23 +23,21 @@ Board::Board() {
 	}
 }
 
-// Checks if pawn is in given space, returns that pawn or NULL if space is empty or out of bounds (Bernd Uijtdebroeks)
 Pawn* Board::checkPiece(int x, int y, Colour colour) {
 	if (colour == Colour::white) { // Check for white->black
 		for (int i = 0; i < 8; ++i)
-			if (m_pawnW[i].getX() == x && m_pawnW[i].getY() == y)
-				return &m_pawnW[i];
+			if (m_pawnW.at(i).getX() == x && m_pawnW.at(i).getY() == y)
+				return &m_pawnW.at(i);
 
 	}
 	else { // Check for black->white
 		for (int i = 0; i < 8; ++i)
-			if (m_pawnB[i].getX() == x && m_pawnB[i].getY() == y)
-				return &m_pawnB[i];
+			if (m_pawnB.at(i).getX() == x && m_pawnB.at(i).getY() == y)
+				return &m_pawnB.at(i);
 	}
 	return NULL;
 }
 
-// checks if a move is valid(<=0) or invalid(>0) (Denzell Mgbokwere)
 int Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 
 	Pawn* target = NULL;
@@ -89,7 +86,6 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 	return 1;
 }
 
-// plays a move after checking if it is valid (Denzell Mgbokwere)
 int Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 	Pawn* selected = NULL;
 	if (m_tiles[x_1][y_1].hasPieceColour(colour))
@@ -139,7 +135,7 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 		return 99;
 	}
 }
-// Prints the board (Bernd Uijtdebroeks)
+
 void Board::print() {
 	std::cout << "\t";
 	for (int i = 8; i >= 1; --i) {
@@ -158,27 +154,26 @@ void Board::print() {
 	std::cout << " ---------------------------------\n\t" << "   1   2   3   4   5   6   7   8 \n\n";
 }
 
-//removes the hopped status on the beginning of a move(Denzell Mgbokwere)
 void Board::removeHopped(Colour colour) {
 	if (colour == Colour::white) {
 		for (int i = 0; i < 8; ++i) {
-			if (m_pawnW[i].m_hasHopped) {
-				m_pawnW[i].m_hasHopped = false;
+			if (m_pawnW.at(i).m_hasHopped) {
+				m_pawnW.at(i).m_hasHopped = false;
 				return;
 			}
 		}
 	}
 	else {
 		for (int i = 0; i < 8; ++i) {
-			if (m_pawnB[i].m_hasHopped) {
-				m_pawnB[i].m_hasHopped = false;
+			if (m_pawnB.at(i).m_hasHopped) {
+				m_pawnB.at(i).m_hasHopped = false;
 				return;
 			}
 		}
 	}
 }
 
-Pawn* Board::getPawn(Colour colour){
+std::vector<Pawn> Board::getPawn(Colour colour){
 	if (colour == Colour::white){
 		return m_pawnW;
 	}

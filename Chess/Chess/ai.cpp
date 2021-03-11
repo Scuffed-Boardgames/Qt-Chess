@@ -7,7 +7,6 @@
 Ai::Ai(Colour colour, Board* board) : m_colour{ colour }, m_board{ board }
 {}
 
-//the order in which the ai checks moves (Denzell Mgbokwere)
 int Ai::playMove() {
 	bool test = checkLastRow();
 	if (test)
@@ -21,7 +20,6 @@ int Ai::playMove() {
 	return 1;
 }
 
-//the ai checks if it can win this move (Denzell Mgbokwere)
 bool Ai::checkLastRow() {
 	Pawn* pawns = m_board->getPawn(m_colour);
 	for (int i = 0; i < 8; ++i) {
@@ -37,7 +35,6 @@ bool Ai::checkLastRow() {
 	return false;
 }
 
-// the ai checks if it can take another pawn (Denzell Mgbokwere)
 bool Ai::checkTake() {
 	Pawn* pawns = m_board->getPawn(m_colour);
 	for (int i = 0; i < 8; ++i) {
@@ -57,7 +54,6 @@ bool Ai::checkTake() {
 	return false;
 }
 
-// if the ai cant do anything usefull it will move a random pawn (Denzell Mgbokwere)
 int Ai::movePiece(int chance) {
 	Pawn* pawns = m_board->getPawn(m_colour);
 	int c = 0;

@@ -2,11 +2,9 @@
 #include "pawn.h"
 #include <iostream>
 
-// makes a pawn on given position and can be black or white
 Pawn::Pawn(int x, int y, Colour colour) : m_x(x), m_y(y), m_colour(colour), m_hasMoved(false), m_isTaken(false), m_hasHopped(false)
 {}
 
-// looks if the given coordinate is a value on the board
 bool Pawn::checkBounds(int x, int y) {
 	if (x > 8 || y > 8) {
 		return false;
@@ -17,7 +15,6 @@ bool Pawn::checkBounds(int x, int y) {
 	return true;
 }
 
-// checks a move and returns if it is valid(0,-2) or invalid(>0)
 int Pawn::checkMove(int x, int y) {
 	if (!checkBounds(x, y))
 		return 2;
@@ -42,7 +39,6 @@ int Pawn::checkMove(int x, int y) {
 	return 1;
 }
 
-// checks a take move and returns if it is valid(-1) or invalid(>0)
 int Pawn::checkTake(int x, int y) {
 	if (!checkBounds(x, y)) {
 		return 2;
@@ -60,7 +56,6 @@ int Pawn::checkTake(int x, int y) {
 	return 1;
 }
 
-//moves the pawn to the given destination if it is a valid move
 int Pawn::makeMove(int x, int y) {
 	switch (checkMove(x, y)){
 	case(-2):
@@ -85,7 +80,6 @@ int Pawn::makeMove(int x, int y) {
 	}
 }
 
-// checks if the take move is valid and executes it 
 int Pawn::makeTake(int x, int y){
 	switch (checkTake(x, y)) {
 	case(-1):
@@ -108,7 +102,6 @@ void Pawn::setTaken() {
 	m_isTaken = true;
 }
 
-//moves a pawn to -1 -1 where it wont be found
 void Pawn::toTheShadowRealm(){
 	m_x = -1;
 	m_y = -1;

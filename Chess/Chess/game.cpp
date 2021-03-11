@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-Game::Game() { // Creates a game based on which player has to be 
+Game::Game() {
 	Player m_player1{ Colour::white };
 	Player m_player2{ Colour::black };
 	Board m_board{};
@@ -11,7 +11,7 @@ Game::Game() { // Creates a game based on which player has to be
 	m_hasEnded = false;
 }
 
-int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) { // Moves a piece from x1y1 to x2y2 (Bernd Uijtdebroeks)
+int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) {
 	if (m_turn % 2 == 0) {
 		return m_board.makeMove(x1, y1, x2, y2, Colour::white);
 	}
@@ -20,7 +20,7 @@ int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) 
 	}
 }
 
-void Game::checkEnd() { // Checks if end conditions have been met (Bernd Uijtdebroeks)
+void Game::checkEnd() {
 	for (int i = 1; i <= 8; ++i) {
 		if (m_board.checkPiece(i, 8, Colour::white) != NULL) {
 			declareWinner(Colour::white);
@@ -49,7 +49,6 @@ void Game::checkEnd() { // Checks if end conditions have been met (Bernd Uijtdeb
 	}
 }
 
-// Checks if the given player has a valid move (Denzell Mgbokwere)
 bool Game::canMove(Colour colour) {
 	Pawn* pawns = m_board.getPawn(colour);
 	for (int i = 0; i < 8; ++i) {
@@ -73,7 +72,7 @@ void Game::print() {
 	m_board.print();
 }
 
-void Game::declareVictory() { // Puts win message if white wins (Bernd Uijtdebroeks)
+void Game::declareVictory() {
 	if (m_player1.getWon()) {
 		std::cout << "#################################\n";
 		std::cout << "Player 1 won the game as White!!!\n";

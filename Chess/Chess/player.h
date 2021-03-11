@@ -5,11 +5,11 @@
 class Player {
 public:
 	Player() = default;
-	Player(Colour colour);
+	Player(Colour colour); //Player constructor per colour
 	bool isWhite();
-	bool getWon();
+	bool getWon(); //Returns if the players has won or not
 	bool isAi();
-	void giveWon();
+	void giveWon(); //Changes hasWon to true
 	void setAi();
 
 private:
