@@ -1,13 +1,11 @@
 //Denzell Mgbokwere
 #include"tile.h"
 
-Tile::Tile() {
-	m_colour = Colour::none;
-}
+Tile::Tile() : m_colour(Colour::none) 
+{}
 
-Tile::Tile(Colour colour) {
-	m_colour = colour;
-}
+Tile::Tile(Colour colour) : m_colour(colour) 
+{}
 
 void Tile::movedOf(){
 	m_colour = Colour::none;

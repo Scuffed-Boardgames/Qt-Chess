@@ -2,11 +2,8 @@
 #include "player.h"
 #include "board.h"
 
-Player::Player(Colour colour) { //Player constructor per colour
-	m_colour = colour;
-	m_hasWon = false;
-	m_isAi = false;
-}
+Player::Player(Colour colour) : m_colour(colour), m_hasWon(false), m_isAi(false) //Player constructor per colour
+{}
 
 bool Player::isWhite() {
 	return m_colour == Colour::white;

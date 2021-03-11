@@ -3,14 +3,9 @@
 #include <iostream>
 
 // makes a pawn on given position and can be black or white
-Pawn::Pawn(int x, int y, Colour colour) {
-	m_x = x;
-	m_y = y;
-	m_colour = colour;
-	m_hasMoved = false;
-	m_isTaken = false;
-	m_hasHopped = false;
-}
+Pawn::Pawn(int x, int y, Colour colour) : m_x(x), m_y(y), m_colour(colour), m_hasMoved(false), m_isTaken(false), m_hasHopped(false)
+{}
+
 // looks if the given coordinate is a value on the board
 bool Pawn::checkBounds(int x, int y) {
 	if (x > 8 || y > 8) {

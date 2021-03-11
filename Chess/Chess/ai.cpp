@@ -3,13 +3,9 @@
 #include <iostream>  
 #include "ai.h"
 
-//returns the back row for black or white
-#define BACKROW(tf) ((tf)?(7):(2))
 
-Ai::Ai(Colour colour, Board* board) {
-	m_colour = colour;
-	m_board = board;
-}
+Ai::Ai(Colour colour, Board* board) : m_colour{ colour }, m_board{ board }
+{}
 
 //the order in which the ai checks moves (Denzell Mgbokwere)
 int Ai::playMove() {

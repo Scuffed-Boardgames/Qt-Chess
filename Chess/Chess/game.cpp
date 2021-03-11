@@ -4,12 +4,9 @@
 
 
 Game::Game() { // Creates a game based on which player has to be 
-	Player player1{ Colour::white };
-	Player player2{ Colour::black };
-	m_player1 = player1;
-	m_player2 = player2;
-	Board board{};
-	m_board = board;
+	Player m_player1{ Colour::white };
+	Player m_player2{ Colour::black };
+	Board m_board{};
 	m_turn = 0;
 	m_hasEnded = false;
 }
