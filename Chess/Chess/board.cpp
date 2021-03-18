@@ -16,13 +16,6 @@ Board::Board() {
 		Tile tileB(&bPawn);
 		m_pieceB.push_back(bPawn);
 		m_tiles[i][6] = tileB;
-
-		m_tiles[i][0] = tile;
-		m_tiles[i][2] = tile;
-		m_tiles[i][3] = tile;
-		m_tiles[i][4] = tile;
-		m_tiles[i][5] = tile;
-		m_tiles[i][7] = tile;
 	}
 	Rook wLardax1(1, 1, Colour::white);
 	Rook wLardax2(8, 1, Colour::white);
@@ -30,16 +23,35 @@ Board::Board() {
 	Knight wHonse2(7, 1, Colour::white);
 	Bishop wRunner1(3, 1, Colour::white);
 	Bishop wRunner2(6, 1, Colour::white);
-	Queen freddie(4, 1, Colour::white);
-	Pawn aragorn(5, 1, Colour::white);
+	Queen wFreddie(4, 1, Colour::white);
+	Pawn wAragorn(5, 1, Colour::white);
 	m_pieceW.push_back(wLardax1);
 	m_pieceW.push_back(wLardax2);
 	m_pieceW.push_back(wHonse1);
 	m_pieceW.push_back(wHonse2);
 	m_pieceW.push_back(wRunner1);
 	m_pieceW.push_back(wRunner2);
-	m_pieceW.push_back(freddie);
-	m_pieceW.push_back(aragorn);
+	m_pieceW.push_back(wFreddie);
+	m_pieceW.push_back(wAragorn);
+
+	Rook bLardax1(1, 8, Colour::black);
+	Rook bLardax2(8, 8, Colour::black);
+	Knight bHonse1(2, 8, Colour::black);
+	Knight bHonse2(7, 8, Colour::black);
+	Bishop bRunner1(3, 8, Colour::black);
+	Bishop bRunner2(6, 8, Colour::black);
+	Queen bFreddie(4, 8, Colour::black);
+	Pawn bAragorn(5, 8, Colour::black);
+	m_pieceB.push_back(bLardax1);
+	m_pieceB.push_back(bLardax2);
+	m_pieceB.push_back(bHonse1);
+	m_pieceB.push_back(bHonse2);
+	m_pieceB.push_back(bRunner1);
+	m_pieceB.push_back(bRunner2);
+	m_pieceB.push_back(bFreddie);
+	m_pieceB.push_back(bAragorn);
+
+
 }
 
 Piece* Board::checkPiece(int x, int y, Colour colour) {
@@ -140,7 +152,7 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 
 void Board::print() {
 	std::cout << "\t";
-	for (int i = 8; i >= 1; --i) {
+	for (int i = 7; i >= 0; --i) {
 		std::cout << " ---------------------------------\n\t";
 		std::cout << i << "|";
 		for (int j = 0; j < 8; ++j) {

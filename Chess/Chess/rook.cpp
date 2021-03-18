@@ -8,6 +8,5 @@ int Rook::checkMove(int x2, int y2) {
 	int y1 = getY();
 	if ((x1 == x2 && y1 != y2) || (x1 != x2 && y1 == y2))
 		return 0;
-	else
-		return 1;
+	return 1;
 }

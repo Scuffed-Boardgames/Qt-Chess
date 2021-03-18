@@ -37,7 +37,7 @@ void Game::checkEnd() {
 }
 
 bool Game::canMove(Colour colour) {
-	std::vector<Pawn> pieces = m_board.getPieces(colour);
+	std::vector<Piece> pieces = m_board.getPieces(colour);
 	size_t len = pieces.size();
 	for (int i = 0; i < len; ++i) {
 		for (int j = 1; j <= 8; ++j) {
