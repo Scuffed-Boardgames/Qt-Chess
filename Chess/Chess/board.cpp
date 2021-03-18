@@ -118,8 +118,8 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 		if (target) {
 			deletePiece(target, oppColour(colour));
 		}
-		m_tiles[x_1][y_1].movedOf();
-		m_tiles[x_2][y_2].movedOn(selected);
+		m_tiles[x_1 - 1][y_1 - 1].movedOf();
+		m_tiles[x_2 - 1][y_2 - 1].movedOn(selected);
 		return 0;
 	case(1):
 		std::cout << "inserted move is illegal!\n";
@@ -143,7 +143,7 @@ void Board::print() {
 	for (int i = 8; i >= 1; --i) {
 		std::cout << " ---------------------------------\n\t";
 		std::cout << i << "|";
-		for (int j = 1; j <= 8; ++j) {
+		for (int j = 0; j < 8; ++j) {
 			if (m_tiles[j][i].hasPieceColour(Colour::white))
 				std::cout << " W |";
 			else if (m_tiles[j][i].hasPieceColour(Colour::black))
