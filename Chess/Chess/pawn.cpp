@@ -8,16 +8,17 @@ Pawn::Pawn(int x, int y, Colour colour) : Piece(x, y, colour), m_hasMoved(false)
 int Pawn::checkMove(int x, int y) {
 	if (Piece::checkMove(x, y) == 2)
 		return 2;
-
-	if (getX() == x && getY() + (int)getColour() == y) {
+	int pawnX = getX();
+	int pawnY = getY();
+	if (pawnX  == x && pawnY + (int)getColour() == y) {
 		return 0;
 	}
 
-	if ((getX() == x + 1 || getX() == x - 1) && getY() + (int)getColour() == y) {
+	if ((pawnX  == x + 1 || pawnX  == x - 1) && pawnY + (int)getColour() == y) {
 		return 0;
 	}
 
-	else if (getX()== x && getY() + 2 * (int)getColour() == y && !m_hasMoved) {
+	else if (pawnX == x && pawnY + 2 * (int)getColour() == y && !m_hasMoved) {
 		return -2;
 	}
 
