@@ -1,5 +1,6 @@
 #include "rook.h"
-
+Rook::Rook(int x, int y, Colour colour) : Piece(x, y, colour)
+{}
 int Rook::checkMove(int x2, int y2) {
 	if (Piece::checkMove(x2, y2) == 2)
 		return 2;
