@@ -19,10 +19,9 @@ public:
 	
 
 private:
-	// we only need an 8x8 matrix but now the coordinates overlap
 	int getNr(int x, int y, Colour colour); // gives the possition in the vector for a given colour and possition
 	void deletePiece(int target, Colour colour); //deletes a piece if it is taken
-	Tile m_tiles[9][9];
+	Tile m_tiles[8][8];
 	std::vector<Pawn> m_pawnW;
 	std::vector<Pawn> m_pawnB;
 

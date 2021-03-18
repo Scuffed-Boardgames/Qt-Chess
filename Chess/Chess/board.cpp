@@ -4,22 +4,23 @@
 
 
 Board::Board() {
+	Tile tileW(Colour::white);
+	Tile tileB(Colour::black);
+	Tile tile;
 	for (int i = 0; i < 8; ++i) {
 		Pawn wPawn((i + 1), 2, Colour::white); //Fills array with pawns on line 2 for white
+		m_tiles[i][1] = tileW;
 		m_pawnW.push_back(wPawn);
 		Pawn bPawn((i + 1), 7, Colour::black); //Fills array with pawns on line 7 for black
 		m_pawnB.push_back(bPawn);
-		Tile tileW(Colour::white);
-		m_tiles[i+1][2] = tileW;
-		Tile tileB(Colour::black);
-		m_tiles[i+1][7] = tileB;
-		Tile tile;
-		m_tiles[i+1][1] = tile;
-		m_tiles[i+1][3] = tile;
-		m_tiles[i+1][4] = tile;
-		m_tiles[i+1][5] = tile;
-		m_tiles[i+1][6] = tile;
-		m_tiles[i+1][8] = tile;
+		m_tiles[i][6] = tileB;
+	
+		m_tiles[i][0] = tile;
+		m_tiles[i][2] = tile;
+		m_tiles[i][3] = tile;
+		m_tiles[i][4] = tile;
+		m_tiles[i][5] = tile;
+		m_tiles[i][7] = tile;
 	}
 }
 
