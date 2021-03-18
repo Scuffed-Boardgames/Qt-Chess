@@ -1,20 +1,22 @@
 #include "board.h"
+
 #include <iostream>
 #include <algorithm> 
 
 
 Board::Board() {
-	Tile tileW(Colour::white);
-	Tile tileB(Colour::black);
 	Tile tile;
 	for (int i = 0; i < 8; ++i) {
 		Pawn wPawn((i + 1), 2, Colour::white); //Fills array with pawns on line 2 for white
+		Tile tileW(&wPawn);
 		m_tiles[i][1] = tileW;
-		m_pawnW.push_back(wPawn);
+		m_pieceW.push_back(wPawn);
+
 		Pawn bPawn((i + 1), 7, Colour::black); //Fills array with pawns on line 7 for black
-		m_pawnB.push_back(bPawn);
+		Tile tileB(&bPawn);
+		m_pieceB.push_back(bPawn);
 		m_tiles[i][6] = tileB;
-	
+
 		m_tiles[i][0] = tile;
 		m_tiles[i][2] = tile;
 		m_tiles[i][3] = tile;
@@ -22,97 +24,102 @@ Board::Board() {
 		m_tiles[i][5] = tile;
 		m_tiles[i][7] = tile;
 	}
+	Rook wLardax1(1, 1, Colour::white);
+	Rook wLardax2(8, 1, Colour::white);
+	Knight wHonse1(2, 1, Colour::white);
+	Knight wHonse2(7, 1, Colour::white);
+	Bishop wRunner1(3, 1, Colour::white);
+	Bishop wRunner2(6, 1, Colour::white);
+	Queen freddie(4, 1, Colour::white);
+	Pawn aragorn(5, 1, Colour::white);
+	m_pieceW.push_back(wLardax1);
+	m_pieceW.push_back(wLardax2);
+	m_pieceW.push_back(wHonse1);
+	m_pieceW.push_back(wHonse2);
+	m_pieceW.push_back(wRunner1);
+	m_pieceW.push_back(wRunner2);
+	m_pieceW.push_back(freddie);
+	m_pieceW.push_back(aragorn);
 }
 
-Pawn* Board::checkPiece(int x, int y, Colour colour) {
+Piece* Board::checkPiece(int x, int y, Colour colour) {
 	if (colour == Colour::white) { // Check for white->black
-		size_t len = m_pawnW.size();
+		size_t len = m_pieceW.size();
 		for (int i = 0; i < len; ++i)
-			if (m_pawnW.at(i).getX() == x && m_pawnW.at(i).getY() == y)
-				return &m_pawnW.at(i);
+			if (m_pieceW.at(i).getX() == x && m_pieceW.at(i).getY() == y)
+				return &m_pieceW.at(i);
 
 	}
 	else { // Check for black->white
-		size_t len= m_pawnB.size();
+		size_t len = m_pieceB.size();
 		for (int i = 0; i < len; ++i)
-			if (m_pawnB.at(i).getX() == x && m_pawnB.at(i).getY() == y)
-				return &m_pawnB.at(i);
+			if (m_pieceB.at(i).getX() == x && m_pieceB.at(i).getY() == y)
+				return &m_pieceB.at(i);
 	}
 	return NULL;
 }
 
-int Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
-	if (m_tiles[x_1][y_1].hasPieceColour(Colour::none)) //no piece was selected
-		return 3;
-	else if(!m_tiles[x_1][y_1].hasPieceColour(colour)) //a piece of the wrong Colour was selected
-		return 4;
-	Pawn* selected = checkPiece(x_1, y_1, colour);
-	if (x_1 == x_2) {//checks if there are any pieces between the start and destination
+bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
+	if (x_1 == x_2) {
 		for (int i = std::min(y_1, y_2) + 1; i < std::max(y_1, y_2); ++i) {
 			if (!m_tiles[x_1][i].hasPieceColour(Colour::none)) {
 				return 1;
 			}
 		}
 	}
-	Pawn* target = NULL;
-	if (m_tiles[x_2][y_2].hasPieceColour(Colour::none)){//a piece was selected and no piece on target(move)
-		if (colour == Colour::white){
-			if (m_tiles[x_2][y_2 - 1].hasPieceColour(oppColour(colour))){
-				target = checkPiece(x_2, y_2 - 1, oppColour(colour));
+
+	else if (y_1 == y_2) {
+		for (int i = std::min(y_1, y_2) + 1; i < std::max(y_1, y_2); ++i) {
+			if (!m_tiles[x_1][i].hasPieceColour(Colour::none)) {
+				return 1;
 			}
 		}
-		else{
-			if (m_tiles[x_2][y_2 + 1].hasPieceColour(oppColour(colour))){
-				target = checkPiece(x_2, y_2 + 1, oppColour(colour));
+	}
+
+	else if (abs(x_1 - x_2) == abs(y_1 - y_2)) {
+		if ((x_1 - x_2) == (y_1 - y_2)) {
+			for (int i =  1; i < abs(y_1 - y_2); ++i) {
+				if (!m_tiles[std::min(x_1, x_2) + i - 1][std::min(y_1, y_2) + i - 1].hasPieceColour(Colour::none)) {
+					return 1;
+				}
 			}
 		}
-		if (target && target->m_hasHopped){
-			return -1;
+		for (int i = 1; i < abs(y_1 - y_2); ++i){
+			if (!m_tiles[std::max(x_1, x_2) - i - 1][std::min(y_1, y_2) + i - 1].hasPieceColour(Colour::none)) {
+				return 1;
+			}
 		}
-		int test = selected->checkMove(x_2, y_2);
-		if (test == -2)
-			test = 0;
-		return test;
 	}
-	if (m_tiles[x_2][y_2].hasPieceColour(oppColour(colour))) {//a piece was selected and a piece of the opposite Colour is on the target(take)
-		int test = selected->checkTake(x_2, y_2);
+	return 0;
+}
+
+int Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
+	Piece* selected = m_tiles[x_1 - 1][y_1 - 1].getPiece();
+	Piece* target = m_tiles[x_2 - 1][y_2 - 1].getPiece();
+	if (!selected)
+		return 3;
+	if (selected->getColour() == oppColour(colour))
+		return 4;
+	if (target && target->getColour() == colour)
+		return 1;
+	int test = selected->checkMove(x_2, y_2);
+	if (test > 0)
 		return test;
-	}
-	//a friendly piece was on the destination square
-	return 1;
+	test = freePath(x_1, y_1, x_2, y_2);
+	return test;
 }
 
 int Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
-	Pawn* selected = NULL;
-	if (m_tiles[x_1][y_1].hasPieceColour(colour))
-		selected = checkPiece(x_1, y_1, colour);
-	int target = -1;
-	if(m_tiles[x_2][y_2].hasPieceColour(oppColour(colour)))
-		target = getNr(x_2, y_2, oppColour(colour));
-
+	Piece* selected = m_tiles[x_1 - 1][y_1 - 1].getPiece();
+	Piece* target = m_tiles[x_2 - 1][y_2 - 1].getPiece();
 	switch (checkMove(x_1, y_1, x_2, y_2, colour)) {
-	case(-1):
-		removeHopped(colour);
-		selected->makeTake(x_2, y_2);
-		if (target == -1){
-			if(colour == Colour::white){
-				target = getNr(x_2, y_2 - 1, oppColour(colour));
-				m_tiles[x_2][y_2 - 1].movedOf();
-			}
-			else{
-				target = getNr(x_2, y_2 + 1, oppColour(colour));
-				m_tiles[x_2][y_2 + 1].movedOf();
-			}
-		}
-		deletePiece(target, oppColour(colour));
-		m_tiles[x_1][y_1].movedOf();
-		m_tiles[x_2][y_2].movedOn(colour);
-		return 0;
 	case(0):
-		removeHopped(colour);
 		selected->makeMove(x_2, y_2);
+		if (target) {
+			deletePiece(target, oppColour(colour));
+		}
 		m_tiles[x_1][y_1].movedOf();
-		m_tiles[x_2][y_2].movedOn(colour);
+		m_tiles[x_2][y_2].movedOn(selected);
 		return 0;
 	case(1):
 		std::cout << "inserted move is illegal!\n";
@@ -150,32 +157,32 @@ void Board::print() {
 }
 
 void Board::removeHopped(Colour colour) {
-	if (colour == Colour::white) {
-		size_t len = m_pawnW.size();
-		for (int i = 0; i < len; ++i) {
-			if (m_pawnW.at(i).m_hasHopped) {
-				m_pawnW.at(i).m_hasHopped = false;
-				return;
-			}
-		}
-	}
-	else {
-		size_t len = m_pawnB.size();
-		for (int i = 0; i < len; ++i) {
-			if (m_pawnB.at(i).m_hasHopped) {
-				m_pawnB.at(i).m_hasHopped = false;
-				return;
-			}
-		}
-	}
+//	if (colour == Colour::white) {
+//		size_t len = m_pieceW.size();
+//		for (int i = 0; i < len; ++i) {
+//			if (m_pieceW.at(i).m_hasHopped) {
+//				m_pieceW.at(i).m_hasHopped = false;
+//				return;
+//			}
+//		}
+//	}
+//	else {
+//		size_t len = m_pieceB.size();
+//		for (int i = 0; i < len; ++i) {
+//			if (m_pieceB.at(i).m_hasHopped) {
+//				m_pieceB.at(i).m_hasHopped = false;
+//				return;
+//			}
+//		}
+//	}
 }
 
-std::vector<Pawn> Board::getPawn(Colour colour){
+std::vector<Piece> Board::getPieces(Colour colour){
 	if (colour == Colour::white){
-		return m_pawnW;
+		return m_pieceW;
 	}
 	else{
-		return m_pawnB;
+		return m_pieceB;
 	}
 }
 
@@ -188,26 +195,27 @@ Colour Board::oppColour(Colour colour) {
 }
 
 int Board::getNr(int x, int y, Colour colour) {
-	if (colour == Colour::white) { // Check for white->black
-		size_t len = m_pawnW.size();
+	if (colour == Colour::white) {
+		size_t len = m_pieceW.size();
 		for (int i = 0; i < len; ++i)
-			if (m_pawnW.at(i).getX() == x && m_pawnW.at(i).getY() == y)
+			if (m_pieceW.at(i).getX() == x && m_pieceW.at(i).getY() == y)
 				return i;
 	}
-	else { // Check for black->white
-		size_t len = m_pawnB.size();
+	else {
+		size_t len = m_pieceB.size();
 		for (int i = 0; i < len; ++i)
-			if (m_pawnB.at(i).getX() == x && m_pawnB.at(i).getY() == y)
+			if (m_pieceB.at(i).getX() == x && m_pieceB.at(i).getY() == y)
 				return i;
 	}
 	return -1;
 }
 
-void Board::deletePiece(int target, Colour colour) {
+void Board::deletePiece(Piece* target, Colour colour) {
+	int nr = getNr(target->getX(), target->getY(), target->getColour());
 	if (colour == Colour::white) {
-		m_pawnW.erase(m_pawnW.begin() + target);
+		m_pieceW.erase(m_pieceW.begin() + nr);
 	}
 	else{
-		m_pawnB.erase(m_pawnB.begin() + target);
+		m_pieceB.erase(m_pieceB.begin() + nr);
 	}
 }
