@@ -236,7 +236,7 @@ int Board::getNr(int x, int y, Colour colour) {
 }
 
 void Board::deletePiece(int x,int y, Colour colour) {
-	Piece* target = m_tiles[x][y].getPiece();
+	Piece* target = m_tiles[x - 1][y - 1].getPiece();
 	int nr = getNr(target->getX(), target->getY(), target->getColour());
 	if (colour == Colour::white) {
 		m_pieceW.erase(m_pieceW.begin() + nr);
