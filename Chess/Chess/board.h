@@ -16,12 +16,16 @@ public:
 	void removeHopped(Colour colour); // Removes the hopped status on the beginning of a move(Denzell Mgbokwere)
 	std::vector<Pawn> getPawn(Colour colour); // Gives back an array of pawns
 	Colour oppColour(Colour colour); // Gives back the opposite colour
+	
 
 private:
 	// we only need an 8x8 matrix but now the coordinates overlap
+	int getNr(int x, int y, Colour colour); // gives the possition in the vector for a given colour and possition
+	void deletePiece(int target, Colour colour); //deletes a piece if it is taken
 	Tile m_tiles[9][9];
 	std::vector<Pawn> m_pawnW;
 	std::vector<Pawn> m_pawnB;
+
 };
 
 #endif 

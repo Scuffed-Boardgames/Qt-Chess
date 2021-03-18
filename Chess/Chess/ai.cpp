@@ -21,14 +21,15 @@ int Ai::playMove() {
 }
 
 bool Ai::checkLastRow() {
-	Pawn* pawns = m_board->getPawn(m_colour);
-	for (int i = 0; i < 8; ++i) {
+	std::vector<Pawn> pawns = m_board->getPawn(m_colour);
+	size_t len = pawns.size();
+	for (int i = 0; i < len; ++i) {
 		int backRow = 2;
 		if (m_colour == Colour::white)
 			backRow = 7;
-		if (pawns[i].getY() == backRow){
-			int pawnX = pawns[i].getX();
-			int pawnY = pawns[i].getY();
+		if (pawns.at(i).getY() == backRow){
+			int pawnX = pawns.at(i).getX();
+			int pawnY = pawns.at(i).getY();
 			int test = m_board->checkMove(pawnX, pawnY, pawnX, pawnY + (int)m_colour, m_colour);
 			if (test == 0) {
 				m_board->makeMove(pawnX, pawnY, pawnX, pawnY + (int)m_colour, m_colour);
@@ -41,10 +42,11 @@ bool Ai::checkLastRow() {
 }
 
 bool Ai::checkTake() {
-	Pawn* pawns = m_board->getPawn(m_colour);
-	for (int i = 0; i < 8; ++i) {
-		int x = pawns[i].getX();
-		int y = pawns[i].getY();
+	std::vector<Pawn> pawns = m_board->getPawn(m_colour);
+	size_t len = pawns.size();
+	for (int i = 0; i < len; ++i) {
+		int x = pawns.at(i).getX();
+		int y = pawns.at(i).getY();
 		int test = m_board->checkMove(x, y, x + 1, y + (int)m_colour, m_colour);
 		if (test <= 0) {
 			m_board->makeMove(x, y, x + 1, y + (int)m_colour, m_colour);
@@ -60,19 +62,13 @@ bool Ai::checkTake() {
 }
 
 int Ai::movePiece(int chance) {
-	Pawn* pawns = m_board->getPawn(m_colour);
+	std::vector<Pawn> pawns = m_board->getPawn(m_colour);
 	int c = 0;
-	while (true) {
-		int pawnNr = -1;
-		while (pawnNr == -1) {
-			pawnNr = rand() % 8;
-			if (pawns[pawnNr].isTaken()) {
-				pawnNr = -1;
-			}
-		}
-		int pawnX = pawns[pawnNr].getX();
-		int pawnY = pawns[pawnNr].getY();
-		if ((chance > 3) && !(pawns[pawnNr].hasMoved())) {
+	while (true){
+		int pawnNr = rand() % pawns.size();
+		int pawnX = pawns.at(pawnNr).getX();
+		int pawnY = pawns.at(pawnNr).getY();
+		if ((chance > 3) && !(pawns.at(pawnNr).hasMoved())) {
 			int test = m_board->checkMove(pawnX, pawnY, pawnX, pawnY + 2 * (int)m_colour, m_colour);
 			if (test <= 0) {
 				m_board->makeMove(pawnX, pawnY, pawnX, pawnY + 2 * (int)m_colour, m_colour);

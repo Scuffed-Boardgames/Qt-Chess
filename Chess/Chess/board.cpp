@@ -6,9 +6,9 @@
 Board::Board() {
 	for (int i = 0; i < 8; ++i) {
 		Pawn wPawn((i + 1), 2, Colour::white); //Fills array with pawns on line 2 for white
-		m_pawnW.at(i) = wPawn;
+		m_pawnW.push_back(wPawn);
 		Pawn bPawn((i + 1), 7, Colour::black); //Fills array with pawns on line 7 for black
-		m_pawnB.at(i) = bPawn;
+		m_pawnB.push_back(bPawn);
 		Tile tileW(Colour::white);
 		m_tiles[i+1][2] = tileW;
 		Tile tileB(Colour::black);
@@ -25,13 +25,15 @@ Board::Board() {
 
 Pawn* Board::checkPiece(int x, int y, Colour colour) {
 	if (colour == Colour::white) { // Check for white->black
-		for (int i = 0; i < 8; ++i)
+		size_t len = m_pawnW.size();
+		for (int i = 0; i < len; ++i)
 			if (m_pawnW.at(i).getX() == x && m_pawnW.at(i).getY() == y)
 				return &m_pawnW.at(i);
 
 	}
 	else { // Check for black->white
-		for (int i = 0; i < 8; ++i)
+		size_t len= m_pawnB.size();
+		for (int i = 0; i < len; ++i)
 			if (m_pawnB.at(i).getX() == x && m_pawnB.at(i).getY() == y)
 				return &m_pawnB.at(i);
 	}
@@ -39,17 +41,11 @@ Pawn* Board::checkPiece(int x, int y, Colour colour) {
 }
 
 int Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
-
-	Pawn* target = NULL;
-	if (m_tiles[x_1][y_1].hasPieceColour(Colour::none)) {//no piece was selected
+	if (m_tiles[x_1][y_1].hasPieceColour(Colour::none)) //no piece was selected
 		return 3;
-	}
-	else if(!m_tiles[x_1][y_1].hasPieceColour(colour)){//a piece of the wrong Colour was selected
+	else if(!m_tiles[x_1][y_1].hasPieceColour(colour)) //a piece of the wrong Colour was selected
 		return 4;
-	}
-
 	Pawn* selected = checkPiece(x_1, y_1, colour);
-
 	if (x_1 == x_2) {//checks if there are any pieces between the start and destination
 		for (int i = std::min(y_1, y_2) + 1; i < std::max(y_1, y_2); ++i) {
 			if (!m_tiles[x_1][i].hasPieceColour(Colour::none)) {
@@ -57,7 +53,7 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 			}
 		}
 	}
-
+	Pawn* target = NULL;
 	if (m_tiles[x_2][y_2].hasPieceColour(Colour::none)){//a piece was selected and no piece on target(move)
 		if (colour == Colour::white){
 			if (m_tiles[x_2][y_2 - 1].hasPieceColour(oppColour(colour))){
@@ -77,7 +73,6 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 			test = 0;
 		return test;
 	}
-
 	if (m_tiles[x_2][y_2].hasPieceColour(oppColour(colour))) {//a piece was selected and a piece of the opposite Colour is on the target(take)
 		int test = selected->checkTake(x_2, y_2);
 		return test;
@@ -90,26 +85,25 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 	Pawn* selected = NULL;
 	if (m_tiles[x_1][y_1].hasPieceColour(colour))
 		selected = checkPiece(x_1, y_1, colour);
-	Pawn* target = NULL;
+	int target = -1;
 	if(m_tiles[x_2][y_2].hasPieceColour(oppColour(colour)))
-		target = checkPiece(x_2, y_2, oppColour(colour));
+		target = getNr(x_2, y_2, oppColour(colour));
 
 	switch (checkMove(x_1, y_1, x_2, y_2, colour)) {
 	case(-1):
 		removeHopped(colour);
 		selected->makeTake(x_2, y_2);
-		if (!target){
+		if (target == -1){
 			if(colour == Colour::white){
-				target = checkPiece(x_2, y_2 - 1, oppColour(colour));
+				target = getNr(x_2, y_2 - 1, oppColour(colour));
 				m_tiles[x_2][y_2 - 1].movedOf();
 			}
 			else{
-				target = checkPiece(x_2, y_2 + 1, oppColour(colour));
+				target = getNr(x_2, y_2 + 1, oppColour(colour));
 				m_tiles[x_2][y_2 + 1].movedOf();
 			}
 		}
-		target->toTheShadowRealm();
-		target->setTaken();
+		deletePiece(target, oppColour(colour));
 		m_tiles[x_1][y_1].movedOf();
 		m_tiles[x_2][y_2].movedOn(colour);
 		return 0;
@@ -156,7 +150,8 @@ void Board::print() {
 
 void Board::removeHopped(Colour colour) {
 	if (colour == Colour::white) {
-		for (int i = 0; i < 8; ++i) {
+		size_t len = m_pawnW.size();
+		for (int i = 0; i < len; ++i) {
 			if (m_pawnW.at(i).m_hasHopped) {
 				m_pawnW.at(i).m_hasHopped = false;
 				return;
@@ -164,7 +159,8 @@ void Board::removeHopped(Colour colour) {
 		}
 	}
 	else {
-		for (int i = 0; i < 8; ++i) {
+		size_t len = m_pawnB.size();
+		for (int i = 0; i < len; ++i) {
 			if (m_pawnB.at(i).m_hasHopped) {
 				m_pawnB.at(i).m_hasHopped = false;
 				return;
@@ -188,4 +184,29 @@ Colour Board::oppColour(Colour colour) {
 	if (colour == Colour::black)
 		return Colour::white;
 	return colour;
+}
+
+int Board::getNr(int x, int y, Colour colour) {
+	if (colour == Colour::white) { // Check for white->black
+		size_t len = m_pawnW.size();
+		for (int i = 0; i < len; ++i)
+			if (m_pawnW.at(i).getX() == x && m_pawnW.at(i).getY() == y)
+				return i;
+	}
+	else { // Check for black->white
+		size_t len = m_pawnB.size();
+		for (int i = 0; i < len; ++i)
+			if (m_pawnB.at(i).getX() == x && m_pawnB.at(i).getY() == y)
+				return i;
+	}
+	return -1;
+}
+
+void Board::deletePiece(int target, Colour colour) {
+	if (colour == Colour::white) {
+		m_pawnW.erase(m_pawnW.begin() + target);
+	}
+	else{
+		m_pawnB.erase(m_pawnB.begin() + target);
+	}
 }

@@ -7,16 +7,16 @@ int game();
 
 int main() {
 	srand((unsigned)time(NULL));
-	for (int i = 0; i < 1; ++i) {
+	for (int i = 0; i < 10; ++i) {
 		game();
 	}	
 }
 
 int game(){
 	Game mainGame{};
-	std::cout << "Do you want to add an AI?\n(no = 0, white = 1, black = 2)\n";
+//	std::cout << "Do you want to add an AI?\n(no = 0, white = 1, black = 2)\n";
 	int aiCount = 3;
-	std::cin >> aiCount;
+//	std::cin >> aiCount;
 	mainGame.setAi(aiCount);
 	Ai aiW(Colour::white, mainGame.giveBoard());
 	Ai aiB(Colour::black, mainGame.giveBoard());

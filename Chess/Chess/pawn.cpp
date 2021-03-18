@@ -2,7 +2,7 @@
 #include "pawn.h"
 #include <iostream>
 
-Pawn::Pawn(int x, int y, Colour colour) : m_x(x), m_y(y), m_colour(colour), m_hasMoved(false), m_isTaken(false), m_hasHopped(false)
+Pawn::Pawn(int x, int y, Colour colour) : m_x(x), m_y(y), m_colour(colour), m_hasMoved(false), m_hasHopped(false)
 {}
 
 bool Pawn::checkBounds(int x, int y) {
@@ -98,14 +98,6 @@ int Pawn::makeTake(int x, int y){
 	}
 }
 
-void Pawn::setTaken() {
-	m_isTaken = true;
-}
-
-void Pawn::toTheShadowRealm(){
-	m_x = -1;
-	m_y = -1;
-}
 
 Colour Pawn::getColour(){
 	return m_colour;
@@ -119,9 +111,6 @@ int Pawn::getY(){
 	return m_y;
 }
 
-bool Pawn::isTaken(){
-	return m_isTaken;
-}
 
 bool Pawn::hasMoved(){
 	return m_hasMoved;

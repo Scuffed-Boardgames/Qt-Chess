@@ -3,13 +3,8 @@
 #include <iostream>
 
 
-Game::Game() {
-	Player m_player1{ Colour::white };
-	Player m_player2{ Colour::black };
-	Board m_board{};
-	m_turn = 0;
-	m_hasEnded = false;
-}
+Game::Game() : m_player1(Colour::white), m_player2(Colour::white), m_board(), m_turn(0), m_hasEnded(false)
+{}
 
 int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) {
 	if (m_turn % 2 == 0) {
@@ -50,14 +45,13 @@ void Game::checkEnd() {
 }
 
 bool Game::canMove(Colour colour) {
-	Pawn* pawns = m_board.getPawn(colour);
-	for (int i = 0; i < 8; ++i) {
-		if (!pawns[i].isTaken()) {
-			for (int j = 1; j <= 8; ++j) {
-				for (int k = 1; k <= 8; ++k) {
-					if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, colour) == 0)
-						return true;
-				}
+	std::vector<Pawn> pawns = m_board.getPawn(colour);
+	size_t len = pawns.size();
+	for (int i = 0; i < len; ++i) {
+		for (int j = 1; j <= 8; ++j) {
+			for (int k = 1; k <= 8; ++k) {
+				if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, colour) == 0)
+					return true;
 			}
 		}
 	}
