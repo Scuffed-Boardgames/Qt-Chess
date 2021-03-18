@@ -88,7 +88,7 @@ bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 	if (x_1 == x_2) {
 		for (int i = std::min(y_1, y_2) + 1; i < std::max(y_1, y_2); ++i) {
 			if (!m_tiles[x_1][i].hasPieceColour(Colour::none)) {
-				return 1;
+				return false;
 			}
 		}
 	}
@@ -96,7 +96,7 @@ bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 	else if (y_1 == y_2) {
 		for (int i = std::min(x_1, x_2) + 1; i < std::max(x_1, x_2); ++i) {
 			if (!m_tiles[x_1][i].hasPieceColour(Colour::none)) {
-				return 1;
+				return false;
 			}
 		}
 	}
@@ -105,17 +105,17 @@ bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 		if ((x_1 - x_2) == (y_1 - y_2)) {
 			for (int i =  1; i < abs(y_1 - y_2); ++i) {
 				if (!m_tiles[std::min(x_1, x_2) + i - 1][std::min(y_1, y_2) + i - 1].hasPieceColour(Colour::none)) {
-					return 1;
+					return false;
 				}
 			}
 		}
 		for (int i = 1; i < abs(y_1 - y_2); ++i){
 			if (!m_tiles[std::max(x_1, x_2) - i - 1][std::min(y_1, y_2) + i - 1].hasPieceColour(Colour::none)) {
-				return 1;
+				return false;
 			}
 		}
 	}
-	return 0;
+	return true;
 }
 
 int Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
@@ -127,11 +127,15 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 		return 4;
 	if (target && target->getColour() == colour)
 		return 1;
-	int test = selected->checkMove(x_2, y_2);
-	if (test > 0)
-		return test;
-	test = freePath(x_1, y_1, x_2, y_2);
-	return test;
+	int legalMove = selected->checkMove(x_2, y_2);
+	if (legalMove > 0)
+		return legalMove;
+	bool clear = freePath(x_1, y_1, x_2, y_2);
+	if (!clear)
+		return 1;
+	if (legalMove == -1 && !target)
+		return 1;
+	return legalMove;
 }
 
 int Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
