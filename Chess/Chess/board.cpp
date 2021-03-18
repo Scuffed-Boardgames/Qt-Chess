@@ -166,19 +166,23 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 void Board::print() {
 	std::cout << "\t";
 	for (int i = 7; i >= 0; --i) {
-		std::cout << " ---------------------------------\n\t";
-		std::cout << i << "|";
+		std::cout << " -----------------------------------------\n\t";
+		std::cout << i+1 << "|";
 		for (int j = 0; j < 8; ++j) {
-			if (m_tiles[j][i].hasPieceColour(Colour::white))
-				std::cout << " W |";
-			else if (m_tiles[j][i].hasPieceColour(Colour::black))
-				std::cout << " B |";
+			if (m_tiles[j][i].hasPieceColour(Colour::white)) {
+				char name = m_tiles[j][i].getPiece()->getName();
+				std::cout << " " << name << "W |";
+			}
+			else if (m_tiles[j][i].hasPieceColour(Colour::black)) {
+				char name = m_tiles[j][i].getPiece()->getName();
+				std::cout << " " << name << "B |";
+			}
 			else
-				std::cout << "   |";
+				std::cout << "    |";
 		}
 		std::cout << "\n\t";
 	}
-	std::cout << " ---------------------------------\n\t" << "   1   2   3   4   5   6   7   8 \n\n";
+	std::cout << " -----------------------------------------\n\t" << "    1    2    3    4    5    6    7    8 \n\n";
 }
 
 //void Board::removeHopped(Colour colour) {

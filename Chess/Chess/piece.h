@@ -15,7 +15,7 @@ public:
 	int getX(); //getter for the x coordinate
 	int getY(); //getter for the y coordinate
 	Colour getColour(); //getter for colour
-
+	virtual char getName() = 0;
 	virtual int checkMove(int x, int y);
 
 private:

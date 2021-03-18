@@ -13,6 +13,8 @@ public:
 	
 	bool hasMoved(); //getter for the hasmoved bool
 
+	char getName();
+
 	bool m_hasHopped;
 
 private:

@@ -14,3 +14,7 @@ int Queen::checkMove(int x2, int y2) {
 		return 1;
 	return 0;
 }
+
+char Queen::getName() {
+	return 'Q';
+}

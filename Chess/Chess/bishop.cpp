@@ -11,3 +11,7 @@ int Bishop::checkMove(int x2, int y2) {
 		return 0;
 	return 1;
 }
+
+char Bishop::getName() {
+	return 'b';
+}

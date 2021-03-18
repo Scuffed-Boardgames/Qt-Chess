@@ -28,3 +28,7 @@ int Pawn::checkMove(int x, int y) {
 bool Pawn::hasMoved(){
 	return m_hasMoved;
 }
+
+char Pawn::getName() {
+	return 'p';
+}

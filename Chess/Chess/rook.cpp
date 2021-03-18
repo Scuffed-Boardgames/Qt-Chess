@@ -10,3 +10,7 @@ int Rook::checkMove(int x2, int y2) {
 		return 0;
 	return 1;
 }
+
+char Rook::getName() {
+	return 'R';
+}
