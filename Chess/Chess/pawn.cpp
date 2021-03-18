@@ -15,11 +15,11 @@ int Pawn::checkMove(int x, int y) {
 	}
 
 	if ((pawnX  == x + 1 || pawnX  == x - 1) && pawnY + (int)getColour() == y) {
-		return 0;
+		return -1;
 	}
 
 	else if (pawnX == x && pawnY + 2 * (int)getColour() == y && !m_hasMoved) {
-		return -2;
+		return 0;
 	}
 
 	return 1;
