@@ -25,6 +25,14 @@
     <ClCompile Include="piece.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="bishop.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="queen.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="rook.cpp" />
+    <ClCompile Include="knight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ai.h">
@@ -49,6 +57,18 @@
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="piece.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="bishop.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="rook.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="queen.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="knight.h">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>
