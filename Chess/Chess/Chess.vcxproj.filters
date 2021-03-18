@@ -31,8 +31,12 @@
     <ClCompile Include="queen.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="rook.cpp" />
-    <ClCompile Include="knight.cpp" />
+    <ClCompile Include="knight.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="rook.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ai.h">
