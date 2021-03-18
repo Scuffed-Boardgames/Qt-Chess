@@ -25,6 +25,8 @@ private:
 	Board m_board;
 	int m_turn;
 	bool m_hasEnded;
+	size_t m_maxPieces{ 8 + 2 + 2 + 2 + 1 };
+	size_t m_minPieces{ m_maxPieces - 9 };
 };
 
 #endif 

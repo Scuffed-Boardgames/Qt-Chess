@@ -17,11 +17,11 @@ int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) 
 
 void Game::checkEnd() {
 	for (int i = 1; i <= 8; ++i) {
-		if (m_board.checkPiece(i, 8, Colour::white) != NULL) {
+		if (m_board.getPieces(Colour::black).size() < m_minPieces) {
 			declareVictory(Colour::white);
 			return;
 		}
-		else if (m_board.checkPiece(i, 1, Colour::black) != NULL) {
+		else if (m_board.getPieces(Colour::white).size() < m_minPieces) {
 			declareVictory(Colour::black);
 			return;
 		}
@@ -37,12 +37,12 @@ void Game::checkEnd() {
 }
 
 bool Game::canMove(Colour colour) {
-	std::vector<Pawn> pawns = m_board.getPawn(colour);
-	size_t len = pawns.size();
+	std::vector<Pawn> pieces = m_board.getPieces(colour);
+	size_t len = pieces.size();
 	for (int i = 0; i < len; ++i) {
 		for (int j = 1; j <= 8; ++j) {
 			for (int k = 1; k <= 8; ++k) {
-				if (m_board.checkMove(pawns[i].getX(), pawns[i].getY(), j, k, colour) == 0)
+				if (m_board.checkMove(pieces[i].getX(), pieces[i].getY(), j, k, colour) == 0)
 					return true;
 			}
 		}
