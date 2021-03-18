@@ -1,20 +1,29 @@
 //Denzell Mgbokwere
 #include"tile.h"
 
-Tile::Tile() : m_colour(Colour::none) 
+Tile::Tile() : m_piece(nullptr)
 {}
 
-Tile::Tile(Colour colour) : m_colour(colour) 
+Tile::Tile(Piece* piece) :  m_piece(piece)
 {}
 
-void Tile::movedOf(){
-	m_colour = Colour::none;
+Piece* Tile::movedOf(){
+	Piece* tmp = m_piece;
+	m_piece = nullptr;
+	return tmp;
 }
 
-void Tile::movedOn(Colour colour) {
-	m_colour = colour;
+void Tile::movedOn(Piece* piece) {
+	m_piece = piece;
+}
+
+Piece* Tile::getPiece() {
+	return m_piece;
 }
 
 bool Tile::hasPieceColour(Colour colour) {
-	return m_colour == colour;
+	if (!m_piece){
+		return colour == Colour::none;
+	}
+	return m_piece->getColour() == colour;
 }
