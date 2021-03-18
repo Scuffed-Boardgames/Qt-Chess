@@ -14,7 +14,7 @@ int Ai::playMove() {
 	test = checkTake();
 	if (test)
 		return 0;
-	int check = movePiece(rand() % 10);
+	int check = movePiece();
 	if (check == 0)
 		return 0;
 	return 1;
@@ -61,7 +61,8 @@ bool Ai::checkTake() {
 	return false;
 }
 
-int Ai::movePiece(int chance) {
+int Ai::movePiece() {
+	int chance = rand() % 10;
 	std::vector<Pawn> pawns = m_board->getPawn(m_colour);
 	int c = 0;
 	while (true){
