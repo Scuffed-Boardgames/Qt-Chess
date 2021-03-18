@@ -17,10 +17,9 @@ public:
 	Board* giveBoard();
 	bool isAi(int player);
 	int getTurn();
-	void declareWinner(Colour colour);
 
 private:
-	void declareVictory(); // Puts win message if white wins (Bernd Uijtdebroeks)
+	void declareVictory(Colour colour); // Puts win message if white wins (Bernd Uijtdebroeks)
 	Player m_player1;
 	Player m_player2;
 	Board m_board;

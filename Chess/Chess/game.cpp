@@ -18,28 +18,20 @@ int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) 
 void Game::checkEnd() {
 	for (int i = 1; i <= 8; ++i) {
 		if (m_board.checkPiece(i, 8, Colour::white) != NULL) {
-			declareWinner(Colour::white);
-			declareVictory();
-			m_hasEnded = true;
+			declareVictory(Colour::white);
 			return;
 		}
 		else if (m_board.checkPiece(i, 1, Colour::black) != NULL) {
-			declareWinner(Colour::black);
-			declareVictory();
-			m_hasEnded = true;
+			declareVictory(Colour::black);
 			return;
 		}
 	}
 	if(!canMove(Colour::black)){
-		declareWinner(Colour::white);
-		declareVictory();
-		m_hasEnded = true;
+		declareVictory(Colour::white);
 		return;
 	}
 	else if(!canMove(Colour::white)) {
-		declareWinner(Colour::black);
-		declareVictory();
-		m_hasEnded = true;
+		declareVictory(Colour::black);
 		return;
 	}
 }
@@ -66,15 +58,21 @@ void Game::print() {
 	m_board.print();
 }
 
-void Game::declareVictory() {
-	if (m_player1.getWon()) {
+void Game::declareVictory(Colour colour) {
+	m_hasEnded = true;
+	if (colour == Colour::white) {
 		std::cout << "#################################\n";
 		std::cout << "Player 1 won the game as White!!!\n";
 		std::cout << "#################################\n";
 	}
-	else if (m_player2.getWon()) {
+	else if (colour == Colour::black) {
 		std::cout << "#################################\n";
 		std::cout << "Player 2 won the game as Black!!!\n";
+		std::cout << "#################################\n";
+	}
+	else {
+		std::cout << "#################################\n";
+		std::cout << "Player 0 won the game as None?!?!\n";
 		std::cout << "#################################\n";
 	}
 }
@@ -108,11 +106,4 @@ bool Game::isAi(int player) {
 
 int Game::getTurn() {
 	return m_turn;
-}
-
-void Game::declareWinner(Colour colour) {
-	if (colour == Colour::white)
-		m_player1.giveWon();
-	else
-		m_player2.giveWon();
 }
