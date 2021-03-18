@@ -144,6 +144,7 @@
     <ClInclude Include="colour.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="pawn.h" />
+    <ClInclude Include="piece.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="tile.h" />
   </ItemGroup>
@@ -153,6 +154,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pawn.cpp" />
+    <ClCompile Include="piece.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="tile.cpp" />
   </ItemGroup>
