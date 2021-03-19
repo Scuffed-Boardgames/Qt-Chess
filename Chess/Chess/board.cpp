@@ -21,7 +21,7 @@ Board::Board() {
 	Bishop* wRunner1 = new Bishop(3, 1, Colour::white);
 	Bishop* wRunner2 = new Bishop(6, 1, Colour::white);
 	Queen* wFreddie = new Queen(4, 1, Colour::white);
-	Pawn* wMeruem = new Pawn(5, 1, Colour::white);
+	King* wMeruem = new King(5, 1, Colour::white);
 	m_tiles[0][0].movedOn(wLardax1);
 	m_tiles[1][0].movedOn(wHonse1);
 	m_tiles[2][0].movedOn(wRunner1);
@@ -47,7 +47,7 @@ Board::Board() {
 	Bishop* bRunner1 = new Bishop(3, 8, Colour::black);
 	Bishop* bRunner2 = new Bishop(6, 8, Colour::black);
 	Queen* bFreddie = new Queen(4, 8, Colour::black);
-	Pawn* bMeruem = new Pawn(5, 8, Colour::black);
+	King* bMeruem = new King(5, 8, Colour::black);
 	m_tiles[0][7].movedOn(bLardax1);
 	m_tiles[1][7].movedOn(bHonse1);
 	m_tiles[2][7].movedOn(bRunner1);

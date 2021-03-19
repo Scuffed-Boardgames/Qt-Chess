@@ -8,6 +8,7 @@
 #include "knight.h"
 #include "rook.h"
 #include "queen.h"
+#include "king.h"
 #include <vector>
 
 

@@ -1,14 +1,15 @@
 //Bernd Uijtdebroeks
-#ifndef QUEEN_H
-#define QUEEN_H
+#ifndef KING_H
+#define KING_H
 #include "piece.h"
 
-class Queen: public Piece{
+class King : public Piece {
 public:
-	Queen(int x, int y, Colour colour);
+	King(int x, int y, Colour colour);
 	int checkMove(int x2, int y2);
 	char getName();
 };
 
 #endif 
+
 

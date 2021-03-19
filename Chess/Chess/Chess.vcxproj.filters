@@ -37,6 +37,9 @@
     <ClCompile Include="rook.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="king.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ai.h">
@@ -73,6 +76,9 @@
       <Filter>Header files</Filter>
     </ClInclude>
     <ClInclude Include="knight.h">
+      <Filter>Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="king.h">
       <Filter>Header files</Filter>
     </ClInclude>
   </ItemGroup>
