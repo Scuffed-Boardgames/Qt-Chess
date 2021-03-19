@@ -67,22 +67,6 @@ Board::Board() {
 	m_pieceB.push_back(bMeruem);
 }
 
-Piece* Board::checkPiece(int x, int y, Colour colour) {
-	if (colour == Colour::white) { // Check for white->black
-		size_t len = m_pieceW.size();
-		for (int i = 0; i < len; ++i)
-			if (m_pieceW.at(i)->getX() == x && m_pieceW.at(i)->getY() == y)
-				return m_pieceW.at(i);
-
-	}
-	else { // Check for black->white
-		size_t len = m_pieceB.size();
-		for (int i = 0; i < len; ++i)
-			if (m_pieceB.at(i)->getX() == x && m_pieceB.at(i)->getY() == y)
-				return m_pieceB.at(i);
-	}
-	return NULL;
-}
 
 bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 	if (x_1 == x_2) {
@@ -133,9 +117,26 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 	bool clear = freePath(x_1, y_1, x_2, y_2);
 	if (!clear)
 		return 1;
-	if (legalMove == -1 && !target)
+	if (legalMove == -1 && !target){
+		if (enPassent((Pawn*)selected, x_2, y_2))
+			return -1;
 		return 1;
+	}
 	return legalMove;
+}
+
+bool Board::enPassent(Pawn* selected, int x_2, int y_2) {
+	int sX = selected->getX();
+	int sY = selected->getY();
+
+	Piece* target = m_tiles[x_2 - 1][y_2 - 1 - (int)selected->getColour()].getPiece();
+	if (!target)
+		return false;
+	if (!(target->getName() == 'p'))
+		return false;
+	if (!((Pawn*)target)->m_hasHopped)
+		return false;
+	return true;
 }
 
 int Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
@@ -143,10 +144,22 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 	Piece* target = m_tiles[x_2 - 1][y_2 - 1].getPiece();
 	switch (checkMove(x_1, y_1, x_2, y_2, colour)) {
 	case(0):
+		removeHopped(colour);
 		selected->makeMove(x_2, y_2);
-		if (target) {
+		// if there is a target, take it
+		if(target){
 			deletePiece(x_2, y_2, oppColour(colour));
 		}
+		if (abs(y_1 - y_2) == 2 && selected->getName() == 'p')
+			((Pawn*)selected)->m_hasHopped = true;
+		//en passent
+		if (selected->getName() == 'p' && !target) {
+			if (enPassent((Pawn*)selected, x_2, y_2)) {
+				deletePiece(x_2, y_2 - 1, oppColour(colour));
+				m_tiles[x_2 - 1][y_2 - 1 - (int)selected->getColour()].movedOf();
+			}
+		}
+		//register the move in the tiles
 		m_tiles[x_1 - 1][y_1 - 1].movedOf();
 		m_tiles[x_2 - 1][y_2 - 1].movedOn(selected);
 		return 0;
@@ -189,26 +202,30 @@ void Board::print() {
 	std::cout << " -----------------------------------------\n\t" << "    1    2    3    4    5    6    7    8 \n\n";
 }
 
-//void Board::removeHopped(Colour colour) {
-//	if (colour == Colour::white) {
-//		size_t len = m_pieceW.size();
-//		for (int i = 0; i < len; ++i) {
-//			if (m_pieceW.at(i).m_hasHopped) {
-//				m_pieceW.at(i).m_hasHopped = false;
-//				return;
-//			}
-//		}
-//	}
-//	else {
-//		size_t len = m_pieceB.size();
-//		for (int i = 0; i < len; ++i) {
-//			if (m_pieceB.at(i).m_hasHopped) {
-//				m_pieceB.at(i).m_hasHopped = false;
-//				return;
-//			}
-//		}
-//	}
-//}
+void Board::removeHopped(Colour colour) {
+	if (colour == Colour::white) {
+		size_t len = m_pieceW.size();
+		for (int i = 0; i < len; ++i) {
+			if(m_pieceW.at(i)->getName() == 'p'){
+				if (((Pawn*)m_pieceW.at(i))->m_hasHopped) {
+					((Pawn*)m_pieceW.at(i))->m_hasHopped = false;
+					return;
+				}
+			}
+		}
+	}
+	else {
+		size_t len = m_pieceB.size();
+		for (int i = 0; i < len; ++i) {
+			if (m_pieceB.at(i)->getName() == 'p') {
+				if (((Pawn*)m_pieceB.at(i))->m_hasHopped) {
+					((Pawn*)m_pieceB.at(i))->m_hasHopped = false;
+					return;
+				}
+			}
+		}
+	}
+}
 
 std::vector<Piece*> Board::getPieces(Colour colour){
 	if (colour == Colour::white){
