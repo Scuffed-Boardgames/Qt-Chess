@@ -6,7 +6,7 @@
 class Ai{
 public:
 	Ai(Colour colour, Board* board);
-	int playMove(); // The order in which the ai checks moves (Denzell Mgbokwere)
+	int playMove(); // Makes the ai play a randomely generated move (Denzell Mgbokwere)
 
 private:
 	Colour m_colour;

@@ -13,7 +13,7 @@ public:
 	
 	bool hasMoved(); //getter for the hasmoved bool
 
-	char getName();
+	char getName(); // returns the starting letter for a piece (in this case 'p') 
 
 	bool m_hasHopped;
 
