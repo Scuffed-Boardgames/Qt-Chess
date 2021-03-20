@@ -68,6 +68,7 @@ Board::Board() {
 }
 
 
+
 bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 	if (x_1 == x_2) {
 		for (int i = std::min(y_1, y_2) + 1; i < std::max(y_1, y_2); ++i) {
@@ -203,28 +204,38 @@ void Board::print() {
 }
 
 void Board::removeHopped(Colour colour) {
-	if (colour == Colour::white) {
-		size_t len = m_pieceW.size();
-		for (int i = 0; i < len; ++i) {
-			if(m_pieceW.at(i)->getName() == 'p'){
-				if (((Pawn*)m_pieceW.at(i))->m_hasHopped) {
-					((Pawn*)m_pieceW.at(i))->m_hasHopped = false;
-					return;
-				}
+	std::vector<Piece*> pieces = getPieces(oppColour(colour));
+	for (Piece* piece : pieces) {
+		if(piece->getName() == 'p'){
+			if (((Pawn*)piece)->m_hasHopped) {
+				((Pawn*)piece)->m_hasHopped = false;
+				return;
 			}
 		}
 	}
-	else {
-		size_t len = m_pieceB.size();
-		for (int i = 0; i < len; ++i) {
-			if (m_pieceB.at(i)->getName() == 'p') {
-				if (((Pawn*)m_pieceB.at(i))->m_hasHopped) {
-					((Pawn*)m_pieceB.at(i))->m_hasHopped = false;
-					return;
-				}
-			}
+}
+
+bool Board::checkCheck(Colour colour) { // not yet implemented
+	King* king = getKing(colour);
+	int kingX = king->getX();
+	int kingY = king->getY();
+	std::vector<Piece*> pieces = getPieces(oppColour(colour));
+	for (Piece* piece : pieces){
+		if (checkMove(piece->getX(), piece->getY(), kingX, kingY, oppColour(colour)) <= 0)
+			return true;
+	}
+	return false;
+}
+
+King* Board::getKing(Colour colour) { // not yet implemented
+	std::vector<Piece*> pieces = getPieces(oppColour(colour));
+	for (Piece* piece : pieces) {
+		if (piece->getName() == 'K') {
+			return (King*)piece;
 		}
 	}
+	King* king = new King(0, 0, Colour::none);
+	return king;
 }
 
 std::vector<Piece*> Board::getPieces(Colour colour){
