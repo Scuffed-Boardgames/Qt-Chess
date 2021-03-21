@@ -25,6 +25,10 @@ int Pawn::checkMove(int x, int y) {
 	return 1;
 }
 
+void Pawn::setMoved() {
+	m_hasMoved = true;
+}
+
 bool Pawn::hasMoved(){
 	return m_hasMoved;
 }

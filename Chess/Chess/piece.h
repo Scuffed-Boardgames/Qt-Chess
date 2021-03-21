@@ -17,7 +17,6 @@ public:
 	Colour getColour(); //getter for colour
 	virtual char getName() = 0; 
 	virtual int checkMove(int x, int y); // checks if a move is in bounds
-	bool m_hasHopped = false;
 private:
 	bool checkBounds(int x, int y); // Looks if the given coordinate is a value on the board
 	int m_x;

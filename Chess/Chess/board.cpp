@@ -72,7 +72,7 @@ Board::Board() {
 bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 	if (x_1 == x_2) {
 		for (int i = std::min(y_1, y_2) + 1; i < std::max(y_1, y_2); ++i) {
-			if (!m_tiles[x_1][i].hasPieceColour(Colour::none)) {
+			if (!m_tiles[x_1 - 1][i - 1].hasPieceColour(Colour::none)) {
 				return false;
 			}
 		}
@@ -80,7 +80,7 @@ bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 
 	else if (y_1 == y_2) {
 		for (int i = std::min(x_1, x_2) + 1; i < std::max(x_1, x_2); ++i) {
-			if (!m_tiles[i][y_1].hasPieceColour(Colour::none)) {
+			if (!m_tiles[i - 1][y_1 - 1].hasPieceColour(Colour::none)) {
 				return false;
 			}
 		}
@@ -123,6 +123,8 @@ int Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 			return -1;
 		return 1;
 	}
+	if (selected->getName() == 'p' && target && x_1 == x_2)
+		return 1;
 	return legalMove;
 }
 
@@ -156,11 +158,13 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 		//en passent
 		if (selected->getName() == 'p' && !target) {
 			if (enPassent((Pawn*)selected, x_2, y_2)) {
-				deletePiece(x_2, y_2 - 1, oppColour(colour));
+				deletePiece(x_2, y_2 - (int)selected->getColour(), oppColour(colour));
 				m_tiles[x_2 - 1][y_2 - 1 - (int)selected->getColour()].movedOf();
 			}
 		}
 		//register the move in the tiles
+		if (selected->getName() == 'p')
+			((Pawn*)selected)->setMoved();
 		m_tiles[x_1 - 1][y_1 - 1].movedOf();
 		m_tiles[x_2 - 1][y_2 - 1].movedOn(selected);
 		return 0;
