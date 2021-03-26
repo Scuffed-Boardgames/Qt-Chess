@@ -1,5 +1,6 @@
 //Bernd Uijtdebroeks
 #include "game.h"
+#include "ai.h"
 #include <iostream>
 
 
@@ -106,4 +107,42 @@ bool Game::isAi(int player) {
 
 int Game::getTurn() {
 	return m_turn;
+}
+
+int Game::play() {
+	srand((unsigned)time(NULL));
+	std::cout << "Do you want to add an AI?\n(no = 0, white = 1, black = 2)\n";
+	int aiCount = 3;
+	std::cin >> aiCount;
+	setAi(aiCount);
+	Ai aiW(Colour::white, giveBoard());
+	Ai aiB(Colour::black, giveBoard());
+	print();
+	while (hasEnded() == false) {
+		if (isAi(getTurn() % 2)) {
+			int test = 1;
+			while (test != 0) {
+				if (getTurn() % 2 == 0)
+					test = aiW.playMove();
+				else
+					test = aiB.playMove();
+			}
+		}
+		else {
+			int test = 1;
+			while (test != 0) {
+				int x1, x2, y1, y2;
+				std::cout << "Player " << (getTurn() % 2) + 1 << "\n";
+				std::cout << "Enter the position of the piece you want to move: \n";
+				std::cin >> x1 >> y1;
+				std::cout << "Enter the position of the place you want to move to: \n";
+				std::cin >> x2 >> y2;
+				test = movePiece(x1, y1, x2, y2);
+			}
+		}
+		print();
+		checkEnd();
+		addTurn();
+	}
+	return 0;
 }

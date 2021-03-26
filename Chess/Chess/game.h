@@ -17,6 +17,7 @@ public:
 	Board* giveBoard();
 	bool isAi(int player);
 	int getTurn();
+	int play();
 
 private:
 	void declareVictory(Colour colour); // Puts win message if white wins (Bernd Uijtdebroeks)
