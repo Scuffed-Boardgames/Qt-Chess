@@ -143,6 +143,7 @@
     <ClInclude Include="bishop.h" />
     <ClInclude Include="board.h" />
     <ClInclude Include="colour.h" />
+    <ClInclude Include="error.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="king.h" />
     <ClInclude Include="knight.h" />

@@ -15,27 +15,27 @@ bool Piece::checkBounds(int x, int y) {
 	return true;
 }
 
-int Piece::makeMove(int x, int y) {
+error Piece::makeMove(int x, int y) {
 	switch (checkMove(x, y)) {
-	case(0):
+	case(error::none):
 		m_x = x;
 		m_y = y;
-		return 0;
-	case(1):
+		return error::none;
+	case(error::illegalMove):
 		std::cout << "inserted move is illegal!\n";
-		return 1;
-	case(2):
+		return error::illegalMove;
+	case(error::outOfBounds):
 		std::cout << "inserted value(s) are too small/large!\n";
-		return 2;
+		return error::outOfBounds;
 	default:
-		return 99;
+		return error::defaultError;
 	}
 }
 
-int Piece::checkMove(int x, int y) {
+error Piece::checkMove(int x, int y) {
 	if (!checkBounds(x, y))
-		return 2;
-	return 0;
+		return error::outOfBounds;
+	return error::none;
 }
 
 Colour Piece::getColour() {

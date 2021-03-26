@@ -3,6 +3,7 @@
 #define BOARD_H
 
 #include "tile.h"
+#include "error.h"
 #include "pawn.h"
 #include "bishop.h"
 #include "knight.h"
@@ -15,8 +16,8 @@
 class Board {
 public:
 	Board(); // Default constructor for the Board class (Bernd Uijtdebroeks)
-	int checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour); // Checks if a move is valid(<=0) or invalid(>0) (Denzell Mgbokwere)
-	int makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour); // Plays a move after checking if it is valid (Denzell Mgbokwere)
+	error checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour); // Checks if a move is valid(<=0) or invalid(>0) (Denzell Mgbokwere)
+	error makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour); // Plays a move after checking if it is valid (Denzell Mgbokwere)
 	void print();	// Prints the board (Bernd Uijtdebroeks)
 	std::vector<Piece*> getPieces(Colour colour); // Gives back an array of pawns (Denzell Mgbokwere)
 	bool checkCheck(Colour colour); // checks wether the king of colour is in check (Denzell Mgbokwere)

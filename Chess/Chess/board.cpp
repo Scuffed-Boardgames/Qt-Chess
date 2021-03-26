@@ -6,65 +6,45 @@
 
 Board::Board() {
 	for (int i = 0; i < 8; ++i) {
-		Pawn* wPawn = new Pawn((i + 1), 2, Colour::white); //Fills array with pawns on line 2 for white
-		m_tiles[i][1].movedOn(wPawn);
-		m_pieceW.push_back(wPawn);
+		m_tiles[i][1].movedOn(new Pawn((i + 1), 2, Colour::white));
+		m_pieceW.push_back(m_tiles[i][1].getPiece());
 
-		Pawn* bPawn = new Pawn((i + 1), 7, Colour::black); //Fills array with pawns on line 7 for black
-		m_tiles[i][6].movedOn(bPawn);
-		m_pieceB.push_back(bPawn);
+		m_tiles[i][6].movedOn(new Pawn((i + 1), 7, Colour::black));
+		m_pieceB.push_back(m_tiles[i][6].getPiece());
 	}
-	Rook* wLardax1 = new Rook(1, 1, Colour::white);
-	Rook* wLardax2 = new Rook(8, 1, Colour::white);
-	Knight* wHonse1 = new Knight(2, 1, Colour::white);
-	Knight* wHonse2 = new Knight(7, 1, Colour::white);
-	Bishop* wRunner1 = new Bishop(3, 1, Colour::white);
-	Bishop* wRunner2 = new Bishop(6, 1, Colour::white);
-	Queen* wFreddie = new Queen(4, 1, Colour::white);
-	King* wMeruem = new King(5, 1, Colour::white);
-	m_tiles[0][0].movedOn(wLardax1);
-	m_tiles[1][0].movedOn(wHonse1);
-	m_tiles[2][0].movedOn(wRunner1);
-	m_tiles[3][0].movedOn(wFreddie);
-	m_tiles[4][0].movedOn(wMeruem);
-	m_tiles[5][0].movedOn(wRunner2);
-	m_tiles[6][0].movedOn(wHonse2);
-	m_tiles[7][0].movedOn(wLardax2);
+	m_tiles[0][0].movedOn(new Rook(1, 1, Colour::white));
+	m_pieceW.push_back(m_tiles[0][0].getPiece());
+	m_tiles[1][0].movedOn(new Knight(2, 1, Colour::white));
+	m_pieceW.push_back(m_tiles[1][0].getPiece());
+	m_tiles[2][0].movedOn(new Bishop(3, 1, Colour::white));
+	m_pieceW.push_back(m_tiles[2][0].getPiece());
+	m_tiles[3][0].movedOn(new Queen(4, 1, Colour::white));
+	m_pieceW.push_back(m_tiles[3][0].getPiece());
+	m_tiles[4][0].movedOn(new King(5, 1, Colour::white));
+	m_pieceW.push_back(m_tiles[4][0].getPiece());
+	m_tiles[5][0].movedOn(new Bishop(6, 1, Colour::white));
+	m_pieceW.push_back(m_tiles[5][0].getPiece());
+	m_tiles[6][0].movedOn(new Knight(7, 1, Colour::white));
+	m_pieceW.push_back(m_tiles[6][0].getPiece());
+	m_tiles[7][0].movedOn(new Rook(8, 1, Colour::white));
+	m_pieceW.push_back(m_tiles[7][0].getPiece());
 
-	m_pieceW.push_back(wLardax1);
-	m_pieceW.push_back(wLardax2);
-	m_pieceW.push_back(wHonse1);
-	m_pieceW.push_back(wHonse2);
-	m_pieceW.push_back(wRunner1);
-	m_pieceW.push_back(wRunner2);
-	m_pieceW.push_back(wFreddie);
-	m_pieceW.push_back(wMeruem);
-
-	Rook* bLardax1 = new Rook(1, 8, Colour::black);
-	Rook* bLardax2 = new Rook(8, 8, Colour::black);
-	Knight* bHonse1 = new Knight(2, 8, Colour::black);
-	Knight* bHonse2 = new Knight(7, 8, Colour::black);
-	Bishop* bRunner1 = new Bishop(3, 8, Colour::black);
-	Bishop* bRunner2 = new Bishop(6, 8, Colour::black);
-	Queen* bFreddie = new Queen(4, 8, Colour::black);
-	King* bMeruem = new King(5, 8, Colour::black);
-	m_tiles[0][7].movedOn(bLardax1);
-	m_tiles[1][7].movedOn(bHonse1);
-	m_tiles[2][7].movedOn(bRunner1);
-	m_tiles[3][7].movedOn(bFreddie);
-	m_tiles[4][7].movedOn(bMeruem);
-	m_tiles[5][7].movedOn(bRunner2);
-	m_tiles[6][7].movedOn(bHonse2);
-	m_tiles[7][7].movedOn(bLardax2);
-
-	m_pieceB.push_back(bLardax1);
-	m_pieceB.push_back(bLardax2);
-	m_pieceB.push_back(bHonse1);
-	m_pieceB.push_back(bHonse2);
-	m_pieceB.push_back(bRunner1);
-	m_pieceB.push_back(bRunner2);
-	m_pieceB.push_back(bFreddie);
-	m_pieceB.push_back(bMeruem);
+	m_tiles[0][7].movedOn(new Rook(1, 8, Colour::black));
+	m_pieceB.push_back(m_tiles[0][7].getPiece());
+	m_tiles[1][7].movedOn(new Knight(2, 8, Colour::black));
+	m_pieceB.push_back(m_tiles[1][7].getPiece());
+	m_tiles[2][7].movedOn(new Bishop(3, 8, Colour::black));
+	m_pieceB.push_back(m_tiles[2][7].getPiece());
+	m_tiles[3][7].movedOn(new Queen(4, 8, Colour::black));
+	m_pieceB.push_back(m_tiles[3][7].getPiece());
+	m_tiles[4][7].movedOn(new King(5, 8, Colour::black));
+	m_pieceB.push_back(m_tiles[4][7].getPiece());
+	m_tiles[5][7].movedOn(new Bishop(6, 8, Colour::black));
+	m_pieceB.push_back(m_tiles[5][7].getPiece());
+	m_tiles[6][7].movedOn(new Knight(7, 8, Colour::black));
+	m_pieceB.push_back(m_tiles[6][7].getPiece());
+	m_tiles[7][7].movedOn(new Rook(8, 8, Colour::black));
+	m_pieceB.push_back(m_tiles[7][7].getPiece());
 }
 
 
@@ -103,28 +83,28 @@ bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 	return true;
 }
 
-int Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
+error Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 	Piece* selected = m_tiles[x_1 - 1][y_1 - 1].getPiece();
 	Piece* target = m_tiles[x_2 - 1][y_2 - 1].getPiece();
 	if (!selected)
-		return 3;
+		return error::noSelect;
 	if (selected->getColour() == oppColour(colour))
-		return 4;
+		return error::wrongColour;
 	if (target && target->getColour() == colour)
-		return 1;
-	int legalMove = selected->checkMove(x_2, y_2);
-	if (legalMove > 0)
+		return error::illegalMove;
+	error legalMove = selected->checkMove(x_2, y_2);
+	if ((int)legalMove > 0)
 		return legalMove;
 	bool clear = freePath(x_1, y_1, x_2, y_2);
 	if (!clear)
-		return 1;
-	if (legalMove == -1 && !target){
+		return error::illegalMove;
+	if (legalMove == error::enPassent && !target){
 		if (enPassent((Pawn*)selected, x_2, y_2))
-			return -1;
-		return 1;
+			return error::enPassent;
+		return error::illegalMove;
 	}
 	if (selected->getName() == 'p' && target && x_1 == x_2)
-		return 1;
+		return error::illegalMove;
 	return legalMove;
 }
 
@@ -142,11 +122,11 @@ bool Board::enPassent(Pawn* selected, int x_2, int y_2) {
 	return true;
 }
 
-int Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
+error Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 	Piece* selected = m_tiles[x_1 - 1][y_1 - 1].getPiece();
 	Piece* target = m_tiles[x_2 - 1][y_2 - 1].getPiece();
 	switch (checkMove(x_1, y_1, x_2, y_2, colour)) {
-	case(0):
+	case(error::none):
 		removeHopped(colour);
 		selected->makeMove(x_2, y_2);
 		// if there is a target, take it
@@ -167,21 +147,21 @@ int Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 			((Pawn*)selected)->setMoved();
 		m_tiles[x_1 - 1][y_1 - 1].movedOf();
 		m_tiles[x_2 - 1][y_2 - 1].movedOn(selected);
-		return 0;
-	case(1):
+		return error::none;
+	case(error::illegalMove):
 		std::cout << "inserted move is illegal!\n";
-		return 1;
-	case(2):
+		return error::illegalMove;
+	case(error::outOfBounds):
 		std::cout << "inserted value(s) are too small/large!\n";
-		return 2;
-	case(3):
+		return error::outOfBounds;
+	case(error::noSelect):
 		std::cout << "selected piece doesn't exist\n";
-		return 3;
-	case(4):
+		return error::noSelect;
+	case(error::wrongColour):
 		std::cout << "selected doesn't belong to you\n";
-		return 4;
+		return error::wrongColour;
 	default:
-		return 99;
+		return error::defaultError;
 	}
 }
 
@@ -225,7 +205,7 @@ bool Board::checkCheck(Colour colour) { // not yet implemented
 	int kingY = king->getY();
 	std::vector<Piece*> pieces = getPieces(oppColour(colour));
 	for (Piece* piece : pieces){
-		if (checkMove(piece->getX(), piece->getY(), kingX, kingY, oppColour(colour)) <= 0)
+		if ((int)checkMove(piece->getX(), piece->getY(), kingX, kingY, oppColour(colour)) <= 0)
 			return true;
 	}
 	return false;

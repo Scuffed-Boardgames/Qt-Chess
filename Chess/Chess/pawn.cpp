@@ -5,24 +5,24 @@
 Pawn::Pawn(int x, int y, Colour colour) : Piece(x, y, colour), m_hasMoved(false), m_hasHopped(false)
 {}
 
-int Pawn::checkMove(int x, int y) {
-	if (Piece::checkMove(x, y) == 2)
-		return 2;
+error Pawn::checkMove(int x, int y) {
+	if (Piece::checkMove(x, y) == error::outOfBounds)
+		return error::outOfBounds;
 	int pawnX = getX();
 	int pawnY = getY();
 	if (pawnX  == x && pawnY + (int)getColour() == y) {
-		return 0;
+		return error::none;
 	}
 
 	if ((pawnX  == x + 1 || pawnX  == x - 1) && pawnY + (int)getColour() == y) {
-		return -1;
+		return error::enPassent;
 	}
 
 	else if (pawnX == x && pawnY + 2 * (int)getColour() == y && !m_hasMoved) {
-		return 0;
+		return error::none;
 	}
 
-	return 1;
+	return error::illegalMove;
 }
 
 void Pawn::setMoved() {
