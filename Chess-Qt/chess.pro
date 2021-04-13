@@ -13,8 +13,8 @@ SOURCES += \
     ai.cpp \
     bishop.cpp \
     board.cpp \
+    boardview.cpp \
     chess.cpp \
-    customgraphics.cpp \
     game.cpp \
     king.cpp \
     knight.cpp \
@@ -30,9 +30,9 @@ HEADERS += \
     ai.h \
     bishop.h \
     board.h \
+    boardview.h \
     chess.h \
     colour.h \
-    customgraphics.h \
     error.h \
     game.h \
     king.h \
@@ -52,8 +52,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    ../../Pictures/Chess pieces/pawn black.png \
-    ../../Pictures/Chess pieces/pawn white.png
 
 RESOURCES += \
     pieces.qrc

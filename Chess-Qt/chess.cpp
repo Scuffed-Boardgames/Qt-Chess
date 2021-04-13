@@ -2,7 +2,7 @@
 #include <QPoint>
 
 
-chess::chess(QWidget *parent) : QWidget(parent){
+chess::chess(QWidget *parent, Board* board) : QWidget(parent){
     QBrush brushgrey;
     brushgrey.setColor(Qt::gray);
     brushgrey.setStyle(Qt::SolidPattern);
@@ -10,6 +10,7 @@ chess::chess(QWidget *parent) : QWidget(parent){
     brushwhite.setColor(Qt::white);
     brushwhite.setStyle(Qt::SolidPattern);
     scene = new CustomGraphics(0,0,800,800);
+    scene->setBoard(board);
     view = new QGraphicsView((QGraphicsScene*)scene);
 
 
@@ -23,7 +24,7 @@ chess::chess(QWidget *parent) : QWidget(parent){
             else
                 rect->setBrush(brushwhite);
             tiles[i][j] = rect;
-            scene->addItem(rect);
+//            scene->addItem(rect);
         }
     }
 
@@ -52,8 +53,6 @@ chess::chess(QWidget *parent) : QWidget(parent){
     for(int i = 0; i < 16; ++i){
         blackpieces[i]->moveBy(10,10);
         whitepieces[i]->moveBy(10,10);
-        scene->addItem(blackpieces[i]);
-        scene->addItem(whitepieces[i]);
     }
 }
 

@@ -3,14 +3,14 @@
 
 #include <QGraphicsView>
 #include <QWidget>
-#include "customgraphics.h"
+#include "boardview.h"
 
 
 class chess : public QWidget
 {
     Q_OBJECT
 public:
-    explicit chess(QWidget *parent = nullptr);
+    explicit chess(QWidget *parent = nullptr, Board* board = nullptr);
     void show();
 
 signals:
