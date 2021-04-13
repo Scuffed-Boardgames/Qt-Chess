@@ -44,7 +44,8 @@ HEADERS += \
     rook.h \
     tile.h
 
-FORMS +=
+FORMS += \
+    form.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -1,5 +1,6 @@
 #include "chess.h"
 #include <QGridLayout>
+#include <QVBoxLayout>
 
 
 chess::chess(QWidget *parent, Board* board) : QWidget(parent){
@@ -12,7 +13,6 @@ chess::chess(QWidget *parent, Board* board) : QWidget(parent){
     scene = new CustomGraphics(0,0,800,800);
     scene->setBoard(board);
     view = new QGraphicsView((QGraphicsScene*)scene);
-
 
     for (int i =0; i < 8; ++i) {
         for (int j =0; j < 8; ++j) {
@@ -54,11 +54,35 @@ chess::chess(QWidget *parent, Board* board) : QWidget(parent){
         blackpieces[i]->moveBy(10,10);
         whitepieces[i]->moveBy(10,10);
     }
-
-    QGridLayout *mainLayout = new QGridLayout;
-    mainLayout->addWidget(view, 0, 0);
+    m_turn = 1;
+    scene->setTurn(m_turn);
+    toptext = new QLabel("Turn: 1 | Move: White");
+    QVBoxLayout *mainLayout = new  QVBoxLayout;
+    mainLayout->addWidget(toptext, 0);
+    mainLayout->addWidget(view, 1);
     setLayout(mainLayout);
 }
 
+void chess::updateText(){
+    ++m_turn;
+    scene->setTurn(m_turn);
+    QString colour;
+    if(m_turn % 2 == 0)
+        colour = "Black";
+    else
+        colour = "White";
+    QString text = QString("Turn: ") + QString::number(m_turn) + QString(" | Move: ") + colour;
+    toptext->setText(text);
+}
+void chess::moveMade(){
+    updateText();
+}
 
+CustomGraphics* chess::getScene(){
+    return scene;
+}
+
+int chess::getTurn(){
+    return m_turn;
+}
 

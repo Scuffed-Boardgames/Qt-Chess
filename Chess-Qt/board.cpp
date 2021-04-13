@@ -119,15 +119,8 @@ bool Board::enPassent(Pawn* selected, int x_2, int y_2) {
 	return true;
 }
 
-error Board::makeMove(int x_1, int y_1, int x_2, int y_2){
+error Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
     Piece* selected = m_tiles[x_1][y_1].getPiece();
-    Colour colour;
-    if(selected){
-        colour = selected->getColour();
-    }
-    else{
-        colour = Colour::none;
-    }
     Piece* target = m_tiles[x_2][y_2].getPiece();
 	switch (checkMove(x_1, y_1, x_2, y_2, colour)) {
 	case(error::none):

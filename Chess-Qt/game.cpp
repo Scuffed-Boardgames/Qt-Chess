@@ -10,10 +10,10 @@ Game::Game() : m_player1(Colour::white), m_player2(Colour::white), m_board(), m_
 
 error Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) {
 	if (m_turn % 2 == 0) {
-        return m_board.makeMove(x1, y1, x2, y2);
+        return m_board.makeMove(x1, y1, x2, y2, Colour::white);
 	}
 	else {
-        return m_board.makeMove(x1, y1, x2, y2);
+        return m_board.makeMove(x1, y1, x2, y2, Colour::black);
 	}
 }
 

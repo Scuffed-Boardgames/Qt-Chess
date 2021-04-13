@@ -1,6 +1,7 @@
 #include "boardview.h"
 #include <QList>
-
+#include <QMessageBox>
+#include <QTimer>
 
 
 CustomGraphics::CustomGraphics(qreal x, qreal y, qreal width, qreal height, QObject *parent) : QGraphicsScene(x, y, width, height, parent)
@@ -24,7 +25,12 @@ void CustomGraphics::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     int y1 = list[0]->y()/100;
     int x2 = list[1]->x()/100;
     int y2 = list[1]->y()/100;
-    error test = m_board->makeMove(x1, y1, x2, y2);
+    Colour colour;
+    if(m_turn % 2 != 0)
+        colour = Colour::black;
+    else
+        colour = Colour::white;
+    error test = m_board->makeMove(x1, y1, x2, y2, colour);
     if(test != error::none){
         list.clear();
         return;
@@ -33,8 +39,13 @@ void CustomGraphics::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     list[0]->childItems().clear();
     child[0]->setParentItem(list[1]);
     list.clear();
+    emit madeMove();
 }
 
 void CustomGraphics::setBoard(Board* board){
    m_board = board;
+}
+
+void CustomGraphics::setTurn(int turn){
+    m_turn = turn;
 }

@@ -22,7 +22,7 @@ int Ai::playMove() {
             int y = (rand() % 8);
             int test = (int)m_board->checkMove(pieceX, pieceY, x, y, m_colour);
 			if (test <= 0) {
-                test = (int)m_board->makeMove(pieceX, pieceY, x, y);
+                test = (int)m_board->makeMove(pieceX, pieceY, x, y, m_colour);
 				if (test > 0)
 					return 1;
 				return 0;
