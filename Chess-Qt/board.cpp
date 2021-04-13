@@ -95,12 +95,12 @@ error Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 	error legalMove = selected->checkMove(x_2, y_2);
 	if ((int)legalMove > 0)
 		return legalMove;
-	bool clear = freePath(x_1, y_1, x_2, y_2);
+    bool clear = freePath(x_1, y_1, x_2, y_2);
 	if (!clear)
 		return error::illegalMove;
 	if (legalMove == error::enPassent && !target){
 		if (enPassent((Pawn*)selected, x_2, y_2))
-			return error::enPassent;
+            return error::none; //might be wrong
 		return error::illegalMove;
 	}
 	if (selected->getName() == 'p' && target && x_1 == x_2)
@@ -123,7 +123,7 @@ error Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
     Piece* selected = m_tiles[x_1][y_1].getPiece();
     Piece* target = m_tiles[x_2][y_2].getPiece();
 	switch (checkMove(x_1, y_1, x_2, y_2, colour)) {
-	case(error::none):
+    case(error::none):
 		removeHopped(colour);
 		selected->makeMove(x_2, y_2);
 		// if there is a target, take it
