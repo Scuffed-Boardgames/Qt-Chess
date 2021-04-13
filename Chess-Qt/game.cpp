@@ -41,7 +41,7 @@ void Game::checkEnd() {
 bool Game::canMove(Colour colour) {
 	std::vector<Piece*> pieces = m_board.getPieces(colour);
 	size_t len = pieces.size();
-	for (int i = 0; i < len; ++i) {
+    for (size_t i = 0; i < len; ++i) {
         for (int j = 0; j <= 7; ++j) {
             for (int k = 0; k <= 7; ++k) {
                 if ((int)m_board.checkMove(pieces[i]->getX(), pieces[i]->getY(), j, k, colour) == 0)
