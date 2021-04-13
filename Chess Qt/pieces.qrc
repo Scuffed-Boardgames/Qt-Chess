@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/piece">
+        <file>Black/Chess_pdt80.png</file>
+        <file>Black/Chess_bdt80.png</file>
+        <file>Black/Chess_kdt80.png</file>
+        <file>Black/Chess_ndt80.png</file>
+        <file>Black/Chess_qdt80.png</file>
+        <file>Black/Chess_rdt80.png</file>
+        <file>White/Chess_blt80.png</file>
+        <file>White/Chess_klt80.png</file>
+        <file>White/Chess_nlt80.png</file>
+        <file>White/Chess_plt80.png</file>
+        <file>White/Chess_qlt80.png</file>
+        <file>White/Chess_rlt80.png</file>
+    </qresource>
+</RCC>
