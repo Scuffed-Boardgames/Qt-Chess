@@ -2,7 +2,7 @@
 #include "pawn.h"
 #include <iostream>
 
-Pawn::Pawn(int x, int y, Colour colour) : Piece(x, y, colour), m_hasMoved(false), m_hasHopped(false)
+Pawn::Pawn(int x, int y, Colour colour) : Piece(x, y, colour), m_hasHopped(false), m_hasMoved(false)
 {}
 
 error Pawn::checkMove(int x, int y) {

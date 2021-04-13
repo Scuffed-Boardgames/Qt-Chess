@@ -11,9 +11,10 @@
 #include "queen.h"
 #include "king.h"
 #include <vector>
+#include <QObject>
 
-
-class Board {
+class Board : public QObject {
+    Q_OBJECT
 public:
 	Board(); // Default constructor for the Board class (Bernd Uijtdebroeks)
 	error checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour); // Checks if a move is valid(<=0) or invalid(>0) (Denzell Mgbokwere)
@@ -21,7 +22,8 @@ public:
 	void print();	// Prints the board (Bernd Uijtdebroeks)
 	std::vector<Piece*> getPieces(Colour colour); // Gives back an array of pawns (Denzell Mgbokwere)
 	bool checkCheck(Colour colour); // checks wether the king of colour is in check (Denzell Mgbokwere)
-
+signals:
+    void removedPiece(int x, int y, Colour colour);
 private:
 	King* getKing(Colour colour); //returns the king of the given colour
 	bool enPassent(Pawn* selected, int x_2, int y_2); // checks if the given move is a legal en passent move (Denzell Mgbokwere)

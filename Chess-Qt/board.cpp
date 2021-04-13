@@ -4,7 +4,7 @@
 #include <algorithm> 
 
 
-Board::Board() {
+Board::Board() : QObject() {
 	for (int i = 0; i < 8; ++i) {
         m_tiles[i][1].movedOn(new Pawn((i), 1, Colour::white));
 		m_pieceW.push_back(m_tiles[i][1].getPiece());
@@ -255,6 +255,7 @@ int Board::getNr(int x, int y, Colour colour) {
 }
 
 void Board::deletePiece(int x,int y, Colour colour) {
+    emit removedPiece(x, y, colour);
     Piece* target = m_tiles[x][y].getPiece();
 	int nr = getNr(target->getX(), target->getY(), target->getColour());
 	if (colour == Colour::white) {

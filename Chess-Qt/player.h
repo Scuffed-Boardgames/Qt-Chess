@@ -11,8 +11,8 @@ public:
 	void setAi();
 
 private:
+    Colour m_colour;
 	bool m_isAi;
-	Colour m_colour;
 };
 
 #endif 

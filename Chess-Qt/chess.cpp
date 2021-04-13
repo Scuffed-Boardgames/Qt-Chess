@@ -4,6 +4,8 @@
 
 
 chess::chess(QWidget *parent, Board* board) : QWidget(parent){
+    m_blackNext = 0;
+    m_whiteNext = 0;
     QBrush brushgrey;
     brushgrey.setColor(Qt::gray);
     brushgrey.setStyle(Qt::SolidPattern);
@@ -14,6 +16,28 @@ chess::chess(QWidget *parent, Board* board) : QWidget(parent){
     scene->setBoard(board);
     view = new QGraphicsView((QGraphicsScene*)scene);
 
+    int counter = 0;
+    for (int i = -3; i < -1; ++i) {
+        for (int j =2; j < 7; ++j) {
+            QGraphicsRectItem* rect = new QGraphicsRectItem(0, 0,100,100);
+            rect->moveBy(100*i, 100*j-50);
+            rect->setBrush(brushwhite);
+            whiteOut[counter] = rect;
+            scene->addItem(rect);
+            ++counter;
+        }
+    }
+    counter = 0;
+    for (int i = 9; i < 11; ++i) {
+        for (int j =2; j < 7; ++j) {
+           QGraphicsRectItem* rect2 = new QGraphicsRectItem(0, 0,100,100);
+           rect2->moveBy(100*i,100*j-50);
+           rect2->setBrush(brushgrey);
+           blackOut[counter] = rect2;
+           scene->addItem(rect2);
+           ++counter;
+        }
+    }
     for (int i =0; i < 8; ++i) {
         for (int j =0; j < 8; ++j) {
             QGraphicsRectItem* rect = new QGraphicsRectItem(0, 0,100,100);
@@ -86,3 +110,13 @@ int chess::getTurn(){
     return m_turn;
 }
 
+void chess::removePiece(int x, int y, Colour colour){
+    QList<QGraphicsItem*> child = tiles[x][y]->childItems();
+    if (colour == Colour::white){
+        child[0]->setParentItem(whiteOut[m_whiteNext]);
+        ++m_whiteNext;
+    }else{
+        child[0]->setParentItem(blackOut[m_blackNext]);
+        ++m_blackNext;
+    }
+}
