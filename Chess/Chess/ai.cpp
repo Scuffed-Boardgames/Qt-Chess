@@ -20,9 +20,9 @@ int Ai::playMove() {
 		while (!tried) {
 			int x = (rand() % 8) + 1;
 			int y = (rand() % 8) + 1;
-			int test = m_board->checkMove(pieceX, pieceY, x, y, m_colour);
+            int test = (int)m_board->checkMove(pieceX, pieceY, x, y, m_colour);
 			if (test <= 0) {
-				test = m_board->makeMove(pieceX, pieceY, x, y, m_colour);
+                test = (int)m_board->makeMove(pieceX, pieceY, x, y, m_colour);
 				if (test > 0)
 					return 1;
 				return 0;

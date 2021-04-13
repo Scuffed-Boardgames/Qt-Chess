@@ -7,7 +7,7 @@
 Game::Game() : m_player1(Colour::white), m_player2(Colour::white), m_board(), m_turn(0), m_hasEnded(false)
 {}
 
-int Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) {
+error Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2) {
 	if (m_turn % 2 == 0) {
 		return m_board.makeMove(x1, y1, x2, y2, Colour::white);
 	}
@@ -43,7 +43,7 @@ bool Game::canMove(Colour colour) {
 	for (int i = 0; i < len; ++i) {
 		for (int j = 1; j <= 8; ++j) {
 			for (int k = 1; k <= 8; ++k) {
-				if (m_board.checkMove(pieces[i]->getX(), pieces[i]->getY(), j, k, colour) == 0)
+                if ((int)m_board.checkMove(pieces[i]->getX(), pieces[i]->getY(), j, k, colour) == 0)
 					return true;
 			}
 		}
@@ -137,7 +137,7 @@ int Game::play() {
 				std::cin >> x1 >> y1;
 				std::cout << "Enter the position of the place you want to move to: \n";
 				std::cin >> x2 >> y2;
-				test = movePiece(x1, y1, x2, y2);
+                test = (int)movePiece(x1, y1, x2, y2);
 			}
 		}
 		print();
