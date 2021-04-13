@@ -109,9 +109,6 @@ error Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 }
 
 bool Board::enPassent(Pawn* selected, int x_2, int y_2) {
-	int sX = selected->getX();
-	int sY = selected->getY();
-
 	Piece* target = m_tiles[x_2 - 1][y_2 - 1 - (int)selected->getColour()].getPiece();
 	if (!target)
 		return false;
@@ -249,13 +246,13 @@ Colour Board::oppColour(Colour colour) {
 int Board::getNr(int x, int y, Colour colour) {
 	if (colour == Colour::white) {
 		size_t len = m_pieceW.size();
-		for (int i = 0; i < len; ++i)
+        for (size_t i = 0; i < len; ++i)
 			if (m_pieceW.at(i)->getX() == x && m_pieceW.at(i)->getY() == y)
 				return i;
 	}
 	else {
 		size_t len = m_pieceB.size();
-		for (int i = 0; i < len; ++i)
+        for (size_t i = 0; i < len; ++i)
 			if (m_pieceB.at(i)->getX() == x && m_pieceB.at(i)->getY() == y)
 				return i;
 	}
@@ -271,5 +268,5 @@ void Board::deletePiece(int x,int y, Colour colour) {
 	else{
 		m_pieceB.erase(m_pieceB.begin() + nr);
 	}
-	delete target;
+    free(target);
 }
