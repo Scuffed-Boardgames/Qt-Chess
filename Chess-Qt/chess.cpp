@@ -24,7 +24,7 @@ chess::chess(QWidget *parent, Board* board) : QWidget(parent){
             else
                 rect->setBrush(brushwhite);
             tiles[i][j] = rect;
-//            scene->addItem(rect);
+            scene->addItem(rect);
         }
     }
 

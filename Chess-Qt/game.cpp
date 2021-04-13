@@ -2,6 +2,7 @@
 #include "game.h"
 #include "ai.h"
 #include <iostream>
+#include <time.h>
 
 
 Game::Game() : m_player1(Colour::white), m_player2(Colour::white), m_board(), m_turn(0), m_hasEnded(false)
