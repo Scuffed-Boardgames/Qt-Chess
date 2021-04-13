@@ -1,5 +1,5 @@
 #include "chess.h"
-#include <QPoint>
+#include <QGridLayout>
 
 
 chess::chess(QWidget *parent, Board* board) : QWidget(parent){
@@ -54,10 +54,14 @@ chess::chess(QWidget *parent, Board* board) : QWidget(parent){
         blackpieces[i]->moveBy(10,10);
         whitepieces[i]->moveBy(10,10);
     }
+
+    QGridLayout *mainLayout = new QGridLayout;
+    mainLayout->addWidget(view, 0, 0);
+    setLayout(mainLayout);
 }
 
-void chess::show(){
-    view->show();
-}
+//void chess::show(){
+//    view->show();
+//}
 
 
