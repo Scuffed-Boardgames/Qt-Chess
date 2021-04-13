@@ -18,7 +18,7 @@ error Game::movePiece(const int& x1, const int& y1, const int& x2, const int& y2
 }
 
 void Game::checkEnd() {
-	for (int i = 1; i <= 8; ++i) {
+    for (int i = 0; i <= 7; ++i) {
 		if (m_board.getPieces(Colour::black).size() < m_minPieces) {
 			declareVictory(Colour::white);
 			return;
@@ -42,8 +42,8 @@ bool Game::canMove(Colour colour) {
 	std::vector<Piece*> pieces = m_board.getPieces(colour);
 	size_t len = pieces.size();
 	for (int i = 0; i < len; ++i) {
-		for (int j = 1; j <= 8; ++j) {
-			for (int k = 1; k <= 8; ++k) {
+        for (int j = 0; j <= 7; ++j) {
+            for (int k = 0; k <= 7; ++k) {
                 if ((int)m_board.checkMove(pieces[i]->getX(), pieces[i]->getY(), j, k, colour) == 0)
 					return true;
 			}

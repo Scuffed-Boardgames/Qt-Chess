@@ -18,8 +18,8 @@ int Ai::playMove() {
 		int pieceX = pieces.at(pieceNr)->getX();
 		int pieceY = pieces.at(pieceNr)->getY();
 		while (!tried) {
-			int x = (rand() % 8) + 1;
-			int y = (rand() % 8) + 1;
+            int x = (rand() % 8);
+            int y = (rand() % 8);
             int test = (int)m_board->checkMove(pieceX, pieceY, x, y, m_colour);
 			if (test <= 0) {
                 test = (int)m_board->makeMove(pieceX, pieceY, x, y);

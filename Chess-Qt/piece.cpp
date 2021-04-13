@@ -6,10 +6,10 @@ Piece::Piece(int x, int y, Colour colour) : m_x(x), m_y(y), m_colour(colour)
 
 
 bool Piece::checkBounds(int x, int y) {
-	if (x > 8 || y > 8) {
+    if (x > 7 || y > 7) {
 		return false;
 	}
-	else if (x < 1 || y < 1) {
+    else if (x < 0 || y < 0) {
 		return false;
 	}
 	return true;

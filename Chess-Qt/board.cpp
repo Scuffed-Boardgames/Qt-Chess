@@ -6,44 +6,44 @@
 
 Board::Board() {
 	for (int i = 0; i < 8; ++i) {
-		m_tiles[i][1].movedOn(new Pawn((i + 1), 2, Colour::white));
+        m_tiles[i][1].movedOn(new Pawn((i), 1, Colour::white));
 		m_pieceW.push_back(m_tiles[i][1].getPiece());
 
-		m_tiles[i][6].movedOn(new Pawn((i + 1), 7, Colour::black));
+        m_tiles[i][6].movedOn(new Pawn((i), 6, Colour::black));
 		m_pieceB.push_back(m_tiles[i][6].getPiece());
 	}
-	m_tiles[0][0].movedOn(new Rook(1, 1, Colour::white));
+    m_tiles[0][0].movedOn(new Rook(0, 0, Colour::white));
 	m_pieceW.push_back(m_tiles[0][0].getPiece());
-	m_tiles[1][0].movedOn(new Knight(2, 1, Colour::white));
+    m_tiles[1][0].movedOn(new Knight(1, 0, Colour::white));
 	m_pieceW.push_back(m_tiles[1][0].getPiece());
-	m_tiles[2][0].movedOn(new Bishop(3, 1, Colour::white));
+    m_tiles[2][0].movedOn(new Bishop(2, 0, Colour::white));
 	m_pieceW.push_back(m_tiles[2][0].getPiece());
-	m_tiles[3][0].movedOn(new Queen(4, 1, Colour::white));
+    m_tiles[3][0].movedOn(new Queen(3, 0, Colour::white));
 	m_pieceW.push_back(m_tiles[3][0].getPiece());
-	m_tiles[4][0].movedOn(new King(5, 1, Colour::white));
+    m_tiles[4][0].movedOn(new King(4, 0, Colour::white));
 	m_pieceW.push_back(m_tiles[4][0].getPiece());
-	m_tiles[5][0].movedOn(new Bishop(6, 1, Colour::white));
+    m_tiles[5][0].movedOn(new Bishop(5, 0, Colour::white));
 	m_pieceW.push_back(m_tiles[5][0].getPiece());
-	m_tiles[6][0].movedOn(new Knight(7, 1, Colour::white));
+    m_tiles[6][0].movedOn(new Knight(6, 0, Colour::white));
 	m_pieceW.push_back(m_tiles[6][0].getPiece());
-	m_tiles[7][0].movedOn(new Rook(8, 1, Colour::white));
+    m_tiles[7][0].movedOn(new Rook(7, 0, Colour::white));
 	m_pieceW.push_back(m_tiles[7][0].getPiece());
 
-	m_tiles[0][7].movedOn(new Rook(1, 8, Colour::black));
+    m_tiles[0][7].movedOn(new Rook(0, 7, Colour::black));
 	m_pieceB.push_back(m_tiles[0][7].getPiece());
-	m_tiles[1][7].movedOn(new Knight(2, 8, Colour::black));
+    m_tiles[1][7].movedOn(new Knight(1, 7, Colour::black));
 	m_pieceB.push_back(m_tiles[1][7].getPiece());
-	m_tiles[2][7].movedOn(new Bishop(3, 8, Colour::black));
+    m_tiles[2][7].movedOn(new Bishop(2, 7, Colour::black));
 	m_pieceB.push_back(m_tiles[2][7].getPiece());
-	m_tiles[3][7].movedOn(new Queen(4, 8, Colour::black));
+    m_tiles[3][7].movedOn(new Queen(3, 7, Colour::black));
 	m_pieceB.push_back(m_tiles[3][7].getPiece());
-	m_tiles[4][7].movedOn(new King(5, 8, Colour::black));
+    m_tiles[4][7].movedOn(new King(4, 7, Colour::black));
 	m_pieceB.push_back(m_tiles[4][7].getPiece());
-	m_tiles[5][7].movedOn(new Bishop(6, 8, Colour::black));
+    m_tiles[5][7].movedOn(new Bishop(5, 7, Colour::black));
 	m_pieceB.push_back(m_tiles[5][7].getPiece());
-	m_tiles[6][7].movedOn(new Knight(7, 8, Colour::black));
+    m_tiles[6][7].movedOn(new Knight(6, 7, Colour::black));
 	m_pieceB.push_back(m_tiles[6][7].getPiece());
-	m_tiles[7][7].movedOn(new Rook(8, 8, Colour::black));
+    m_tiles[7][7].movedOn(new Rook(7, 7, Colour::black));
 	m_pieceB.push_back(m_tiles[7][7].getPiece());
 }
 
@@ -51,8 +51,8 @@ Board::Board() {
 
 bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 	if (x_1 == x_2) {
-		for (int i = std::min(y_1, y_2) + 1; i < std::max(y_1, y_2); ++i) {
-			if (!m_tiles[x_1 - 1][i - 1].hasPieceColour(Colour::none)) {
+        for (int i = std::min(y_1, y_2) + 1; i < std::max(y_1, y_2); ++i) {
+            if (!m_tiles[x_1][i].hasPieceColour(Colour::none)) {
 				return false;
 			}
 		}
@@ -60,7 +60,7 @@ bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 
 	else if (y_1 == y_2) {
 		for (int i = std::min(x_1, x_2) + 1; i < std::max(x_1, x_2); ++i) {
-			if (!m_tiles[i - 1][y_1 - 1].hasPieceColour(Colour::none)) {
+            if (!m_tiles[i][y_1].hasPieceColour(Colour::none)) {
 				return false;
 			}
 		}
@@ -68,14 +68,14 @@ bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 
 	else if (abs(x_1 - x_2) == abs(y_1 - y_2)) {
 		if ((x_1 - x_2) == (y_1 - y_2)) {
-			for (int i =  1; i < abs(y_1 - y_2); ++i) {
-				if (!m_tiles[std::min(x_1, x_2) + i - 1][std::min(y_1, y_2) + i - 1].hasPieceColour(Colour::none)) {
+            for (int i =  1; i < abs(y_1 - y_2); ++i) {
+                if (!m_tiles[std::min(x_1, x_2) + i][std::min(y_1, y_2) + i].hasPieceColour(Colour::none)) {
 					return false;
 				}
 			}
 		}
-		for (int i = 1; i < abs(y_1 - y_2); ++i){
-			if (!m_tiles[std::max(x_1, x_2) - i - 1][std::min(y_1, y_2) + i - 1].hasPieceColour(Colour::none)) {
+        for (int i = 1; i < abs(y_1 - y_2); ++i){
+            if (!m_tiles[std::max(x_1, x_2) - i][std::min(y_1, y_2) + i].hasPieceColour(Colour::none)) {
 				return false;
 			}
 		}
@@ -84,8 +84,8 @@ bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 }
 
 error Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
-	Piece* selected = m_tiles[x_1 - 1][y_1 - 1].getPiece();
-	Piece* target = m_tiles[x_2 - 1][y_2 - 1].getPiece();
+    Piece* selected = m_tiles[x_1][y_1].getPiece();
+    Piece* target = m_tiles[x_2][y_2].getPiece();
 	if (!selected)
 		return error::noSelect;
 	if (selected->getColour() == oppColour(colour))
@@ -109,7 +109,7 @@ error Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 }
 
 bool Board::enPassent(Pawn* selected, int x_2, int y_2) {
-	Piece* target = m_tiles[x_2 - 1][y_2 - 1 - (int)selected->getColour()].getPiece();
+    Piece* target = m_tiles[x_2][y_2 - (int)selected->getColour()].getPiece();
 	if (!target)
 		return false;
 	if (!(target->getName() == 'p'))
@@ -120,7 +120,7 @@ bool Board::enPassent(Pawn* selected, int x_2, int y_2) {
 }
 
 error Board::makeMove(int x_1, int y_1, int x_2, int y_2){
-	Piece* selected = m_tiles[x_1 - 1][y_1 - 1].getPiece();
+    Piece* selected = m_tiles[x_1][y_1].getPiece();
     Colour colour;
     if(selected){
         colour = selected->getColour();
@@ -128,7 +128,7 @@ error Board::makeMove(int x_1, int y_1, int x_2, int y_2){
     else{
         colour = Colour::none;
     }
-	Piece* target = m_tiles[x_2 - 1][y_2 - 1].getPiece();
+    Piece* target = m_tiles[x_2][y_2].getPiece();
 	switch (checkMove(x_1, y_1, x_2, y_2, colour)) {
 	case(error::none):
 		removeHopped(colour);
@@ -143,14 +143,14 @@ error Board::makeMove(int x_1, int y_1, int x_2, int y_2){
 		if (selected->getName() == 'p' && !target) {
 			if (enPassent((Pawn*)selected, x_2, y_2)) {
 				deletePiece(x_2, y_2 - (int)selected->getColour(), oppColour(colour));
-				m_tiles[x_2 - 1][y_2 - 1 - (int)selected->getColour()].movedOf();
+                m_tiles[x_2][y_2 - (int)selected->getColour()].movedOf();
 			}
 		}
 		//register the move in the tiles
 		if (selected->getName() == 'p')
 			((Pawn*)selected)->setMoved();
-		m_tiles[x_1 - 1][y_1 - 1].movedOf();
-		m_tiles[x_2 - 1][y_2 - 1].movedOn(selected);
+        m_tiles[x_1][y_1].movedOf();
+        m_tiles[x_2][y_2].movedOn(selected);
 		return error::none;
 	case(error::illegalMove):
 		std::cout << "inserted move is illegal!\n";
@@ -260,7 +260,7 @@ int Board::getNr(int x, int y, Colour colour) {
 }
 
 void Board::deletePiece(int x,int y, Colour colour) {
-	Piece* target = m_tiles[x - 1][y - 1].getPiece();
+    Piece* target = m_tiles[x][y].getPiece();
 	int nr = getNr(target->getX(), target->getY(), target->getColour());
 	if (colour == Colour::white) {
 		m_pieceW.erase(m_pieceW.begin() + nr);

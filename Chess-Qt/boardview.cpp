@@ -24,7 +24,7 @@ void CustomGraphics::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     int y1 = list[0]->y()/100;
     int x2 = list[1]->x()/100;
     int y2 = list[1]->y()/100;
-    error test = m_board->makeMove(x1+1, y1+1, x2+1, y2+1);
+    error test = m_board->makeMove(x1, y1, x2, y2);
     if(test != error::none){
         list.clear();
         return;

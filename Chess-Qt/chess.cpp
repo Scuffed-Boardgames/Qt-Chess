@@ -60,8 +60,5 @@ chess::chess(QWidget *parent, Board* board) : QWidget(parent){
     setLayout(mainLayout);
 }
 
-//void chess::show(){
-//    view->show();
-//}
 
 
