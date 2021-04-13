@@ -17,6 +17,9 @@ signals:
 private:
     CustomGraphics* scene;
     QGraphicsView* view;
+    QGraphicsPixmapItem* blackpieces[16];
+    QGraphicsPixmapItem* whitepieces[16];
+    QGraphicsRectItem* tiles[8][8];
 
 };
 

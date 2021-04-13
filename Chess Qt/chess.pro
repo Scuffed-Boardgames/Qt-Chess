@@ -10,39 +10,39 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    ../Chess/Chess/ai.cpp \
-    ../Chess/Chess/bishop.cpp \
-    ../Chess/Chess/board.cpp \
-    ../Chess/Chess/game.cpp \
-    ../Chess/Chess/king.cpp \
-    ../Chess/Chess/knight.cpp \
-    ../Chess/Chess/pawn.cpp \
-    ../Chess/Chess/piece.cpp \
-    ../Chess/Chess/player.cpp \
-    ../Chess/Chess/queen.cpp \
-    ../Chess/Chess/rook.cpp \
-    ../Chess/Chess/tile.cpp \
+    ai.cpp \
+    bishop.cpp \
+    board.cpp \
     chess.cpp \
     customgraphics.cpp \
-    main.cpp
+    game.cpp \
+    king.cpp \
+    knight.cpp \
+    main.cpp \
+    pawn.cpp \
+    piece.cpp \
+    player.cpp \
+    queen.cpp \
+    rook.cpp \
+    tile.cpp
 
 HEADERS += \
-    ../Chess/Chess/ai.h \
-    ../Chess/Chess/bishop.h \
-    ../Chess/Chess/board.h \
-    ../Chess/Chess/colour.h \
-    ../Chess/Chess/error.h \
-    ../Chess/Chess/game.h \
-    ../Chess/Chess/king.h \
-    ../Chess/Chess/knight.h \
-    ../Chess/Chess/pawn.h \
-    ../Chess/Chess/piece.h \
-    ../Chess/Chess/player.h \
-    ../Chess/Chess/queen.h \
-    ../Chess/Chess/rook.h \
-    ../Chess/Chess/tile.h \
+    ai.h \
+    bishop.h \
+    board.h \
     chess.h \
-    customgraphics.h
+    colour.h \
+    customgraphics.h \
+    error.h \
+    game.h \
+    king.h \
+    knight.h \
+    pawn.h \
+    piece.h \
+    player.h \
+    queen.h \
+    rook.h \
+    tile.h
 
 FORMS +=
 
