@@ -105,6 +105,8 @@ error Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 	}
 	if (selected->getName() == 'p' && target && x_1 == x_2)
 		return error::illegalMove;
+    if(legalMove == error::enPassent)
+        legalMove = error::none;
 	return legalMove;
 }
 
