@@ -6,10 +6,10 @@
 
 Board::Board() : QObject() {
 	for (int i = 0; i < 8; ++i) {
-        m_tiles[i][1].movedOn(new Pawn((i), 1, Colour::white));
+        m_tiles[i][1].movedOn(new Pawn(i, 1, Colour::white));
 		m_pieceW.push_back(m_tiles[i][1].getPiece());
 
-        m_tiles[i][6].movedOn(new Pawn((i), 6, Colour::black));
+        m_tiles[i][6].movedOn(new Pawn(i, 6, Colour::black));
 		m_pieceB.push_back(m_tiles[i][6].getPiece());
 	}
     m_tiles[0][0].movedOn(new Rook(0, 0, Colour::white));
