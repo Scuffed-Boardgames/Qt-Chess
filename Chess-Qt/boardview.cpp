@@ -42,6 +42,8 @@ void CustomGraphics::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     QList<QGraphicsItem*> child = list[0]->childItems();
     list[0]->childItems().clear();
     child[0]->setParentItem(list[1]);
+    setBack((QGraphicsRectItem*)list[0]);
+    setBack((QGraphicsRectItem*)list[1]);
     list.clear();
     if (!m_gameEnded){
         emit madeMove();
