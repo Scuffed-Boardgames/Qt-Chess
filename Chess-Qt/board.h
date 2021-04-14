@@ -16,6 +16,7 @@
 class Board : public QObject {
     Q_OBJECT
 public:
+    void checkEnd();
 	Board(); // Default constructor for the Board class (Bernd Uijtdebroeks)
 	error checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour); // Checks if a move is valid(<=0) or invalid(>0) (Denzell Mgbokwere)
     error makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour); // Plays a move after checking if it is valid (Denzell Mgbokwere)
@@ -24,6 +25,7 @@ public:
 	bool checkCheck(Colour colour); // checks wether the king of colour is in check (Denzell Mgbokwere)
 signals:
     void removedPiece(int x, int y, Colour colour);
+    void reachedVictory(Colour colour);
 private:
 	King* getKing(Colour colour); //returns the king of the given colour
 	bool enPassent(Pawn* selected, int x_2, int y_2); // checks if the given move is a legal en passent move (Denzell Mgbokwere)
@@ -35,7 +37,8 @@ private:
 	Tile m_tiles[8][8];
 	std::vector<Piece*> m_pieceW;
 	std::vector<Piece*> m_pieceB;
-
+    size_t m_maxPieces{ 8 + 2 + 2 + 2 + 1 + 1 };
+    size_t m_minPieces{ m_maxPieces - 9 };
 };
 
 #endif 

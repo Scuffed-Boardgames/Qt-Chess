@@ -11,6 +11,8 @@ int main(int argc, char *argv[])
     chess w(nullptr, k.giveBoard());
     chess::connect(w.getScene(), &CustomGraphics::madeMove, &w, &chess::moveMade);
     chess::connect(board, &Board::removedPiece, &w, &chess::removePiece);
+    chess::connect(board, &Board::reachedVictory, &w, &chess::gameEnded);
+    chess::connect(board, &Board::reachedVictory, w.getScene(), &CustomGraphics::setEnded);
     w.show();
     return a.exec();
 

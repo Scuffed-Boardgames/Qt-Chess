@@ -120,3 +120,19 @@ void chess::removePiece(int x, int y, Colour colour){
         ++m_blackNext;
     }
 }
+
+void chess::gameEnded(Colour colour){
+    QString text;
+    if (colour == Colour::white){
+        text = QString("White has won in ") + QString::number(m_turn) + QString(" turns!");
+    }else{
+        text = QString("Black has won in ") + QString::number(m_turn) + QString(" turns!");
+    }
+    toptext->setText(text);
+
+    for (int i =0; i < 8; ++i) {
+        for (int j =0; j < 8; ++j) {
+            tiles[i][j]->setFlag(QGraphicsItem::ItemIsSelectable, false);
+        }
+    }
+}

@@ -17,6 +17,7 @@ public:
 public slots:
     void moveMade();
     void removePiece(int x, int y, Colour colour);
+    void gameEnded(Colour colour);
 private:
     CustomGraphics* scene;
     QGraphicsView* view;

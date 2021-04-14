@@ -6,12 +6,12 @@
 
 CustomGraphics::CustomGraphics(qreal x, qreal y, qreal width, qreal height, QObject *parent) : QGraphicsScene(x, y, width, height, parent)
 {
-
+    m_gameEnded = false;
 }
 
 CustomGraphics::CustomGraphics()
 {
-
+    m_gameEnded = false;
 }
 
 void CustomGraphics::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
@@ -39,7 +39,9 @@ void CustomGraphics::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     list[0]->childItems().clear();
     child[0]->setParentItem(list[1]);
     list.clear();
-    emit madeMove();
+    if (!m_gameEnded){
+        emit madeMove();
+    }
 }
 
 void CustomGraphics::setBoard(Board* board){
@@ -48,4 +50,8 @@ void CustomGraphics::setBoard(Board* board){
 
 void CustomGraphics::setTurn(int turn){
     m_turn = turn;
+}
+
+void CustomGraphics::setEnded(){
+    m_gameEnded = true;
 }

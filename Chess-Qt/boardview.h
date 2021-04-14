@@ -18,12 +18,14 @@ public:
     QList<QGraphicsItem*> list;
     void setBoard(Board* board);
     void setTurn(int turn);
+    void setEnded();
 signals:
     void madeMove();
 
 private:
     Board* m_board;
     int m_turn;
+    bool m_gameEnded;
 };
 
 #endif // BOARDVIEW_H

@@ -5,6 +5,8 @@
 
 
 Board::Board() : QObject() {
+    m_maxPieces= 8 + 2 + 2 + 2 + 1 + 1 ;
+    m_minPieces =  m_maxPieces - 9 ;
 	for (int i = 0; i < 8; ++i) {
         m_tiles[i][1].movedOn(new Pawn((i), 1, Colour::white));
 		m_pieceW.push_back(m_tiles[i][1].getPiece());
@@ -262,5 +264,19 @@ void Board::deletePiece(int x,int y, Colour colour) {
 	else{
 		m_pieceB.erase(m_pieceB.begin() + nr);
 	}
+    checkEnd();
     free(target);
+}
+
+void Board::checkEnd() {
+    for (int i = 0; i <= 7; ++i) {
+        if (m_pieceB.size() < m_minPieces) {
+            emit reachedVictory(Colour::white);
+            return;
+        }
+        else if (m_pieceW.size() < m_minPieces) {
+            emit reachedVictory(Colour::black);
+            return;
+        }
+    }
 }
