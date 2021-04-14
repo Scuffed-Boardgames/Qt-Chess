@@ -8,10 +8,10 @@ Board::Board() : QObject() {
     m_maxPieces= 8 + 2 + 2 + 2 + 1 + 1 ;
     m_minPieces =  m_maxPieces - 9 ;
 	for (int i = 0; i < 8; ++i) {
-        m_tiles[i][1].movedOn(new Pawn((i), 1, Colour::white));
+        m_tiles[i][1].movedOn(new Pawn(i, 1, Colour::white));
 		m_pieceW.push_back(m_tiles[i][1].getPiece());
 
-        m_tiles[i][6].movedOn(new Pawn((i), 6, Colour::black));
+        m_tiles[i][6].movedOn(new Pawn(i, 6, Colour::black));
 		m_pieceB.push_back(m_tiles[i][6].getPiece());
 	}
     m_tiles[0][0].movedOn(new Rook(0, 0, Colour::white));
@@ -97,16 +97,18 @@ error Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 	error legalMove = selected->checkMove(x_2, y_2);
 	if ((int)legalMove > 0)
 		return legalMove;
-	bool clear = freePath(x_1, y_1, x_2, y_2);
+    bool clear = freePath(x_1, y_1, x_2, y_2);
 	if (!clear)
 		return error::illegalMove;
 	if (legalMove == error::enPassent && !target){
 		if (enPassent((Pawn*)selected, x_2, y_2))
-			return error::enPassent;
+            return error::none; //might be wrong
 		return error::illegalMove;
 	}
 	if (selected->getName() == 'p' && target && x_1 == x_2)
 		return error::illegalMove;
+    if(legalMove == error::enPassent)
+        legalMove = error::none;
 	return legalMove;
 }
 
@@ -125,7 +127,7 @@ error Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
     Piece* selected = m_tiles[x_1][y_1].getPiece();
     Piece* target = m_tiles[x_2][y_2].getPiece();
 	switch (checkMove(x_1, y_1, x_2, y_2, colour)) {
-	case(error::none):
+    case(error::none):
 		removeHopped(colour);
 		selected->makeMove(x_2, y_2);
 		// if there is a target, take it

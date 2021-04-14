@@ -15,6 +15,8 @@ public:
     CustomGraphics(qreal x, qreal y, qreal width, qreal height, QObject *parent = nullptr);
     CustomGraphics();
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void setGreen(QGraphicsRectItem* rect);
+    void setBack(QGraphicsRectItem* rect);
     QList<QGraphicsItem*> list;
     void setBoard(Board* board);
     void setTurn(int turn);
