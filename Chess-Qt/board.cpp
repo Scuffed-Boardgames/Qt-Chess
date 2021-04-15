@@ -250,8 +250,8 @@ void Board::makePieces(){
     m_pieceB.push_back(m_tiles[4][7].getPiece());
     m_tiles[5][7].movedOn(std::shared_ptr<Bishop>(new Bishop(5, 7, Colour::black)));
     m_pieceB.push_back(m_tiles[5][7].getPiece());
-    m_tiles[6][7].movedOn(std::shared_ptr<Rook>(new Rook(6, 7, Colour::black)));
+    m_tiles[6][7].movedOn(std::shared_ptr<Knight>(new Knight(6, 7, Colour::black)));
     m_pieceB.push_back(m_tiles[6][7].getPiece());
-    m_tiles[7][7].movedOn(std::shared_ptr<Knight>(new Knight(2, 7, Colour::black)));
+    m_tiles[7][7].movedOn(std::shared_ptr<Rook>(new Rook(7, 7, Colour::black)));
     m_pieceB.push_back(m_tiles[7][7].getPiece());
 }
