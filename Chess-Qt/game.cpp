@@ -31,10 +31,6 @@ bool Game::isAi(int player) {
         return m_player2.isAi();
 }
 
-int Game::getTurn() {
-	return m_turn;
-}
-
 void Game::resetBoard(){
     m_board.resetBoard();
 }
