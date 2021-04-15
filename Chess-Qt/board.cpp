@@ -70,11 +70,13 @@ error Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 		return error::illegalMove;
     if(legalMove == error::enPassent)
         legalMove = error::none;
-	return legalMove;
+    else{}
+    return legalMove;
 }
 
 bool Board::enPassent(std::shared_ptr<Pawn> selected, int x_2, int y_2) {
-    std::shared_ptr<Piece> target = m_tiles[x_2][selected->getY()].getPiece();
+    y_2 = selected->getY();
+    std::shared_ptr<Piece> target = m_tiles[x_2][y_2].getPiece();
 	if (!target)
 		return false;
 	if (!(target->getName() == 'p'))
