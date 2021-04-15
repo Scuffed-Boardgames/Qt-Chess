@@ -5,7 +5,7 @@
 #include <time.h>
 
 
-Game::Game() : m_player1(Colour::white), m_player2(Colour::black), m_board(), m_ai(&m_board), m_turn(0), m_hasEnded(false)
+Game::Game() : m_player1(Colour::white), m_player2(Colour::black), m_board(new Board()), m_ai(new Ai(m_board)), m_turn(0), m_hasEnded(false)
 {}
 
 void Game::setAi(int aiCount) {
@@ -20,8 +20,8 @@ void Game::setAi(int aiCount) {
 }
 
 
-Board* Game::giveBoard() {
-    return &m_board;
+std::shared_ptr<Board> Game::giveBoard() {
+    return m_board;
 }
 
 bool Game::isAi(int player) {
@@ -32,9 +32,9 @@ bool Game::isAi(int player) {
 }
 
 void Game::resetBoard(){
-    m_board.resetBoard();
+    m_board->resetBoard();
 }
 
-Ai* Game::giveAi() {
-    return &m_ai;
+std::shared_ptr<Ai> Game::giveAi() {
+    return m_ai;
 }

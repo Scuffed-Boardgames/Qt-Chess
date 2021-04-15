@@ -4,7 +4,7 @@
 #include <QTimer>
 
 
-CustomGraphics::CustomGraphics(qreal x, qreal y, qreal width, qreal height, Board* board, QObject *parent) : QGraphicsScene(x, y, width, height, parent)
+CustomGraphics::CustomGraphics(qreal x, qreal y, qreal width, qreal height, std::shared_ptr<Board> board, QObject *parent) : QGraphicsScene(x, y, width, height, parent)
 {
     m_board = board;
 }
@@ -51,9 +51,6 @@ void CustomGraphics::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     emit madeMove();
 }
 
-void CustomGraphics::setBoard(Board* board){
-   m_board = board;
-}
 
 void CustomGraphics::setTurn(int turn){
     m_turn = turn;

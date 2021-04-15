@@ -4,20 +4,20 @@
 Tile::Tile() : m_piece(nullptr)
 {}
 
-Tile::Tile(Piece* piece) :  m_piece(piece)
+Tile::Tile(std::shared_ptr<Piece> piece) :  m_piece(piece)
 {}
 
-Piece* Tile::movedOf(){
-	Piece* tmp = m_piece;
+std::shared_ptr<Piece> Tile::movedOf(){
+    std::shared_ptr<Piece> tmp = m_piece;
 	m_piece = nullptr;
 	return tmp;
 }
 
-void Tile::movedOn(Piece* piece) {
+void Tile::movedOn(std::shared_ptr<Piece> piece) {
 	m_piece = piece;
 }
 
-Piece* Tile::getPiece() {
+std::shared_ptr<Piece> Tile::getPiece() {
 	return m_piece;
 }
 

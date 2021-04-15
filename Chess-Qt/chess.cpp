@@ -6,14 +6,8 @@
 
 
 
-chess::chess(QWidget *parent) : QWidget(parent){
-    m_gameEnded = false;
-    m_ai = m_game->giveAi();
-    m_blackNext = 0;
-    m_whiteNext = 0;
-    m_game = new Game;
+chess::chess(QWidget *parent) : QWidget(parent), m_game(new Game),m_ai(m_game->giveAi()), m_blackNext(0), m_whiteNext(0), m_gameEnded(false) {
     scene = new CustomGraphics(0,0,800,800, m_game->giveBoard());
-    scene->setBoard(m_game->giveBoard());
     view = new QGraphicsView((QGraphicsScene*)scene);
     view->setVisible(false);
     view->setMinimumSize(1400,850);
@@ -170,12 +164,12 @@ void chess::moveMade(){
     }
 }
 void chess::connects(){
-    Board* board = m_game->giveBoard();
+    Board* board = m_game->giveBoard().get();
     connect(getScene(), &CustomGraphics::madeMove, this, &chess::moveMade);
     connect(board, &Board::removedPiece, this, &chess::removePiece);
     connect(board, &Board::reachedVictory, this, &chess::gameEnded);
     connect(board, &Board::reachedVictory, this, &chess::setEnded);
-    connect(getButton(1), SIGNAL(clicked()), this, SLOT(close()));
+    connect(getButton(1), &QPushButton::clicked, this, &QWidget::close);
     connect(getButton(2), &QPushButton::clicked, this, &chess::reset);
     connect(getButton(3), &QPushButton::clicked, this, &chess::setAi);
     connect(getButton(4), &QPushButton::clicked, this, &chess::setAi);

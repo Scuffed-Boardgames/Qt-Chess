@@ -3,16 +3,17 @@
 #define TILE_H
 
 #include "piece.h"
+#include <memory>
 
 class Tile{
 public:
 	Tile();
-	Tile(Piece* piece);
-	Piece* movedOf(); // sets m_piece to null and returns the piece that was on it
-	void movedOn(Piece* piece);// sets m_piece to the given piece
+    Tile(std::shared_ptr<Piece> piece);
+    std::shared_ptr<Piece> movedOf(); // sets m_piece to null and returns the piece that was on it
+    void movedOn(std::shared_ptr<Piece> piece);// sets m_piece to the given piece
 	bool hasPieceColour(Colour colour);// checks if m_piece has a piece with the given colour
-	Piece* getPiece();// returns m_piece
+    std::shared_ptr<Piece> getPiece();// returns m_piece
 private:
-	Piece* m_piece;
+        std::shared_ptr<Piece> m_piece;
 };
 #endif 

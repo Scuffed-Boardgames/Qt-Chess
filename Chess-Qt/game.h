@@ -15,18 +15,18 @@ public:
 	void addTurn();
 	bool hasEnded();
 	void setAi(int aiCount);
-	Board* giveBoard();
+    std::shared_ptr<Board> giveBoard();
 	bool isAi(int player);
 	int getTurn();
 	int play();
-    Ai* giveAi();
+    std::shared_ptr<Ai> giveAi();
 
 private:
 	void declareVictory(Colour colour); // Puts win message if white wins (Bernd Uijtdebroeks)
     Player m_player1;
     Player m_player2;
-    Board m_board;
-    Ai m_ai;
+    std::shared_ptr<Board> m_board;
+    std::shared_ptr<Ai> m_ai;
 	int m_turn;
 	bool m_hasEnded;
 	size_t m_maxPieces{ 8 + 2 + 2 + 2 + 1 + 1 };

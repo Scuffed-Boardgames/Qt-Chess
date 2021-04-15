@@ -5,10 +5,10 @@
 
 class Ai{
 public:
-    Ai(Board* board);
-    std::vector<int> playMove(Colour colour, Board* board); // Makes the ai play a randomely generated move (Denzell Mgbokwere)
+    Ai(std::shared_ptr<Board> board);
+    std::vector<int> playMove(Colour colour, std::shared_ptr<Board> board); // Makes the ai play a randomely generated move (Denzell Mgbokwere)
 
 private:
-	Board* m_board;
+    std::shared_ptr<Board> m_board;
 };
 #endif 

@@ -47,8 +47,8 @@ bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 }
 
 error Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
-    Piece* selected = m_tiles[x_1][y_1].getPiece();
-    Piece* target = m_tiles[x_2][y_2].getPiece();
+    std::shared_ptr<Piece> selected = m_tiles[x_1][y_1].getPiece();
+    std::shared_ptr<Piece> target = m_tiles[x_2][y_2].getPiece();
 	if (!selected)
 		return error::noSelect;
 	if (selected->getColour() == oppColour(colour))
@@ -62,7 +62,7 @@ error Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 	if (!clear)
 		return error::illegalMove;
 	if (legalMove == error::enPassent && !target){
-		if (enPassent((Pawn*)selected, x_2, y_2))
+        if (enPassent(std::dynamic_pointer_cast<Pawn>(selected), x_2, y_2))
             return error::none; //might be wrong
 		return error::illegalMove;
 	}
@@ -73,20 +73,20 @@ error Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 	return legalMove;
 }
 
-bool Board::enPassent(Pawn* selected, int x_2, int y_2) {
-    Piece* target = m_tiles[x_2][selected->getY()].getPiece();
+bool Board::enPassent(std::shared_ptr<Pawn> selected, int x_2, int y_2) {
+    std::shared_ptr<Piece> target = m_tiles[x_2][selected->getY()].getPiece();
 	if (!target)
 		return false;
 	if (!(target->getName() == 'p'))
 		return false;
-	if (!((Pawn*)target)->m_hasHopped)
+    if (!std::dynamic_pointer_cast<Pawn>(target)->m_hasHopped)
 		return false;
 	return true;
 }
 
 error Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
-    Piece* selected = m_tiles[x_1][y_1].getPiece();
-    Piece* target = m_tiles[x_2][y_2].getPiece();
+    std::shared_ptr<Piece> selected = m_tiles[x_1][y_1].getPiece();
+    std::shared_ptr<Piece> target = m_tiles[x_2][y_2].getPiece();
 	switch (checkMove(x_1, y_1, x_2, y_2, colour)) {
     case(error::none):
 		removeHopped(colour);
@@ -95,10 +95,10 @@ error Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 			deletePiece(x_2, y_2, oppColour(colour));
 		}
 		if (abs(y_1 - y_2) == 2 && selected->getName() == 'p')
-			((Pawn*)selected)->m_hasHopped = true;
+            std::dynamic_pointer_cast<Pawn>(selected)->m_hasHopped = true;
 		//en passent
         if (selected->getName() == 'p' && !target && x_1 != x_2) {
-			if (enPassent((Pawn*)selected, x_2, y_2)) {
+            if (enPassent(std::dynamic_pointer_cast<Pawn>(selected), x_2, y_2)) {
                 deletePiece(x_2, y_1, oppColour(colour));
                 m_tiles[x_2][y_1].movedOf();
 			}
@@ -106,7 +106,7 @@ error Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
         selected->makeMove(x_2, y_2);
 		//register the move in the tiles
 		if (selected->getName() == 'p')
-			((Pawn*)selected)->setMoved();
+            std::dynamic_pointer_cast<Pawn>(selected)->setMoved();
         m_tiles[x_1][y_1].movedOf();
         m_tiles[x_2][y_2].movedOn(selected);
 		return error::none;
@@ -128,18 +128,18 @@ error Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 }
 
 void Board::removeHopped(Colour colour) {
-    std::vector<Piece*> pieces = getPieces(colour);
-	for (Piece* piece : pieces) {
+    std::vector<std::shared_ptr<Piece>> pieces = getPieces(colour);
+    for (std::shared_ptr<Piece> piece : pieces) {
 		if(piece->getName() == 'p'){
-			if (((Pawn*)piece)->m_hasHopped) {
-				((Pawn*)piece)->m_hasHopped = false;
+            if (std::dynamic_pointer_cast<Pawn>(piece)->m_hasHopped) {
+                std::dynamic_pointer_cast<Pawn>(piece)->m_hasHopped = false;
 				return;
 			}
 		}
 	}
 }
 
-std::vector<Piece*> Board::getPieces(Colour colour){
+std::vector<std::shared_ptr<Piece>> Board::getPieces(Colour colour){
 	if (colour == Colour::white){
 		return m_pieceW;
 	}
@@ -174,7 +174,7 @@ int Board::getNr(int x, int y, Colour colour) {
 
 void Board::deletePiece(int x,int y, Colour colour) {
     emit removedPiece(x, y, colour);
-    Piece* target = m_tiles[x][y].getPiece();
+    std::shared_ptr<Piece> target = m_tiles[x][y].getPiece();
 	int nr = getNr(target->getX(), target->getY(), target->getColour());
 	if (colour == Colour::white) {
 		m_pieceW.erase(m_pieceW.begin() + nr);
@@ -182,8 +182,8 @@ void Board::deletePiece(int x,int y, Colour colour) {
 	else{
 		m_pieceB.erase(m_pieceB.begin() + nr);
 	}
+    m_tiles[x][y].movedOf();
     checkEnd();
-    free(target);
 }
 
 void Board::checkEnd() {
@@ -202,9 +202,7 @@ void Board::checkEnd() {
 void Board::resetBoard(){
     for(int i = 0; i<8; ++i){
         for(int j = 0; j<8; ++j){
-            Piece* test = m_tiles[i][j].movedOf();
-            if(test)
-                free(test);
+            m_tiles[i][j].movedOf();
         }
     }
     m_pieceW.clear();
@@ -215,43 +213,43 @@ void Board::resetBoard(){
 
 void Board::makePieces(){
     for (int i = 0; i < 8; ++i) {
-        m_tiles[i][1].movedOn(new Pawn(i, 1, Colour::white));
+        m_tiles[i][1].movedOn(std::shared_ptr<Pawn>(new Pawn(i, 1, Colour::white)));
         m_pieceW.push_back(m_tiles[i][1].getPiece());
 
-        m_tiles[i][6].movedOn(new Pawn(i, 6, Colour::black));
+        m_tiles[i][6].movedOn(std::shared_ptr<Pawn>(new Pawn(i, 6, Colour::black)));
         m_pieceB.push_back(m_tiles[i][6].getPiece());
     }
-    m_tiles[0][0].movedOn(new Rook(0, 0, Colour::white));
+    m_tiles[0][0].movedOn(std::shared_ptr<Rook>(new Rook(0, 0, Colour::white)));
     m_pieceW.push_back(m_tiles[0][0].getPiece());
-    m_tiles[1][0].movedOn(new Knight(1, 0, Colour::white));
+    m_tiles[1][0].movedOn(std::shared_ptr<Knight>(new Knight(1, 0, Colour::white)));
     m_pieceW.push_back(m_tiles[1][0].getPiece());
-    m_tiles[2][0].movedOn(new Bishop(2, 0, Colour::white));
+    m_tiles[2][0].movedOn(std::shared_ptr<Bishop>(new Bishop(2, 0, Colour::white)));
     m_pieceW.push_back(m_tiles[2][0].getPiece());
-    m_tiles[3][0].movedOn(new Queen(3, 0, Colour::white));
+    m_tiles[3][0].movedOn(std::shared_ptr<Queen>(new Queen(3, 0, Colour::white)));
     m_pieceW.push_back(m_tiles[3][0].getPiece());
-    m_tiles[4][0].movedOn(new King(4, 0, Colour::white));
+    m_tiles[4][0].movedOn(std::shared_ptr<King>(new King(4, 0, Colour::white)));
     m_pieceW.push_back(m_tiles[4][0].getPiece());
-    m_tiles[5][0].movedOn(new Bishop(5, 0, Colour::white));
+    m_tiles[5][0].movedOn(std::shared_ptr<Bishop>(new Bishop(5, 0, Colour::white)));
     m_pieceW.push_back(m_tiles[5][0].getPiece());
-    m_tiles[6][0].movedOn(new Knight(6, 0, Colour::white));
+    m_tiles[6][0].movedOn(std::shared_ptr<Knight>(new Knight(6, 0, Colour::white)));
     m_pieceW.push_back(m_tiles[6][0].getPiece());
-    m_tiles[7][0].movedOn(new Rook(7, 0, Colour::white));
+    m_tiles[7][0].movedOn(std::shared_ptr<Rook>(new Rook(7, 0, Colour::white)));
     m_pieceW.push_back(m_tiles[7][0].getPiece());
 
-    m_tiles[0][7].movedOn(new Rook(0, 7, Colour::black));
+    m_tiles[0][7].movedOn(std::shared_ptr<Rook>(new Rook(0, 7, Colour::black)));
     m_pieceB.push_back(m_tiles[0][7].getPiece());
-    m_tiles[1][7].movedOn(new Knight(1, 7, Colour::black));
+    m_tiles[1][7].movedOn(std::shared_ptr<Knight>(new Knight(1, 7, Colour::black)));
     m_pieceB.push_back(m_tiles[1][7].getPiece());
-    m_tiles[2][7].movedOn(new Bishop(2, 7, Colour::black));
+    m_tiles[2][7].movedOn(std::shared_ptr<Bishop>(new Bishop(2, 7, Colour::black)));
     m_pieceB.push_back(m_tiles[2][7].getPiece());
-    m_tiles[3][7].movedOn(new Queen(3, 7, Colour::black));
+    m_tiles[3][7].movedOn(std::shared_ptr<Queen>(new Queen(3, 7, Colour::black)));
     m_pieceB.push_back(m_tiles[3][7].getPiece());
-    m_tiles[4][7].movedOn(new King(4, 7, Colour::black));
+    m_tiles[4][7].movedOn(std::shared_ptr<King>(new King(4, 7, Colour::black)));
     m_pieceB.push_back(m_tiles[4][7].getPiece());
-    m_tiles[5][7].movedOn(new Bishop(5, 7, Colour::black));
+    m_tiles[5][7].movedOn(std::shared_ptr<Bishop>(new Bishop(5, 7, Colour::black)));
     m_pieceB.push_back(m_tiles[5][7].getPiece());
-    m_tiles[6][7].movedOn(new Knight(6, 7, Colour::black));
+    m_tiles[6][7].movedOn(std::shared_ptr<Rook>(new Rook(6, 7, Colour::black)));
     m_pieceB.push_back(m_tiles[6][7].getPiece());
-    m_tiles[7][7].movedOn(new Rook(7, 7, Colour::black));
+    m_tiles[7][7].movedOn(std::shared_ptr<Knight>(new Knight(2, 7, Colour::black)));
     m_pieceB.push_back(m_tiles[7][7].getPiece());
 }

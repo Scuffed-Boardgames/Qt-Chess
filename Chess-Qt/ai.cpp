@@ -4,12 +4,12 @@
 #include "ai.h"
 
 
-Ai::Ai(Board* board) : m_board{ board }
+Ai::Ai(std::shared_ptr<Board> board) : m_board{ board }
 {}
 
-std::vector<int> Ai::playMove(Colour colour, Board* board) {
+std::vector<int> Ai::playMove(Colour colour, std::shared_ptr<Board> board) {
     std::vector<int> move;
-    std::vector<Piece*> pieces = board->getPieces(colour);
+    std::vector<std::shared_ptr<Piece>> pieces = board->getPieces(colour);
 	int c = 0;
 	bool tried = false;
 	while (true) {

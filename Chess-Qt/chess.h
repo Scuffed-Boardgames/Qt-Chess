@@ -16,10 +16,8 @@ class chess : public QWidget
 public:
     explicit chess(QWidget *parent = nullptr);
     CustomGraphics* getScene();
-    int getTurn();
     QPushButton* getButton(int buttonNr);
-    void reset();
-    void setEnded();
+    int getTurn();
 public slots:
     void moveMade();
     void removePiece(int x, int y, Colour colour);
@@ -27,12 +25,13 @@ public slots:
     void setAi();
     void aiMove();
 private:
-    void connects();
-    void makeButtons();
-    Ai* m_ai;
-    void makeBoard();
-    Game* m_game;
-    void setPieces();
+    std::unique_ptr<Game> m_game;
+    std::shared_ptr<Ai> m_ai;
+    int m_blackNext;
+    int m_whiteNext;
+    int m_turn;
+    bool m_gameEnded;
+
     CustomGraphics* scene;
     QGraphicsView* view;
     QGraphicsPixmapItem* blackpieces[16];
@@ -49,11 +48,14 @@ private:
     QPushButton* bothButton;
     QGroupBox* group1;
     QGroupBox* group2;
-    int m_blackNext;
-    int m_whiteNext;
-    int m_turn;
+
+    void reset();
+    void connects();
+    void makeButtons();
+    void setPieces();
+    void makeBoard();
     void updateText();
-    bool m_gameEnded;
+    void setEnded();
 };
 
 #endif // CHESS_H
