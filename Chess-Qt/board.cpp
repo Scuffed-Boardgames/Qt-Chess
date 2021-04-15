@@ -35,6 +35,7 @@ bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
 					return false;
 				}
 			}
+            return true;
 		}
         for (int i = 1; i < abs(y_1 - y_2); ++i){
             if (!m_tiles[std::max(x_1, x_2) - i][std::min(y_1, y_2) + i].hasPieceColour(Colour::none)) {
