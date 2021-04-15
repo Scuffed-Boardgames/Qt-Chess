@@ -15,7 +15,7 @@ error Pawn::checkMove(int x, int y) {
 	}
 
 	if ((pawnX  == x + 1 || pawnX  == x - 1) && pawnY + (int)getColour() == y) {
-		return error::enPassent;
+        return error::none;
 	}
 
 	else if (pawnX == x && pawnY + 2 * (int)getColour() == y && !m_hasMoved) {

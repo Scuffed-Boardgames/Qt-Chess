@@ -113,7 +113,7 @@ error Board::checkMove(int x_1, int y_1, int x_2, int y_2, Colour colour) {
 }
 
 bool Board::enPassent(Pawn* selected, int x_2, int y_2) {
-    Piece* target = m_tiles[x_2][y_2 - (int)selected->getColour()].getPiece();
+    Piece* target = m_tiles[x_2][selected->getY()].getPiece();
 	if (!target)
 		return false;
 	if (!(target->getName() == 'p'))
@@ -129,7 +129,6 @@ error Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 	switch (checkMove(x_1, y_1, x_2, y_2, colour)) {
     case(error::none):
 		removeHopped(colour);
-		selected->makeMove(x_2, y_2);
 		// if there is a target, take it
 		if(target){
 			deletePiece(x_2, y_2, oppColour(colour));
@@ -137,12 +136,13 @@ error Board::makeMove(int x_1, int y_1, int x_2, int y_2, Colour colour){
 		if (abs(y_1 - y_2) == 2 && selected->getName() == 'p')
 			((Pawn*)selected)->m_hasHopped = true;
 		//en passent
-		if (selected->getName() == 'p' && !target) {
+        if (selected->getName() == 'p' && !target && x_1 != x_2) {
 			if (enPassent((Pawn*)selected, x_2, y_2)) {
-				deletePiece(x_2, y_2 - (int)selected->getColour(), oppColour(colour));
-                m_tiles[x_2][y_2 - (int)selected->getColour()].movedOf();
+                deletePiece(x_2, y_1, oppColour(colour));
+                m_tiles[x_2][y_1].movedOf();
 			}
 		}
+        selected->makeMove(x_2, y_2);
 		//register the move in the tiles
 		if (selected->getName() == 'p')
 			((Pawn*)selected)->setMoved();
