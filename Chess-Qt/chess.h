@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 #include <QWidget>
 #include <QLabel>
+#include <QPushButton>
 #include "boardview.h"
 
 
@@ -14,6 +15,7 @@ public:
     explicit chess(QWidget *parent = nullptr, Board* board = nullptr);
     CustomGraphics* getScene();
     int getTurn();
+    QPushButton* getButton(int buttonNr);
 public slots:
     void moveMade();
     void removePiece(int x, int y, Colour colour);
@@ -27,6 +29,8 @@ private:
     QGraphicsRectItem* whiteOut[10];
     QGraphicsRectItem* blackOut[10];
     QLabel* toptext;
+    QPushButton* exitButton;
+    QPushButton* newgameButton;
     int m_blackNext;
     int m_whiteNext;
     int m_turn;
