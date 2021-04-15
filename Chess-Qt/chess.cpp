@@ -7,6 +7,7 @@
 
 
 chess::chess(QWidget *parent) : QWidget(parent){
+    m_gameEnded = false;
     m_ai = m_game->giveAi();
     m_blackNext = 0;
     m_whiteNext = 0;
@@ -15,6 +16,7 @@ chess::chess(QWidget *parent) : QWidget(parent){
     scene->setBoard(m_game->giveBoard());
     view = new QGraphicsView((QGraphicsScene*)scene);
     view->setVisible(false);
+    view->setMinimumSize(1400,850);
     makeBoard();
     makeButtons();
     m_turn = 1;
@@ -160,9 +162,11 @@ void chess::updateText(){
     toptext->setText(text);
 }
 void chess::moveMade(){
-    updateText();
-    if(m_game->isAi(1 - (m_turn % 2))){
-        aiMove();
+    if(!m_gameEnded){
+        updateText();
+        if(m_game->isAi(1 - (m_turn % 2))){
+            aiMove();
+        }
     }
 }
 void chess::connects(){
@@ -170,7 +174,7 @@ void chess::connects(){
     connect(getScene(), &CustomGraphics::madeMove, this, &chess::moveMade);
     connect(board, &Board::removedPiece, this, &chess::removePiece);
     connect(board, &Board::reachedVictory, this, &chess::gameEnded);
-    connect(board, &Board::reachedVictory, getScene(), &CustomGraphics::setEnded);
+    connect(board, &Board::reachedVictory, this, &chess::setEnded);
     connect(getButton(1), SIGNAL(clicked()), this, SLOT(close()));
     connect(getButton(2), &QPushButton::clicked, this, &chess::reset);
     connect(getButton(3), &QPushButton::clicked, this, &chess::setAi);
@@ -234,11 +238,22 @@ QPushButton* chess::getButton(int buttonNr){
 }
 
 void chess::reset(){
+    for (int i =0; i < 8; ++i) {
+        for (int j =0; j < 8; ++j) {
+            tiles[i][j]->setFlag(QGraphicsItem::ItemIsSelectable, true);
+        }
+    }
+    m_whiteNext = 0;
+    m_blackNext = 0;
+    m_gameEnded = false;
     m_turn = 1;
     scene->setTurn(m_turn);
     toptext->setText("Turn: 1 | Move: White");
     setPieces();
     m_game->resetBoard();
+    if (m_game->isAi(0)){
+        aiMove();
+    }
 }
 
 void chess::setAi(){
@@ -280,4 +295,8 @@ void chess::aiMove(){
    QList<QGraphicsItem*> child = tiles[x1][y1]->childItems();
    child[0]->setParentItem(tiles[x2][y2]);
    moveMade();
+}
+
+void chess::setEnded(){
+    m_gameEnded = true;
 }

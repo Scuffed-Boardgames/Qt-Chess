@@ -19,6 +19,7 @@ public:
     int getTurn();
     QPushButton* getButton(int buttonNr);
     void reset();
+    void setEnded();
 public slots:
     void moveMade();
     void removePiece(int x, int y, Colour colour);
@@ -52,6 +53,7 @@ private:
     int m_whiteNext;
     int m_turn;
     void updateText();
+    bool m_gameEnded;
 };
 
 #endif // CHESS_H
