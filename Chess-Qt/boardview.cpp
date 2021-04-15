@@ -4,9 +4,10 @@
 #include <QTimer>
 
 
-CustomGraphics::CustomGraphics(qreal x, qreal y, qreal width, qreal height, QObject *parent) : QGraphicsScene(x, y, width, height, parent)
+CustomGraphics::CustomGraphics(qreal x, qreal y, qreal width, qreal height, Board* board, QObject *parent) : QGraphicsScene(x, y, width, height, parent)
 {
     m_gameEnded = false;
+    m_board = board;
 }
 
 CustomGraphics::CustomGraphics()
@@ -18,10 +19,14 @@ void CustomGraphics::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     QGraphicsScene::mouseReleaseEvent(event);
     if(list.length() == 0){
         list = this->selectedItems();
+        if(list.length() == 0)
+            return;
         setGreen((QGraphicsRectItem*)list[0]);
         return;
     }
     list.append(this->selectedItems());
+    if(list.length() == 1)
+        return;
     setGreen((QGraphicsRectItem*)list[1]);
     int x1 = list[0]->x()/100;
     int y1 = 7 - list[0]->y()/100;

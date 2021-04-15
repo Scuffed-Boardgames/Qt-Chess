@@ -3,19 +3,62 @@
 #include <QVBoxLayout>
 
 
-chess::chess(QWidget *parent, Game* game) : QWidget(parent){
+
+
+chess::chess(QWidget *parent) : QWidget(parent){
+    m_ai = m_game->giveAi();
     m_blackNext = 0;
     m_whiteNext = 0;
+    m_game = new Game;
+    scene = new CustomGraphics(0,0,800,800, m_game->giveBoard());
+    scene->setBoard(m_game->giveBoard());
+    view = new QGraphicsView((QGraphicsScene*)scene);
+    view->setVisible(false);
+    makeBoard();
+    makeButtons();
+    m_turn = 1;
+    scene->setTurn(m_turn);
+    toptext = new QLabel("Which player(s) should be ai?");
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(toptext, 0);
+    mainLayout->addWidget(group1, 1);
+    mainLayout->addWidget(group2, 1);
+    mainLayout->addWidget(view, 2);
+    setLayout(mainLayout);
+    group1->setVisible(false);
+    connects();
+}
+
+void chess::makeButtons(){
+    noneButton = new QPushButton("None");
+    blackButton = new QPushButton("Black");
+    whiteButton = new QPushButton("White");
+    bothButton = new QPushButton("Both");
+    exitButton = new QPushButton("Quit game");
+    newgameButton = new QPushButton("New game");
+    group1 = new QGroupBox();
+    QHBoxLayout *layout1 = new QHBoxLayout;
+    layout1->addWidget(exitButton);
+    layout1->addWidget(newgameButton);
+    group1->setLayout(layout1);
+    group1->setFixedHeight(50);
+
+    group2 = new QGroupBox();
+    QHBoxLayout *layout2 = new QHBoxLayout;
+    layout2->addWidget(noneButton);
+    layout2->addWidget(blackButton);
+    layout2->addWidget(whiteButton);
+    layout2->addWidget(bothButton);
+    group2->setLayout(layout2);
+}
+void chess::makeBoard(){
     QBrush brushgrey;
     brushgrey.setColor(Qt::gray);
     brushgrey.setStyle(Qt::SolidPattern);
     QBrush brushwhite;
     brushwhite.setColor(Qt::white);
     brushwhite.setStyle(Qt::SolidPattern);
-    scene = new CustomGraphics(0,0,800,800);
-    scene->setBoard(game->giveBoard());
-    view = new QGraphicsView((QGraphicsScene*)scene);
-
     int counter = 0;
     for (int i = -3; i < -1; ++i) {
         for (int j =2; j < 7; ++j) {
@@ -78,20 +121,7 @@ chess::chess(QWidget *parent, Game* game) : QWidget(parent){
         blackpieces[i]->moveBy(10,10);
         whitepieces[i]->moveBy(10,10);
     }
-
-    m_turn = 1;
-    scene->setTurn(m_turn);
-    toptext = new QLabel("Turn: 1 | Move: White");
-    exitButton = new QPushButton("Quit game");
-    newgameButton = new QPushButton("New game");
-    QVBoxLayout *mainLayout = new  QVBoxLayout;
-    mainLayout->addWidget(toptext, 0);
-    mainLayout->addWidget(newgameButton, 1);
-    mainLayout->addWidget(exitButton, 1);
-    mainLayout->addWidget(view, 2);
-    setLayout(mainLayout);
 }
-
 void chess::setPieces(){
     for (int i = 0; i < 8; ++i) {
         blackpieces[i]->setParentItem(tiles[i][6]);
@@ -130,8 +160,22 @@ void chess::updateText(){
 }
 void chess::moveMade(){
     updateText();
+    if(m_game->isAi(1 - (m_turn % 2)))
+        aiMove();
 }
-
+void chess::connects(){
+    Board* board = m_game->giveBoard();
+    connect(getScene(), &CustomGraphics::madeMove, this, &chess::moveMade);
+    connect(board, &Board::removedPiece, this, &chess::removePiece);
+    connect(board, &Board::reachedVictory, this, &chess::gameEnded);
+    connect(board, &Board::reachedVictory, getScene(), &CustomGraphics::setEnded);
+    connect(getButton(1), SIGNAL(clicked()), this, SLOT(close()));
+    connect(getButton(2), &QPushButton::clicked, this, &chess::reset);
+    connect(getButton(3), &QPushButton::clicked, this, &chess::setAi);
+    connect(getButton(4), &QPushButton::clicked, this, &chess::setAi);
+    connect(getButton(5), &QPushButton::clicked, this, &chess::setAi);
+    connect(getButton(6), &QPushButton::clicked, this, &chess::setAi);
+}
 CustomGraphics* chess::getScene(){
     return scene;
 }
@@ -168,12 +212,22 @@ void chess::gameEnded(Colour colour){
 }
 
 QPushButton* chess::getButton(int buttonNr){
-    if (buttonNr == 1){
+    switch (buttonNr){
+    case 1:
         return exitButton;
-    }else if(buttonNr == 2){
+    case 2:
         return newgameButton;
-    }else{
+    case 3:
+        return noneButton;
+    case 4:
+        return whiteButton;
+    case 5:
+        return blackButton;
+    case 6:
+        return bothButton;
+    default:
         return NULL;
+
     }
 }
 
@@ -182,5 +236,46 @@ void chess::reset(){
     scene->setTurn(m_turn);
     toptext->setText("Turn: 1 | Move: White");
     setPieces();
-//    m_game->resetBoard();
+    m_game->resetBoard();
+}
+
+void chess::setAi(){
+    group2->setVisible(false);
+    group1->setVisible(true);
+    view->setVisible(true);
+    QString colour;
+    if(m_turn % 2 == 0)
+        colour = "Black";
+    else
+        colour = "White";
+    QString text = QString("Turn: ") + QString::number(m_turn) + QString(" | Move: ") + colour;
+    toptext->setText(text);
+
+    QPushButton* buttonSender = qobject_cast<QPushButton*>(sender()); // retrieve the button you have clicked
+    QString buttonText = buttonSender->text(); // retrive the text from the button clicked
+    if (buttonText == "White"){
+        m_game->setAi(1);
+        aiMove();
+    } else if(buttonText == "Black"){
+        m_game->setAi(2);
+    }else if(buttonText == "Both"){
+        m_game->setAi(3);
+        aiMove();
+    }
+}
+
+void chess::aiMove(){
+    Colour colour;
+    if(m_turn % 2 != 0)
+        colour = Colour::white;
+    else
+        colour = Colour::black;
+   std::vector<int> move = m_ai->playMove(colour, m_game->giveBoard());
+   int x1 = move[0];
+   int y1 = move[1];
+   int x2 = move[2];
+   int y2 = move[3];
+   QList<QGraphicsItem*> child = tiles[x1][y1]->childItems();
+   child[0]->setParentItem(tiles[x2][y2]);
+   moveMade();
 }

@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QGraphicsRectItem>
 #include "board.h"
+#include "ai.h"
 #include <QObject>
 
 class CustomGraphics : public QGraphicsScene
@@ -12,7 +13,7 @@ class CustomGraphics : public QGraphicsScene
     Q_OBJECT
 
 public:
-    CustomGraphics(qreal x, qreal y, qreal width, qreal height, QObject *parent = nullptr);
+    CustomGraphics(qreal x, qreal y, qreal width, qreal height, Board* board, QObject *parent = nullptr);
     CustomGraphics();
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void setGreen(QGraphicsRectItem* rect);
