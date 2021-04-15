@@ -5,11 +5,10 @@
 
 class Ai{
 public:
-	Ai(Colour colour, Board* board);
-	int playMove(); // Makes the ai play a randomely generated move (Denzell Mgbokwere)
+    Ai(Board* board);
+    std::vector<int> playMove(Colour colour, Board* board); // Makes the ai play a randomely generated move (Denzell Mgbokwere)
 
 private:
-	Colour m_colour;
 	Board* m_board;
 };
 #endif 

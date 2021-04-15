@@ -4,11 +4,12 @@
 #include "ai.h"
 
 
-Ai::Ai(Colour colour, Board* board) : m_colour{ colour }, m_board{ board }
+Ai::Ai(Board* board) : m_board{ board }
 {}
 
-int Ai::playMove() {
-	std::vector<Piece*> pieces = m_board->getPieces(m_colour);
+std::vector<int> Ai::playMove(Colour colour, Board* board) {
+    std::vector<int> move;
+    std::vector<Piece*> pieces = board->getPieces(colour);
 	int c = 0;
 	bool tried = false;
 	while (true) {
@@ -20,12 +21,16 @@ int Ai::playMove() {
 		while (!tried) {
             int x = (rand() % 8);
             int y = (rand() % 8);
-            int test = (int)m_board->checkMove(pieceX, pieceY, x, y, m_colour);
+            int test = (int)board->checkMove(pieceX, pieceY, x, y, colour);
 			if (test <= 0) {
-                test = (int)m_board->makeMove(pieceX, pieceY, x, y, m_colour);
-				if (test > 0)
-					return 1;
-				return 0;
+                test = (int)board->makeMove(pieceX, pieceY, x, y, colour);
+                if (test <= 0){
+                    move.push_back(pieceX);
+                    move.push_back(pieceY);
+                    move.push_back(x);
+                    move.push_back(y);
+                }
+                return move;
 			}
 			++c;
 			if (c > 100)
