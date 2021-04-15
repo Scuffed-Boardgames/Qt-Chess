@@ -138,29 +138,6 @@ void Board::removeHopped(Colour colour) {
 	}
 }
 
-bool Board::checkCheck(Colour colour) { // not yet implemented
-	King* king = getKing(colour);
-	int kingX = king->getX();
-	int kingY = king->getY();
-	std::vector<Piece*> pieces = getPieces(oppColour(colour));
-	for (Piece* piece : pieces){
-		if ((int)checkMove(piece->getX(), piece->getY(), kingX, kingY, oppColour(colour)) <= 0)
-			return true;
-	}
-	return false;
-}
-
-King* Board::getKing(Colour colour) { // not yet implemented
-	std::vector<Piece*> pieces = getPieces(oppColour(colour));
-	for (Piece* piece : pieces) {
-		if (piece->getName() == 'K') {
-			return (King*)piece;
-		}
-	}
-	King* king = new King(0, 0, Colour::none);
-	return king;
-}
-
 std::vector<Piece*> Board::getPieces(Colour colour){
 	if (colour == Colour::white){
 		return m_pieceW;

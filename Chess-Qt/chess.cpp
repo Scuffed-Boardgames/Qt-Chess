@@ -5,6 +5,7 @@
 
 
 
+
 chess::chess(QWidget *parent) : QWidget(parent){
     m_ai = m_game->giveAi();
     m_blackNext = 0;
@@ -160,8 +161,9 @@ void chess::updateText(){
 }
 void chess::moveMade(){
     updateText();
-    if(m_game->isAi(1 - (m_turn % 2)))
+    if(m_game->isAi(1 - (m_turn % 2))){
         aiMove();
+    }
 }
 void chess::connects(){
     Board* board = m_game->giveBoard();
