@@ -27,6 +27,10 @@ error Piece::makeMove(int x, int y) {
 	case(error::outOfBounds):
 		std::cout << "inserted value(s) are too small/large!\n";
 		return error::outOfBounds;
+    case(error::enPassent):
+        m_x = x;
+        m_y = y;
+        return error::enPassent;
 	default:
 		return error::defaultError;
 	}
