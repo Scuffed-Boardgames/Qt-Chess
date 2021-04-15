@@ -81,9 +81,13 @@ chess::chess(QWidget *parent, Board* board) : QWidget(parent){
     m_turn = 1;
     scene->setTurn(m_turn);
     toptext = new QLabel("Turn: 1 | Move: White");
+    exitButton = new QPushButton("Quit game");
+    newgameButton = new QPushButton("New game");
     QVBoxLayout *mainLayout = new  QVBoxLayout;
     mainLayout->addWidget(toptext, 0);
-    mainLayout->addWidget(view, 1);
+    mainLayout->addWidget(newgameButton, 1);
+    mainLayout->addWidget(exitButton, 1);
+    mainLayout->addWidget(view, 2);
     setLayout(mainLayout);
 }
 
@@ -136,3 +140,14 @@ void chess::gameEnded(Colour colour){
         }
     }
 }
+
+QPushButton* chess::getButton(int buttonNr){
+    if (buttonNr == 1){
+        return exitButton;
+    }else if(buttonNr == 2){
+        return newgameButton;
+    }else{
+        return NULL;
+    }
+}
+
