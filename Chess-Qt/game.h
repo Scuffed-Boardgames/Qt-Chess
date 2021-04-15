@@ -10,6 +10,7 @@ public:
     error movePiece(const int& x1, const int& y1, const int& x2, const int& y2); // Moves a piece from x1y1 to x2y2 (Bernd Uijtdebroeks)
 	void checkEnd(); // Checks if end conditions have been met (Bernd Uijtdebroeks)
 	bool canMove(Colour colour); // Checks if the given player has a valid move (Denzell Mgbokwere)
+    void resetBoard();
 	void addTurn();
 	void print();
 	bool hasEnded();

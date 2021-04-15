@@ -147,3 +147,7 @@ int Game::play() {
 	}
 	return 0;
 }
+
+void Game::resetBoard(){
+    m_board.resetBoard();
+}

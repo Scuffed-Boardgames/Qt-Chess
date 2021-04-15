@@ -6,21 +6,25 @@
 #include <QLabel>
 #include <QPushButton>
 #include "boardview.h"
+#include "game.h"
 
 
 class chess : public QWidget
 {
     Q_OBJECT
 public:
-    explicit chess(QWidget *parent = nullptr, Board* board = nullptr);
+    explicit chess(QWidget *parent = nullptr, Game* game = nullptr);
     CustomGraphics* getScene();
     int getTurn();
     QPushButton* getButton(int buttonNr);
+    void reset();
 public slots:
     void moveMade();
     void removePiece(int x, int y, Colour colour);
     void gameEnded(Colour colour);
 private:
+    Game* m_game;
+    void setPieces();
     CustomGraphics* scene;
     QGraphicsView* view;
     QGraphicsPixmapItem* blackpieces[16];

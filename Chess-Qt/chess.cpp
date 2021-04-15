@@ -3,7 +3,7 @@
 #include <QVBoxLayout>
 
 
-chess::chess(QWidget *parent, Board* board) : QWidget(parent){
+chess::chess(QWidget *parent, Game* game) : QWidget(parent){
     m_blackNext = 0;
     m_whiteNext = 0;
     QBrush brushgrey;
@@ -13,7 +13,7 @@ chess::chess(QWidget *parent, Board* board) : QWidget(parent){
     brushwhite.setColor(Qt::white);
     brushwhite.setStyle(Qt::SolidPattern);
     scene = new CustomGraphics(0,0,800,800);
-    scene->setBoard(board);
+    scene->setBoard(game->giveBoard());
     view = new QGraphicsView((QGraphicsScene*)scene);
 
     int counter = 0;
@@ -78,6 +78,7 @@ chess::chess(QWidget *parent, Board* board) : QWidget(parent){
         blackpieces[i]->moveBy(10,10);
         whitepieces[i]->moveBy(10,10);
     }
+
     m_turn = 1;
     scene->setTurn(m_turn);
     toptext = new QLabel("Turn: 1 | Move: White");
@@ -89,6 +90,31 @@ chess::chess(QWidget *parent, Board* board) : QWidget(parent){
     mainLayout->addWidget(exitButton, 1);
     mainLayout->addWidget(view, 2);
     setLayout(mainLayout);
+}
+
+void chess::setPieces(){
+    for (int i = 0; i < 8; ++i) {
+        blackpieces[i]->setParentItem(tiles[i][6]);
+    }
+    blackpieces[8]->setParentItem(tiles[0][7]);
+    blackpieces[9]->setParentItem(tiles[7][7]);
+    blackpieces[10]->setParentItem(tiles[1][7]);
+    blackpieces[11]->setParentItem(tiles[6][7]);
+    blackpieces[12]->setParentItem(tiles[2][7]);
+    blackpieces[13]->setParentItem(tiles[5][7]);
+    blackpieces[14]->setParentItem(tiles[3][7]);
+    blackpieces[15]->setParentItem(tiles[4][7]);
+    for (int i = 0; i < 8; ++i) {
+        whitepieces[i]->setParentItem(tiles[i][1]);
+    }
+    whitepieces[8]->setParentItem(tiles[0][0]);
+    whitepieces[9]->setParentItem(tiles[7][0]);
+    whitepieces[10]->setParentItem(tiles[1][0]);
+    whitepieces[11]->setParentItem(tiles[6][0]);
+    whitepieces[12]->setParentItem(tiles[2][0]);
+    whitepieces[13]->setParentItem(tiles[5][0]);
+    whitepieces[14]->setParentItem(tiles[3][0]);
+    whitepieces[15]->setParentItem(tiles[4][0]);
 }
 
 void chess::updateText(){
@@ -151,3 +177,10 @@ QPushButton* chess::getButton(int buttonNr){
     }
 }
 
+void chess::reset(){
+    m_turn = 1;
+    scene->setTurn(m_turn);
+    toptext->setText("Turn: 1 | Move: White");
+    setPieces();
+//    m_game->resetBoard();
+}

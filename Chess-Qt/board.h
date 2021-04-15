@@ -23,6 +23,7 @@ public:
 	void print();	// Prints the board (Bernd Uijtdebroeks)
 	std::vector<Piece*> getPieces(Colour colour); // Gives back an array of pawns (Denzell Mgbokwere)
 	bool checkCheck(Colour colour); // checks wether the king of colour is in check (Denzell Mgbokwere)
+    void resetBoard();
 signals:
     void removedPiece(int x, int y, Colour colour);
     void reachedVictory(Colour colour);
@@ -34,6 +35,7 @@ private:
 	bool freePath(int x_1, int y_1, int x_2, int y_2); // checks if there are other pieces in the way of the given move (Denzell Mgbokwere)
 	int getNr(int x, int y, Colour colour); // gives the possition in the vector for a given colour and possition
 	void deletePiece(int x, int y, Colour colour); //deletes a piece if it is taken (Denzell Mgbokwere)
+    void makePieces();
 	Tile m_tiles[8][8];
 	std::vector<Piece*> m_pieceW;
 	std::vector<Piece*> m_pieceB;

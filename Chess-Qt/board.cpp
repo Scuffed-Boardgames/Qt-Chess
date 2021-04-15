@@ -7,48 +7,8 @@
 Board::Board() : QObject() {
     m_maxPieces= 8 + 2 + 2 + 2 + 1 + 1 ;
     m_minPieces =  m_maxPieces - 9 ;
-	for (int i = 0; i < 8; ++i) {
-        m_tiles[i][1].movedOn(new Pawn(i, 1, Colour::white));
-		m_pieceW.push_back(m_tiles[i][1].getPiece());
-
-        m_tiles[i][6].movedOn(new Pawn(i, 6, Colour::black));
-		m_pieceB.push_back(m_tiles[i][6].getPiece());
-	}
-    m_tiles[0][0].movedOn(new Rook(0, 0, Colour::white));
-	m_pieceW.push_back(m_tiles[0][0].getPiece());
-    m_tiles[1][0].movedOn(new Knight(1, 0, Colour::white));
-	m_pieceW.push_back(m_tiles[1][0].getPiece());
-    m_tiles[2][0].movedOn(new Bishop(2, 0, Colour::white));
-	m_pieceW.push_back(m_tiles[2][0].getPiece());
-    m_tiles[3][0].movedOn(new Queen(3, 0, Colour::white));
-	m_pieceW.push_back(m_tiles[3][0].getPiece());
-    m_tiles[4][0].movedOn(new King(4, 0, Colour::white));
-	m_pieceW.push_back(m_tiles[4][0].getPiece());
-    m_tiles[5][0].movedOn(new Bishop(5, 0, Colour::white));
-	m_pieceW.push_back(m_tiles[5][0].getPiece());
-    m_tiles[6][0].movedOn(new Knight(6, 0, Colour::white));
-	m_pieceW.push_back(m_tiles[6][0].getPiece());
-    m_tiles[7][0].movedOn(new Rook(7, 0, Colour::white));
-	m_pieceW.push_back(m_tiles[7][0].getPiece());
-
-    m_tiles[0][7].movedOn(new Rook(0, 7, Colour::black));
-	m_pieceB.push_back(m_tiles[0][7].getPiece());
-    m_tiles[1][7].movedOn(new Knight(1, 7, Colour::black));
-	m_pieceB.push_back(m_tiles[1][7].getPiece());
-    m_tiles[2][7].movedOn(new Bishop(2, 7, Colour::black));
-	m_pieceB.push_back(m_tiles[2][7].getPiece());
-    m_tiles[3][7].movedOn(new Queen(3, 7, Colour::black));
-	m_pieceB.push_back(m_tiles[3][7].getPiece());
-    m_tiles[4][7].movedOn(new King(4, 7, Colour::black));
-	m_pieceB.push_back(m_tiles[4][7].getPiece());
-    m_tiles[5][7].movedOn(new Bishop(5, 7, Colour::black));
-	m_pieceB.push_back(m_tiles[5][7].getPiece());
-    m_tiles[6][7].movedOn(new Knight(6, 7, Colour::black));
-	m_pieceB.push_back(m_tiles[6][7].getPiece());
-    m_tiles[7][7].movedOn(new Rook(7, 7, Colour::black));
-	m_pieceB.push_back(m_tiles[7][7].getPiece());
+    makePieces();
 }
-
 
 
 bool Board::freePath(int x_1, int y_1, int x_2, int y_2){
@@ -281,4 +241,59 @@ void Board::checkEnd() {
             return;
         }
     }
+}
+
+void Board::resetBoard(){
+//    m_pieceW.clear();
+//    m_pieceB.clear();
+    for(auto i : m_tiles){
+        Piece* test = i->movedOf();
+        if(test)
+            free(test);
+    }
+    makePieces();
+
+}
+
+void Board::makePieces(){
+    for (int i = 0; i < 8; ++i) {
+        m_tiles[i][1].movedOn(new Pawn(i, 1, Colour::white));
+        m_pieceW.push_back(m_tiles[i][1].getPiece());
+
+        m_tiles[i][6].movedOn(new Pawn(i, 6, Colour::black));
+        m_pieceB.push_back(m_tiles[i][6].getPiece());
+    }
+    m_tiles[0][0].movedOn(new Rook(0, 0, Colour::white));
+    m_pieceW.push_back(m_tiles[0][0].getPiece());
+    m_tiles[1][0].movedOn(new Knight(1, 0, Colour::white));
+    m_pieceW.push_back(m_tiles[1][0].getPiece());
+    m_tiles[2][0].movedOn(new Bishop(2, 0, Colour::white));
+    m_pieceW.push_back(m_tiles[2][0].getPiece());
+    m_tiles[3][0].movedOn(new Queen(3, 0, Colour::white));
+    m_pieceW.push_back(m_tiles[3][0].getPiece());
+    m_tiles[4][0].movedOn(new King(4, 0, Colour::white));
+    m_pieceW.push_back(m_tiles[4][0].getPiece());
+    m_tiles[5][0].movedOn(new Bishop(5, 0, Colour::white));
+    m_pieceW.push_back(m_tiles[5][0].getPiece());
+    m_tiles[6][0].movedOn(new Knight(6, 0, Colour::white));
+    m_pieceW.push_back(m_tiles[6][0].getPiece());
+    m_tiles[7][0].movedOn(new Rook(7, 0, Colour::white));
+    m_pieceW.push_back(m_tiles[7][0].getPiece());
+
+    m_tiles[0][7].movedOn(new Rook(0, 7, Colour::black));
+    m_pieceB.push_back(m_tiles[0][7].getPiece());
+    m_tiles[1][7].movedOn(new Knight(1, 7, Colour::black));
+    m_pieceB.push_back(m_tiles[1][7].getPiece());
+    m_tiles[2][7].movedOn(new Bishop(2, 7, Colour::black));
+    m_pieceB.push_back(m_tiles[2][7].getPiece());
+    m_tiles[3][7].movedOn(new Queen(3, 7, Colour::black));
+    m_pieceB.push_back(m_tiles[3][7].getPiece());
+    m_tiles[4][7].movedOn(new King(4, 7, Colour::black));
+    m_pieceB.push_back(m_tiles[4][7].getPiece());
+    m_tiles[5][7].movedOn(new Bishop(5, 7, Colour::black));
+    m_pieceB.push_back(m_tiles[5][7].getPiece());
+    m_tiles[6][7].movedOn(new Knight(6, 7, Colour::black));
+    m_pieceB.push_back(m_tiles[6][7].getPiece());
+    m_tiles[7][7].movedOn(new Rook(7, 7, Colour::black));
+    m_pieceB.push_back(m_tiles[7][7].getPiece());
 }
