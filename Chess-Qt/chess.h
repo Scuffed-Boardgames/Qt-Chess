@@ -15,7 +15,7 @@ class chess : public QWidget
     Q_OBJECT
 public:
     explicit chess(QWidget *parent = nullptr);
-    CustomGraphics* getScene();
+    BoardView* getScene();
     QPushButton* getButton(int buttonNr);
     int getTurn();
 public slots:
@@ -32,7 +32,7 @@ private:
     int m_turn;
     bool m_gameEnded;
 
-    CustomGraphics* scene;
+    BoardView* scene;
     QGraphicsView* view;
     QGraphicsPixmapItem* blackpieces[16];
     QGraphicsPixmapItem* whitepieces[16];

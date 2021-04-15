@@ -8,13 +8,13 @@
 #include "ai.h"
 #include <QObject>
 
-class CustomGraphics : public QGraphicsScene
+class BoardView : public QGraphicsScene
 {
     Q_OBJECT
 
 public:
-    CustomGraphics(qreal x, qreal y, qreal width, qreal height, std::shared_ptr<Board> board, QObject *parent = nullptr);
-    CustomGraphics();
+    BoardView(qreal x, qreal y, qreal width, qreal height, std::shared_ptr<Board> board, QObject *parent = nullptr);
+    BoardView();
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void setGreen(QGraphicsRectItem* rect);
     void setBack(QGraphicsRectItem* rect);

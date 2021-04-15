@@ -4,16 +4,16 @@
 #include <QTimer>
 
 
-CustomGraphics::CustomGraphics(qreal x, qreal y, qreal width, qreal height, std::shared_ptr<Board> board, QObject *parent) : QGraphicsScene(x, y, width, height, parent)
+BoardView::BoardView(qreal x, qreal y, qreal width, qreal height, std::shared_ptr<Board> board, QObject *parent) : QGraphicsScene(x, y, width, height, parent)
 {
     m_board = board;
 }
 
-CustomGraphics::CustomGraphics()
+BoardView::BoardView()
 {
 }
 
-void CustomGraphics::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
+void BoardView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     QGraphicsScene::mouseReleaseEvent(event);
     if(list.length() == 0){
         list = this->selectedItems();
@@ -52,18 +52,18 @@ void CustomGraphics::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
 }
 
 
-void CustomGraphics::setTurn(int turn){
+void BoardView::setTurn(int turn){
     m_turn = turn;
 }
 
-void CustomGraphics::setGreen(QGraphicsRectItem* rect){
+void BoardView::setGreen(QGraphicsRectItem* rect){
     QBrush brushgreen;
     brushgreen.setColor(Qt::green);
     brushgreen.setStyle(Qt::SolidPattern);
     rect->setBrush(brushgreen);
 }
 
-void CustomGraphics::setBack(QGraphicsRectItem* rect){
+void BoardView::setBack(QGraphicsRectItem* rect){
     QBrush brushgrey;
     brushgrey.setColor(Qt::gray);
     brushgrey.setStyle(Qt::SolidPattern);
